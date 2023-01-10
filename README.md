@@ -1,0 +1,98 @@
+# Pytanis
+
+<div align="center">
+
+<img src="https://raw.githubusercontent.com/FlorianWilhelm/pytanis/master/docs/assets/images/logo.svg" alt="Pytanis logo" width="500" role="img">
+
+Pytanis provides useful tools for conferences using [Pretalx] to handle the call for papers and creating a program!
+
+|         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+|---------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| CI/CD   | [![CI - Test](https://github.com/FlorianWilhelm/pytanis/actions/workflows/run-tests.yml/badge.svg)](https://github.com/FlorianWilhelm/pytanis/actions/workflows/run-tests.yml) [![Coverage](https://img.shields.io/coveralls/github/FlorianWilhelm/pytanis/master.svg?logo=coveralls&label=Coverage)](https://coveralls.io/r/FlorianWilhelm/pytanis) [![CD - Build](https://github.com/FlorianWilhelm/pytanis/actions/workflows/build-publish.yml/badge.svg)](https://github.com/FlorianWilhelm/pytanis/actions/workflows/build-publish.yml) [![Docs - Build](https://github.com/FlorianWilhelm/pytanis/actions/workflows/build-docs.yml/badge.svg)](https://github.com/FlorianWilhelm/pytanis/actions/workflows/build-docs.yml)                                                                                                                |
+| Package | [![PyPI - Version](https://img.shields.io/pypi/v/pytanis.svg?logo=pypi&label=PyPI&logoColor=gold)](https://pypi.org/project/pytanis/) [![PyPI - Downloads](https://img.shields.io/pypi/dm/pytanis.svg?color=blue&label=Downloads&logo=pypi&logoColor=gold)](https://pepy.tech/project/pytanis) [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pytanis.svg?logo=python&label=Python&logoColor=gold)](https://pypi.org/project/pytanis/)                                                                                                                                                                                                                                                                                                                                                                                        |
+| Details | [![Project generated with PyScaffold](https://img.shields.io/badge/-PyScaffold-005CA0?logo=pyscaffold)](https://pyscaffold.org/) [![Hatch project](https://img.shields.io/badge/%F0%9F%A5%9A-Hatch-4051b5.svg)](https://github.com/pypa/hatch) [![code style - black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) [![types - Mypy](https://img.shields.io/badge/types-Mypy-blue.svg)](https://github.com/ambv/black) [![imports - isort](https://img.shields.io/badge/imports-isort-ef8336.svg)](https://github.com/pycqa/isort) [![License - MIT](https://img.shields.io/badge/license-MIT-9400d3.svg)](https://spdx.org/licenses/) [![GitHub Sponsors](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=ff69b4)](https://github.com/sponsors/FlorianWilhelm) |
+
+</div>
+
+-----
+
+**Trivia**: The name *Pytanis* is a reference to [Prytanis] using the typical *py* prefix of [Python] tools. [Prytanis] 
+was the name given  to the leading members of the government of a city (polis) in ancient Greece.  Offices that used this 
+title usually had responsibility for presiding over councils of some kind, which met in the [Prytaneion].
+
+**This is a pre-alpha version! Don't use it!**
+
+## Getting started
+
+To install Pytanis simple run:
+```commandline
+pip install pytanis
+```
+and then create a file `~/.pydantis/config.toml` with the content:
+```toml
+[Pretalx]
+api_token = "932ndsf9uk32nf9sdkn3454532nj32jn"
+
+[Google]
+client_secret_json = "client_secret.json"
+token_json = "token.json"
+
+[HelpDesk]
+account = "934jcjkdf-39df-9df-93kf-934jfhuuij39fd"
+entity_id = "email@host.com"
+token = "dal:Sx4id934C3Y-X934jldjdfjk"
+```
+where you need to replace the dummy values in the sections `[Pretalx]` and `[HelpDesk]` accordingly. 
+
+
+### Retrieving the credentials and token
+* **Google**: Follow the [Python Quickstart for the Google API] to generate and download the file `client_secret.json`.
+Move it to the `~/.pydantis` folder as `client_secret.json`. The file `token.json` will be automatically generated
+later. 
+* **Pretalx**: The API token for the [Pretalx API] can be found in your user settings.
+* **HelpDesk**: Use the same (shared) email you use to log into helpdesk/livechat to create the token following 
+ [this video](https://www.youtube.com/watch?v=-EUZ_Ynvz5Q&t=32s). In case there is any trouble with livechat, 
+  contact a helpdesk admin.
+
+## Features
+
+- (planned) creating the assignment of proposals to reviewers based on their preferences
+- (planned) sending e-mails to reviewers
+- (planned) supporting the selection process of proposals
+- (planned) supporting the creation of the final program schedule based on the accepted talks
+
+## Development
+
+After having cloned this repository:
+
+1. install [hatch] globally, e.g. `pipx install hatch`,
+2. create the default environment with `hatch env create`,
+3. activate the default environment with `hatch shell`,
+4. \[only once\] run `pre-commit install` to install [pre-commit],
+
+and then you are already set up to start hacking. Use `hatch run test:cov` or `hatch run test:no-cov` to run
+the unitest with or without coverage reports, respectively.
+
+## Documentation
+
+The [documentation] is made with [Material for MkDocs](https://github.com/squidfunk/mkdocs-material) and is hosted by [GitHub Pages](https://docs.github.com/en/pages).
+
+## License
+
+Pytanis is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.
+
+## Credits
+
+To start this project off a lot of inspiration and code was taken from [Alexander Hendorf] and [Matthias Hofmann].
+
+[Python]: https://www.python.org/
+[Pretalx]: https://pretalx.com/
+[hatch]: https://hatch.pypa.io/
+[pre-commit]: https://pre-commit.com/
+[Prytanis]: https://en.wikipedia.org/wiki/Prytaneis
+[Prytaneion]: https://en.wikipedia.org/wiki/Prytaneion
+[Python Quickstart for the Google API]: https://developers.google.com/sheets/api/quickstart/python
+[Pretalx API]: https://pretalx.com/api/events/
+[documentation]: https://pydantis.github.io/
+[Alexander Hendorf]: https://github.com/alanderex
+[Matthias Hofmann]: https://github.com/mj-hofmann

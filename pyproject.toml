@@ -1,0 +1,217 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+####################
+# Project Metadata #
+####################
+
+[project]
+name = "Pytanis"
+description = "Utilities for the program organization of conferences using Pretalx"
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+keywords = ["pretalx", "conference", "cfp"]
+authors = [
+    { name = "Florian Wilhelm", email = "Florian.Wilhelm@gmail.com" },
+]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: Implementation :: CPython",
+]
+dependencies = [
+    "pandas",
+    "tomli",
+    "pydantic",
+    "google-api-python-client",
+    "google-auth-httplib2",
+    "google-auth-oauthlib",
+    "httpx",
+    "structlog",
+]
+dynamic = ["version"]
+
+[project.urls]
+Documentation = "https://pytanis.github.io/"
+Sponsor = "https://github.com/sponsors/FlorianWilhelm"
+Tracker = "https://github.com/FlorianWilhelm/pytanis/issues"
+Source = "https://github.com/FlorianWilhelm/pytanis"
+
+######################
+# Build & Versioning #
+######################
+
+[tool.hatch.version]
+source = "vcs"
+raw-options = { version_scheme = "no-guess-dev" }
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/pytanis/_version.py"
+
+[tool.hatch.build.targets.sdist]
+exclude = [
+    "/.github",
+]
+
+##################
+# External Tools #
+##################
+
+[tool.mypy]
+disallow_untyped_defs = false
+follow_imports = "normal"
+ignore_missing_imports = true
+pretty = true
+show_column_numbers = true
+warn_no_return = false
+warn_unused_ignores = true
+
+[tool.black]
+include = '\.pyi?$'
+line-length = 120
+skip-string-normalization = true
+target-version = ["py38"]
+
+[tool.isort]
+default_section = "THIRDPARTY"
+force_grid_wrap = 0
+include_trailing_comma = true
+known_first_party = ["pytanis"]
+line_length = 120
+multi_line_output = 3
+use_parentheses = true
+
+[tool.coverage.run]
+branch = true
+source = ["src/pytanis"]
+# omit = [
+#   "bad_file.py",
+# ]
+#
+
+[tool.coverage.paths]
+source = [
+    "src/",
+    "*/site-packages/",
+]
+
+[tool.coverage.report]
+# Regexes for lines to exclude from consideration
+exclude_lines = [
+    # Have to re-enable the standard pragma
+    "pragma: no cover",
+
+    # Don't complain about missing debug-only code:
+    "def __repr__",
+    "if self\\.debug",
+
+    # Don't complain if tests don't hit defensive assertion code:
+    "raise AssertionError",
+    "raise NotImplementedError",
+
+    # Don't complain if non-runnable code isn't run:
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]
+
+#####################
+# Environment Setup #
+#####################
+
+[tool.hatch.envs.default]
+dependencies = [
+    "hatch",
+    "hatch-vcs", # to make `hatch version` available
+    "coverage[toml]>=6.2",
+    "pytest",
+    "pytest-cov",
+    "pytest-mock",
+    "pytest-vcr",
+    "jupyterlab",
+    "pre-commit",
+    "seaborn",
+    "matplotlib",
+]
+
+[tool.hatch.envs.docs]
+dependencies = [
+    "mkdocs~=1.4.0",
+    "mkdocs-material~=8.5.6",
+    # Plugins
+    "mkdocs-include-markdown-plugin",
+    "mkdocs-gen-files",
+    "mkdocs-literate-nav",
+    "mkdocs-minify-plugin~=0.5.0",
+    "mkdocs-section-index",
+    "mkdocs-git-revision-date-localized-plugin~=1.1.0",
+    "mkdocstrings-python~=0.7.1",
+    "mkdocs-redirects~=1.1.0",
+    "mkdocs-glightbox~=0.3.0",
+    # https://github.com/jimporter/mike/issues/82#issuecomment-1172913929
+    "mike @ https://github.com/jimporter/mike/archive/392d57b8bb9d14bcedf2451a0dc302709f8055eb.zip",
+    # Extensions
+    "pymdown-extensions~=9.6.0",
+    # Necessary for syntax highlighting in code blocks
+    "pygments~=2.13.0",
+    # Validation
+    # https://github.com/linkchecker/linkchecker/pull/669#issuecomment-1267236287
+    "linkchecker @ git+https://github.com/linkchecker/linkchecker.git@d9265bb71c2054bf57b8c5734a4825d62505c779",
+    ]
+[tool.hatch.envs.docs.env-vars]
+SOURCE_DATE_EPOCH = "1580601600"
+PYTHONUNBUFFERED = "1"
+MKDOCS_CONFIG = "mkdocs.yml"
+[tool.hatch.envs.docs.scripts]
+build = "mkdocs build --config-file {env:MKDOCS_CONFIG} --clean --strict {args}"
+serve = "mkdocs serve --config-file {env:MKDOCS_CONFIG} --dev-addr localhost:8000 {args}"
+ci-build = "mike deploy --config-file {env:MKDOCS_CONFIG} --update-aliases {args}"
+# --ignore-url=None since the SUMMARY.md file leaves a <toc>None</toc> in sitemap.xml
+validate = "linkchecker --config .linkcheckerrc --ignore-url=/reference --ignore-url=None site"
+# https://github.com/linkchecker/linkchecker/issues/678
+build-check = [
+    "build",
+    "validate",
+]
+
+[tool.hatch.envs.default.scripts]
+cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=src/pytanis --cov=tests {args}"
+no-cov = "cov --no-cov {args}"
+ci = "cov --vcr-record=none --cov-report lcov {args}"
+record = "cov --vcr-record=all {args}" # re-record all vcr cassettes
+
+[[tool.hatch.envs.test.matrix]]
+python = ["38", "39", "310"]
+
+[tool.hatch.envs.lint]
+skip-install = true
+dependencies = [
+    "flake8>=4.0.1",
+    "flake8-bugbear>=22.3.23",
+    "flake8-quotes>=3.3.1",
+    "black>=22.3.0",
+    "isort>=5.10.1",
+    "mypy>=0.942",
+]
+
+[tool.hatch.envs.lint.scripts]
+typing = "mypy --install-types --non-interactive src/pytanis tests"
+style = [
+    "flake8 .",
+    "black --check --diff .",
+    "isort --check-only --diff .",
+]
+fmt = [
+    "isort .",
+    "black .",
+    "style",
+]
+all = [
+    "style",
+#    "typing", # ToDo: Reintroduce later when things are more stable
+]

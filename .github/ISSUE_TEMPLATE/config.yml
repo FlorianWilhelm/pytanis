@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation / Usage / FAQ
+    url: https://pytanis.github.io/
+    about: Inform yourself about the usage of Pytanis on the official website
+  - name: Discussions
+    url: https://github.com/FlorianWilhelm/pytanis/discussions
+    about: Ask questions, find answers and discuss with other Pytanis community members

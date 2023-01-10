@@ -1,0 +1,11 @@
+[Pretalx]
+api_token = "932ndsf9uk32nf9sdkn3454532nj32jn"
+
+[Google]
+client_secret_json = "client_secret.json"
+token_json = "token.json"
+
+[HelpDesk]
+account = "934jcjkdf-39df-9df-93kf-934jfhuuij39fd"
+entity_id = "email@host.com"
+token = "dal:Sv4id934C3Y-X934jldj(dfjk"
