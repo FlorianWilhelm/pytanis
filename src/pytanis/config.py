@@ -43,6 +43,7 @@ class Config(BaseModel):
     HelpDesk: HelpDesk
 
     @validator("Google")
+    @classmethod
     def convert_json_path(cls, v, values):
         def make_rel_path_abs(entry):
             if entry is not None and not entry.is_absolute():

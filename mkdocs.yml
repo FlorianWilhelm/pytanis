@@ -30,22 +30,22 @@ theme:
   favicon: assets/images/logo.svg
   icon:
     repo: fontawesome/brands/github-alt
-    logo: material/rocket-launch-outline # fontawesome/solid/rocket
+    logo: fontawesome/solid/people-group
   font:
     text: Roboto
     code: Roboto Mono
   palette:
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: purple
-      accent: purple
+      primary: teal
+      accent: teal
       toggle:
         icon: material/lightbulb-outline # material/weather-night
         name: Switch to light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: purple
-      accent: purple
+      primary: teal
+      accent: teal
       toggle:
         icon: material/lightbulb # material/weather-sunny
         name: Switch to dark mode
