@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://pytanis.github.io/dev/</loc>
+         <loc>https://florianwilhelm.info/pytanis/dev/</loc>
          <lastmod>2020-02-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://pytanis.github.io/dev/authors/</loc>
+         <loc>https://florianwilhelm.info/pytanis/dev/authors/</loc>
          <lastmod>2020-02-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://pytanis.github.io/dev/changelog/</loc>
+         <loc>https://florianwilhelm.info/pytanis/dev/changelog/</loc>
          <lastmod>2020-02-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://pytanis.github.io/dev/contributing/</loc>
+         <loc>https://florianwilhelm.info/pytanis/dev/contributing/</loc>
          <lastmod>2020-02-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://pytanis.github.io/dev/license/</loc>
+         <loc>https://florianwilhelm.info/pytanis/dev/license/</loc>
          <lastmod>2020-02-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -31,32 +31,32 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://pytanis.github.io/dev/reference/pytanis/</loc>
+         <loc>https://florianwilhelm.info/pytanis/dev/reference/pytanis/</loc>
          <lastmod>2020-02-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://pytanis.github.io/dev/reference/pytanis/config/</loc>
+         <loc>https://florianwilhelm.info/pytanis/dev/reference/pytanis/config/</loc>
          <lastmod>2020-02-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://pytanis.github.io/dev/reference/pytanis/google/</loc>
+         <loc>https://florianwilhelm.info/pytanis/dev/reference/pytanis/google/</loc>
          <lastmod>2020-02-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://pytanis.github.io/dev/reference/pytanis/helpdesk/</loc>
+         <loc>https://florianwilhelm.info/pytanis/dev/reference/pytanis/helpdesk/</loc>
          <lastmod>2020-02-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://pytanis.github.io/dev/reference/pytanis/pretalx/</loc>
+         <loc>https://florianwilhelm.info/pytanis/dev/reference/pytanis/pretalx/</loc>
          <lastmod>2020-02-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://pytanis.github.io/dev/reference/pytanis/utils/</loc>
+         <loc>https://florianwilhelm.info/pytanis/dev/reference/pytanis/utils/</loc>
          <lastmod>2020-02-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
