@@ -58,6 +58,7 @@ class PretalxAPI:
     def _endpoint(
         self, event_slug: Optional[str] = None, resource: Optional[str] = None, id: Optional[Union[str, int]] = None
     ) -> APIResponse:
+        """Query the endpoint given the potentially an event, resource and some resource id"""
         event_slug = '' if event_slug is None else event_slug
         resource = '' if resource is None else resource
         id = '' if id is None else id

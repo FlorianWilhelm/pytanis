@@ -15,6 +15,7 @@ concurrency:
 env:
   PYTHONUNBUFFERED: "1"
   FORCE_COLOR: "1"
+  GITHUB: "1"
 
 jobs:
   run-github-job-matrix:
