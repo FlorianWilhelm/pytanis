@@ -1,5 +1,8 @@
 from importlib.metadata import PackageNotFoundError, version
 
+from .google import GoogleAPI
+from .pretalx import PretalxAPI
+
 try:
     __version__ = version("pytanis")
 except PackageNotFoundError:  # pragma: no cover
@@ -7,4 +10,4 @@ except PackageNotFoundError:  # pragma: no cover
 finally:
     del version, PackageNotFoundError
 
-__all__ = ["__version__"]
+__all__ = ["__version__", "GoogleAPI", "PretalxAPI"]

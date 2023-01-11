@@ -40,30 +40,34 @@ class GoogleAPI:
         with open(token_path, 'w') as fh:
             fh.write(creds.to_json())
 
-    def get_gsheet(self, spreadsheet_id: str, range: str, **kwargs) -> Dict[str, Any]:
-        """Retrieve a google sheet"""
+    def _get_creds(self) -> Credentials:
+        """Retrieve the credentials"""
         token_path = self.config.Google.token_json
         if not token_path.exists():
             raise RuntimeError(f"Necessary token {token_path} does not exist!")
-        creds = Credentials.from_authorized_user_file(token_path, self.scopes)
+        creds = Credentials.from_authorized_user_file(str(token_path), self.scopes)
         if creds.expired and creds.refresh_token:
             creds.refresh(Request())
+        return creds
 
+    def gsheet(self, spreadsheet_id: str, range: str, **kwargs) -> Dict[str, Any]:
+        """Retrieve a google sheet"""
+        creds = self._get_creds()
         service = build('sheets', 'v4', credentials=creds)
         sheet = service.spreadsheets()
         # https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/get
         gsheet = sheet.values().get(spreadsheetId=spreadsheet_id, range=range, **kwargs).execute()
         return gsheet
 
-    def get_gsheet_as_df(self, spreadsheet_id: str, range: str, header: bool = True) -> pd.DataFrame:
-        gsheet = self.get_gsheet(spreadsheet_id, range, majorDimension="COLUMNS")
+    def gsheet_as_df(self, spreadsheet_id: str, range: str, header: bool = True) -> pd.DataFrame:
+        gsheet = self.gsheet(spreadsheet_id, range, majorDimension="COLUMNS")
         return gsheet_to_df(gsheet, header)
 
 
 def gsheet_to_df(gsheet: Dict[str, Any], header: bool = True) -> pd.DataFrame:
     """Transform a Google Sheet into a Pandas DataFrame
 
-    Requires a gsheet with columns major dimension
+    Requires a gsheet with columns as major dimension
     """
     values = gsheet.get('values', [])
     if not values:

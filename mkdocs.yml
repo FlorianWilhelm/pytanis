@@ -6,7 +6,7 @@ site_url: https://florianwilhelm.info/pytanis/
 copyright: 'Copyright &copy; Florian Wilhelm 2023-present'
 
 # Repository
-repo_name: pytanis
+repo_name: FlorianWilhelm/pytanis
 repo_url: https://github.com/FlorianWilhelm/pytanis
 edit_uri: blob/master/docs
 

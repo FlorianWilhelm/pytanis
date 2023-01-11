@@ -7,6 +7,7 @@ from shutil import copy
 import pytest
 
 from pytanis.config import PYTANIS_CFG_PATH, PYTANIS_ENV
+from pytanis.pretalx import PretalxAPI
 
 __location__ = Path(__file__).parent
 
@@ -26,3 +27,8 @@ def tmp_config(tmp_path):
         del os.environ[PYTANIS_ENV]
     else:
         os.environ[PYTANIS_ENV] = old_env
+
+
+@pytest.fixture
+def pretalx_api():
+    return PretalxAPI()
