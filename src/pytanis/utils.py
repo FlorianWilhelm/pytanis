@@ -1,8 +1,11 @@
 """Additional utilities"""
-from typing import Dict, Any, List, Union
+from typing import Any, Dict, List, Union
 
 
-def rm_keys(keys: Union[Any, List[Any]], dct: Dict[Any, Any], ) -> Dict[Any, Any]:
+def rm_keys(
+    keys: Union[Any, List[Any]],
+    dct: Dict[Any, Any],
+) -> Dict[Any, Any]:
     """Return a copy with keys removed from dictionary"""
     if not isinstance(keys, list):
         keys = [keys]

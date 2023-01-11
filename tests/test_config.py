@@ -1,6 +1,4 @@
-import pytest
-
-from pytanis.config import get_cfg_file, get_cfg
+from pytanis.config import get_cfg
 
 
 def test_get_cfg(tmp_config):

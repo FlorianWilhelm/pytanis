@@ -6,7 +6,7 @@ from shutil import copy
 
 import pytest
 
-from pytanis.config import PYTANIS_ENV, PYTANIS_CFG_PATH
+from pytanis.config import PYTANIS_CFG_PATH, PYTANIS_ENV
 
 __location__ = Path(__file__).parent
 

@@ -16,8 +16,8 @@ Pytanis provides useful tools for conferences using [Pretalx] to handle the call
 
 -----
 
-**Trivia**: The name *Pytanis* is a reference to [Prytanis] using the typical *py* prefix of [Python] tools. [Prytanis] 
-was the name given  to the leading members of the government of a city (polis) in ancient Greece.  Offices that used this 
+**Trivia**: The name *Pytanis* is a reference to [Prytanis] using the typical *py* prefix of [Python] tools. [Prytanis]
+was the name given  to the leading members of the government of a city (polis) in ancient Greece.  Offices that used this
 title usually had responsibility for presiding over councils of some kind, which met in the [Prytaneion].
 
 **This is a pre-alpha version! Don't use it!**
@@ -28,7 +28,7 @@ To install Pytanis simple run:
 ```commandline
 pip install pytanis
 ```
-and then create a file `~/.pydantis/config.toml` with the content:
+and then create a file `~/.pytanis/config.toml` with the content:
 ```toml
 [Pretalx]
 api_token = "932ndsf9uk32nf9sdkn3454532nj32jn"
@@ -42,16 +42,16 @@ account = "934jcjkdf-39df-9df-93kf-934jfhuuij39fd"
 entity_id = "email@host.com"
 token = "dal:Sx4id934C3Y-X934jldjdfjk"
 ```
-where you need to replace the dummy values in the sections `[Pretalx]` and `[HelpDesk]` accordingly. 
+where you need to replace the dummy values in the sections `[Pretalx]` and `[HelpDesk]` accordingly.
 
 
 ### Retrieving the credentials and token
 * **Google**: Follow the [Python Quickstart for the Google API] to generate and download the file `client_secret.json`.
-Move it to the `~/.pydantis` folder as `client_secret.json`. The file `token.json` will be automatically generated
-later. 
+Move it to the `~/.pytanis` folder as `client_secret.json`. The file `token.json` will be automatically generated
+later.
 * **Pretalx**: The API token for the [Pretalx API] can be found in your user settings.
-* **HelpDesk**: Use the same (shared) email you use to log into helpdesk/livechat to create the token following 
- [this video](https://www.youtube.com/watch?v=-EUZ_Ynvz5Q&t=32s). In case there is any trouble with livechat, 
+* **HelpDesk**: Use the same (shared) email you use to log into helpdesk/livechat to create the token following
+ [this video](https://www.youtube.com/watch?v=-EUZ_Ynvz5Q&t=32s). In case there is any trouble with livechat,
   contact a helpdesk admin.
 
 ## Features
@@ -93,6 +93,6 @@ To start this project off a lot of inspiration and code was taken from [Alexande
 [Prytaneion]: https://en.wikipedia.org/wiki/Prytaneion
 [Python Quickstart for the Google API]: https://developers.google.com/sheets/api/quickstart/python
 [Pretalx API]: https://pretalx.com/api/events/
-[documentation]: https://pydantis.github.io/
+[documentation]: https://florianwilhelm.info/pytanis/
 [Alexander Hendorf]: https://github.com/alanderex
 [Matthias Hofmann]: https://github.com/mj-hofmann

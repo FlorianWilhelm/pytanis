@@ -3,12 +3,12 @@
 Documentation: https://developers.google.com/sheets/api/quickstart/python
 """
 import itertools
-from typing import List, Optional, Dict, Any
+from typing import Any, Dict, List, Optional
 
 import pandas as pd
-from google_auth_oauthlib.flow import InstalledAppFlow
-from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
+from google.oauth2.credentials import Credentials
+from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 
 from .config import Config, get_cfg
@@ -17,7 +17,7 @@ RO_SCOPE = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 
 
 class GoogleAPI:
-    def __init__(self, config:Optional[Config] = None, scopes: List[str] = RO_SCOPE):
+    def __init__(self, config: Optional[Config] = None, scopes: List[str] = RO_SCOPE):
         if config is None:
             config = get_cfg()
         self.config = config
@@ -55,12 +55,12 @@ class GoogleAPI:
         gsheet = sheet.values().get(spreadsheetId=spreadsheet_id, range=range, **kwargs).execute()
         return gsheet
 
-    def get_gsheet_as_df(self, spreadsheet_id: str, range: str, header:bool=True) -> pd.DataFrame:
+    def get_gsheet_as_df(self, spreadsheet_id: str, range: str, header: bool = True) -> pd.DataFrame:
         gsheet = self.get_gsheet(spreadsheet_id, range, majorDimension="COLUMNS")
         return gsheet_to_df(gsheet, header)
 
 
-def gsheet_to_df(gsheet: Dict[str, Any], header: bool=True) -> pd.DataFrame:
+def gsheet_to_df(gsheet: Dict[str, Any], header: bool = True) -> pd.DataFrame:
     """Transform a Google Sheet into a Pandas DataFrame
 
     Requires a gsheet with columns major dimension

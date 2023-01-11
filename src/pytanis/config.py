@@ -14,24 +14,28 @@ PYTANIS_CFG_PATH: str = ".pytanis/config.toml"
 
 class Google(BaseModel):
     """Configuration related to the Google API"""
+
     client_secret_json: Optional[Path] = None
     token_json: Optional[Path] = None
 
 
 class HelpDesk(BaseModel):
     """Configuration related to the HelpDesk API"""
+
     account: Optional[str] = None
     entity_id: Optional[str] = None
-    token:  Optional[str] = None
+    token: Optional[str] = None
 
 
 class Pretalx(BaseModel):
     """Configuration related to the Pretalx API"""
+
     api_token: Optional[str] = None
 
 
 class Config(BaseModel):
     """Main configuration object"""
+
     cfg_path: FilePath
 
     Pretalx: Pretalx

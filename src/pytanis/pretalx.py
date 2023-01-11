@@ -2,7 +2,7 @@
 
 Documentation: https://docs.pretalx.org/api/
 """
-from typing import Dict, Any, Iterator, Optional, Tuple, List, Union
+from typing import Any, Dict, Iterator, List, Optional, Tuple, Union
 
 import httpx
 from httpx import URL, Response
@@ -10,7 +10,6 @@ from structlog import get_logger
 
 from .config import Config, get_cfg
 from .utils import rm_keys
-
 
 logger = get_logger()
 

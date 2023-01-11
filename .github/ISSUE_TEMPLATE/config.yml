@@ -1,7 +1,7 @@
 blank_issues_enabled: false
 contact_links:
   - name: Documentation / Usage / FAQ
-    url: https://pytanis.github.io/
+    url: https://florianwilhelm.info/pytanis/
     about: Inform yourself about the usage of Pytanis on the official website
   - name: Discussions
     url: https://github.com/FlorianWilhelm/pytanis/discussions

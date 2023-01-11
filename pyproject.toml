@@ -37,7 +37,7 @@ dependencies = [
 dynamic = ["version"]
 
 [project.urls]
-Documentation = "https://pytanis.github.io/"
+Documentation = "https://florianwilhelm.info/pytanis/"
 Sponsor = "https://github.com/sponsors/FlorianWilhelm"
 Tracker = "https://github.com/FlorianWilhelm/pytanis/issues"
 Source = "https://github.com/FlorianWilhelm/pytanis"
