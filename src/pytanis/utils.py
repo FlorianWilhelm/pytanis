@@ -2,7 +2,11 @@
 import functools
 import time
 from math import fabs
-from typing import Any, Dict, List, Union
+from typing import Any, Callable, Dict, List, TypeVar, Union
+
+from structlog import get_logger
+
+RT = TypeVar('RT')  # return type
 
 
 def rm_keys(
@@ -39,7 +43,7 @@ def pretty_timedelta(seconds: int) -> str:
         return '{}{}s'.format(sign, seconds)
 
 
-def throttle(calls: int, seconds: int = 1):
+def throttle(calls: int, seconds: int = 1) -> Callable[[Callable[..., RT]], Callable[..., RT]]:
     """Decorator for throttling a function to number of calls per seconds
 
     Args:
@@ -52,12 +56,12 @@ def throttle(calls: int, seconds: int = 1):
     assert isinstance(calls, int), 'number of calls must be integer'
     assert isinstance(seconds, int), 'number of seconds must be integer'
 
-    def wraps(func):
+    def decorator(func: Callable[..., RT]) -> Callable[..., RT]:
         # keeps track of the last calls
         last_calls = list()
 
         @functools.wraps(func)
-        def wrapper(*args, **kwargs):
+        def wrapper(*args, **kwargs) -> RT:
             curr_time = time.time()
             if last_calls:
                 # remove calls from last_calls list older than interval in seconds
@@ -67,8 +71,8 @@ def throttle(calls: int, seconds: int = 1):
             if len(last_calls) >= calls:
                 idx = len(last_calls) - calls
                 delta = fabs(1 - curr_time + last_calls[idx])
-                # logger = logging.getLogger(func.__module__)
-                # logger.debug("Stalling call to {} for {}s".format(func.__name__, delta))
+                logger = get_logger()
+                logger.debug("stalling call", func=func.__name__, secs=delta)
                 time.sleep(delta)
             resp = func(*args, **kwargs)
             last_calls.append(time.time())
@@ -76,4 +80,4 @@ def throttle(calls: int, seconds: int = 1):
 
         return wrapper
 
-    return wraps
+    return decorator
