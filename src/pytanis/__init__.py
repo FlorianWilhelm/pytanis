@@ -2,9 +2,8 @@ from importlib.metadata import PackageNotFoundError, version
 
 import structlog
 
-from pytanis.pretalx.client import PretalxAPI
-
 from .google import GoogleAPI
+from .pretalx.client import PretalxAPI
 
 try:
     __version__ = version("pytanis")

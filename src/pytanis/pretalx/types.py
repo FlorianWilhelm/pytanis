@@ -1,11 +1,20 @@
 """Return types of the Pretalx API
 
 Documentation: https://docs.pretalx.org/api/
+
+Attention: Quite often the API docs and the actual results of the API differ!
 """
 from datetime import date, datetime
 from typing import List, Optional
 
 from pydantic import BaseModel, Extra, Field
+
+
+class Me(BaseModel):
+    name: str
+    email: str
+    local: Optional[str]
+    timezone: str
 
 
 class MultiLingualStr(BaseModel, extra=Extra.allow):
@@ -45,9 +54,8 @@ class AnswerQuestionRef(BaseModel):
 
 
 class Option(BaseModel):
-    # ToDo: Check the datatypes here again, not mentioned in the API
     id: int
-    option: str
+    answer: MultiLingualStr
 
 
 class Answer(BaseModel):
