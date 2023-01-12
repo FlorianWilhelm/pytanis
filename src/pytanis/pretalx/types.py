@@ -78,7 +78,7 @@ class SubmissionSpeaker(BaseModel):
 
 
 class Speaker(SubmissionSpeaker):
-    submissions: list[str]  # submission codes
+    submissions: List[str]  # submission codes
     availabilities: Optional[List[SpeakerAvailability]]  # maybe needs organizer permissions?
     answers: Optional[List[Answer]]  # maybe needs organizer permissions?
 
