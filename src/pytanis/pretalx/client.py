@@ -21,12 +21,16 @@ logger = get_logger()
 
 T = TypeVar('T', bound=BaseModel)
 JSONObj = Dict[str, Any]
+"""Type of a JSON object (without recursion)"""
 JSONLst = List[JSONObj]
+"""Type of a JSON list of JSON objects"""
 JSON = Union[JSONObj, JSONLst]
-"""Stub for the JSON response as returned by the Pretalx API"""
+"""Type of the JSON response as returned by the Pretalx API"""
 
 
 class PretalxAPI:
+    """Client for the Pretalx API"""
+
     def __init__(self, config: Optional[Config] = None):
         if config is None:
             config = get_cfg()
@@ -79,7 +83,7 @@ class PretalxAPI:
         *,
         params: Optional[Dict[str, str]] = None,
     ) -> Tuple[int, Iterator[T]]:
-        """Query an endpoint returning a list of resources"""
+        """Queries an endpoint returning a list of resources"""
         endpoint = f"/api/events/{event_slug}/{resource}/"
         count, results = self._get_many(endpoint, params)
         # parse according to the Pretalx API type and debug
@@ -102,71 +106,91 @@ class PretalxAPI:
         return type.parse_obj(result)
 
     def me(self) -> Me:
+        """Returns what Pretalx knows about myself"""
         result = self._get_one("/api/me")
         return Me.parse_obj(result)
 
     def event(self, event_slug: str, *, params: Optional[Dict[str, str]] = None) -> Event:
+        """Returns detailed information about a specific event"""
         endpoint = f"/api/events/{event_slug}/"
         result = self._get_one(endpoint, params)
         logger.debug("result", resp=result)
         return Event.parse_obj(result)
 
     def events(self, *, params: Optional[Dict[str, str]] = None) -> Tuple[int, Iterator[Event]]:
+        """Lists all events and their details"""
         count, results = self._get_many("/api/events/", params)
         results = ((logger.debug("result", resp=r), Event.parse_obj(r))[1] for r in results)
         return count, results
 
     def submission(self, event_slug: str, code: str, *, params: Optional[Dict[str, str]] = None) -> Submission:
+        """Returns a specific submission"""
         return self._endpoint_id(Submission, event_slug, "submissions", code, params=params)
 
     def submissions(
         self, event_slug: str, *, params: Optional[Dict[str, str]] = None
     ) -> Tuple[int, Iterator[Submission]]:
+        """Lists all submissions and their details"""
         return self._endpoint_lst(Submission, event_slug, "submissions", params=params)
 
     def talk(self, event_slug: str, code: str, *, params: Optional[Dict[str, str]] = None) -> Talk:
+        """Returns a specific talk"""
         return self._endpoint_id(Talk, event_slug, "talks", code, params=params)
 
     def talks(self, event_slug: str, *, params: Optional[Dict[str, str]] = None) -> Tuple[int, Iterator[Talk]]:
+        """Lists all talks and their details"""
         return self._endpoint_lst(Talk, event_slug, "talks", params=params)
 
     def speaker(self, event_slug: str, code: str, *, params: Optional[Dict[str, str]] = None) -> Speaker:
+        """Returns a specific speaker"""
         return self._endpoint_id(Speaker, event_slug, "speakers", code, params=params)
 
     def speakers(self, event_slug: str, *, params: Optional[Dict[str, str]] = None) -> Tuple[int, Iterator[Speaker]]:
+        """Lists all speakers and their details"""
         return self._endpoint_lst(Speaker, event_slug, "speakers", params=params)
 
     def review(self, event_slug: str, id: int, *, params: Optional[Dict[str, str]] = None) -> Review:
+        """Returns a specific review"""
         return self._endpoint_id(Review, event_slug, "reviews", id, params=params)
 
     def reviews(self, event_slug: str, *, params: Optional[Dict[str, str]] = None) -> Tuple[int, Iterator[Review]]:
+        """Lists all reviews and their details"""
         return self._endpoint_lst(Review, event_slug, "reviews", params=params)
 
     def room(self, event_slug: str, id: int, *, params: Optional[Dict[str, str]] = None) -> Room:
+        """Returns a specific room"""
         return self._endpoint_id(Room, event_slug, "rooms", id, params=params)
 
     def rooms(self, event_slug: str, *, params: Optional[Dict[str, str]] = None) -> Tuple[int, Iterator[Room]]:
+        """Lists all rooms and their details"""
         return self._endpoint_lst(Room, event_slug, "rooms", params=params)
 
     def question(self, event_slug: str, id: int, *, params: Optional[Dict[str, str]] = None) -> Question:
+        """Returns a specific question"""
         return self._endpoint_id(Question, event_slug, "questions", id, params=params)
 
     def questions(self, event_slug: str, *, params: Optional[Dict[str, str]] = None) -> Tuple[int, Iterator[Question]]:
+        """Lists all questions and their details"""
         return self._endpoint_lst(Question, event_slug, "questions", params=params)
 
     def answer(self, event_slug: str, id: int, *, params: Optional[Dict[str, str]] = None) -> Answer:
+        """Returns a specific answer"""
         return self._endpoint_id(Answer, event_slug, "answers", id, params=params)
 
     def answers(self, event_slug: str, *, params: Optional[Dict[str, str]] = None) -> Tuple[int, Iterator[Answer]]:
+        """Lists all answers and their details"""
         return self._endpoint_lst(Answer, event_slug, "answers", params=params)
 
     def tag(self, event_slug: str, tag: str, *, params: Optional[Dict[str, str]] = None) -> Tag:
+        """Returns a specific tag"""
         return self._endpoint_id(Tag, event_slug, "tags", tag, params=params)
 
     def tags(self, event_slug: str, *, params: Optional[Dict[str, str]] = None) -> Tuple[int, Iterator[Tag]]:
+        """Lists all tags and their details"""
         return self._endpoint_lst(Tag, event_slug, "tags", params=params)
 
 
 def _log_resp(json_resp: Union[List[Any], Dict[Any, Any]]):
+    """Log everything except of the actual 'results'"""
     if isinstance(json_resp, Dict):
         logger.debug(f"response: {rm_keys('results', json_resp)}")

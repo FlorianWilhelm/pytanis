@@ -25,7 +25,7 @@ title usually had responsibility for presiding over councils of some kind, which
 
 ## Features
 
-- [x] simple configuration management with a configuration folder in your home directory, just like many other tools do
+- [x] simple configuration management with a config folder in your home directory, just like many other tools do
 - [x] easily access [Google Sheets], potentially filled by some [Google Forms], and download it as DataFrame
 - [x] easy to use [Pretalx] client that return proper Python objects thanks to the power of [pydantic]
 - [ ] simple [HelpDesk] client for batch mails, e.g. to your reviewers
