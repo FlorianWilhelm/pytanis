@@ -22,6 +22,20 @@ title usually had responsibility for presiding over councils of some kind, which
 
 **This is a pre-alpha version! Don't use it!**
 
+
+## Features
+
+- [x] simple configuration management with a configuration folder in your home directory, just like many other tools do
+- [x] easily access [Google Sheets], potentially filled by some [Google Forms], and download it as DataFrame
+- [x] easy to use [Pretalx] client that return proper Python objects thanks to the power of [pydantic]
+- [ ] simple [HelpDesk] client for batch mails, e.g. to your reviewers
+- [ ] tools to assign proposals to reviewers based on constraints like preferences
+- [ ] tools to support the final selection process of proposals
+- [ ] tools to support the creation of the final program schedule
+- [ ] awesome [documentation] with best practices for the program committee of any community conference
+
+
+
 ## Getting started
 
 To install Pytanis simple run:
@@ -50,18 +64,15 @@ where you need to replace the dummy values in the sections `[Pretalx]` and `[Hel
 Move it to the `~/.pytanis` folder as `client_secret.json`. The file `token.json` will be automatically generated
 later.
 * **Pretalx**: The API token for the [Pretalx API] can be found in your user settings.
-* **HelpDesk**: Use the same (shared) email you use to log into helpdesk/livechat to create the token following
+* **HelpDesk**: Use the same (shared) email you use to log into HelpDesk/LiveChat to create the token following
  [this video](https://www.youtube.com/watch?v=-EUZ_Ynvz5Q&t=32s). In case there is any trouble with livechat,
   contact a helpdesk admin.
 
-## Features
 
-- (planned) creating the assignment of proposals to reviewers based on their preferences
-- (planned) sending e-mails to reviewers
-- (planned) supporting the selection process of proposals
-- (planned) supporting the creation of the final program schedule based on the accepted talks
 
 ## Development
+
+This section is only relevant if you want to contribute to Pytanis itself. Your help is highly appreciated!
 
 After having cloned this repository:
 
@@ -96,3 +107,7 @@ To start this project off a lot of inspiration and code was taken from [Alexande
 [documentation]: https://florianwilhelm.info/pytanis/
 [Alexander Hendorf]: https://github.com/alanderex
 [Matthias Hofmann]: https://github.com/mj-hofmann
+[Google Forms]: https://www.google.com/forms/about/
+[Google Sheets]: https://www.google.com/sheets/about/
+[pydantic]: https://docs.pydantic.dev/
+[HelpDesk]: https://www.helpdesk.com/
