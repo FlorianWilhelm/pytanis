@@ -3,7 +3,7 @@ import os
 
 import pytest
 
-EVENT_SLUG = "pyconde-pydata-berlin-2023"
+EVENT_SLUG = "ungleichheit"
 
 
 @pytest.mark.skipif(os.getenv('GITHUB'), reason="on Github")
