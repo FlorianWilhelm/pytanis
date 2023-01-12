@@ -1,9 +1,10 @@
 """These tests will only run if you have set up an Pretalx Account"""
 import os
+from datetime import date
 
 import pytest
 
-EVENT_SLUG = "ungleichheit"
+EVENT_SLUG = "pyconde-pydata-berlin-2023"
 
 
 @pytest.mark.skipif(os.getenv('GITHUB'), reason="on Github")
@@ -11,7 +12,7 @@ def test_event_endpoint(pretalx_api):
     count, all_events = pretalx_api.events()
     assert count == len(list(all_events))
     event = pretalx_api.events(EVENT_SLUG)
-    assert event['date_from'] == '2023-04-17'
+    assert event.date_from == date.fromisoformat('2023-04-17')
 
 
 @pytest.mark.skipif(os.getenv('GITHUB'), reason="on Github")
@@ -19,7 +20,7 @@ def test_submissions_endpoint(pretalx_api):
     count, subs = pretalx_api.submissions(EVENT_SLUG)
     assert count == len(list(subs))
     sub = pretalx_api.submissions(EVENT_SLUG, 'MD9SLQ')
-    assert sub['submission_type']['en'] == 'Talk'
+    assert sub.submission_type.en == 'Talk'
 
 
 @pytest.mark.skipif(os.getenv('GITHUB'), reason="on Github")
