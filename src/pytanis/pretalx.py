@@ -14,8 +14,10 @@ from .utils import rm_keys
 
 logger = get_logger()
 
-JSON = Union[Dict[str, Any], Tuple[int, Iterator[Dict[str, Any]]]]
-"""JSON object or a tuple of a count and an iterator of JSON objects"""
+JSONObj = Dict[str, Any]
+JSONLst = List[JSONObj]
+JSON = Union[JSONObj, JSONLst]
+"""Stub for the JSON response as returned by the Pretalx API"""
 
 
 class PretalxAPI:
@@ -37,7 +39,7 @@ class PretalxAPI:
         resp.raise_for_status()
         return resp.json()
 
-    def _resolve_pagination(self, resp: JSON) -> Iterator[Dict[str, Any]]:
+    def _resolve_pagination(self, resp: JSONObj) -> Iterator[JSONObj]:
         """Resolves the pagination and returns an iterator over all results"""
         yield from resp["results"]
         while (next_page := resp['next']) is not None:
@@ -46,18 +48,24 @@ class PretalxAPI:
             _log_resp(resp)
             yield from resp["results"]
 
-    def _get_many(self, endpoint: str, params: Optional[Dict[str, str]] = None) -> JSON:
+    def _get_many(self, endpoint: str, params: Optional[Dict[str, str]] = None) -> Tuple[int, Iterator[JSONObj]]:
         """Retrieves the number of results as well as the results as iterator"""
         resp = self._get_single(endpoint, params)
         _log_resp(resp)
         if isinstance(resp, list):
             return len(resp), iter(resp)
         else:
+            logger.debug("Resolving pagination...")
             return resp["count"], self._resolve_pagination(resp)
 
     def _endpoint(
-        self, event_slug: Optional[str] = None, resource: Optional[str] = None, id: Optional[Union[str, int]] = None
-    ) -> JSON:
+        self,
+        event_slug: Optional[str] = None,
+        resource: Optional[str] = None,
+        id: Optional[Union[str, int]] = None,
+        *,
+        params: Optional[Dict[str, str]] = None,
+    ) -> Union[JSONObj, Tuple[int, Iterator[JSONObj]]]:
         """Query the endpoint given potentially an event, resource and some resource id"""
         event_slug = '' if event_slug is None else event_slug
         resource = '' if resource is None else resource
@@ -65,40 +73,42 @@ class PretalxAPI:
         endpoint = re.sub("//+", "/", f"/api/events/{event_slug}/{resource}/{id}/")
 
         if id:
-            return self._get_single(endpoint)
+            return self._get_single(endpoint, params)
         elif resource:
-            return self._get_many(endpoint)
+            return self._get_many(endpoint, params)
         elif event_slug:
-            return self._get_single(endpoint)
+            return self._get_single(endpoint, params)
         else:
-            return self._get_many(endpoint)
+            return self._get_many(endpoint, params)
 
-    def events(self, event_slug: Optional[str] = None) -> JSON:
-        return self._endpoint(event_slug)
+    def events(self, event_slug: Optional[str] = None, *, params: Optional[Dict[str, str]] = None) -> JSON:
+        return self._endpoint(event_slug, params=params)
 
-    def submissions(self, event_slug: str, code: Optional[str] = None) -> JSON:
-        return self._endpoint(event_slug, "submissions", code)
+    def submissions(
+        self, event_slug: str, code: Optional[str] = None, *, params: Optional[Dict[str, str]] = None
+    ) -> JSON:
+        return self._endpoint(event_slug, "submissions", code, params=params)
 
-    def talks(self, event_slug: str, code: Optional[str] = None) -> JSON:
-        return self._endpoint(event_slug, "talks", code)
+    def talks(self, event_slug: str, code: Optional[str] = None, *, params: Optional[Dict[str, str]] = None) -> JSON:
+        return self._endpoint(event_slug, "talks", code, params=params)
 
-    def speakers(self, event_slug: str, code: Optional[str] = None) -> JSON:
-        return self._endpoint(event_slug, "speakers", code)
+    def speakers(self, event_slug: str, code: Optional[str] = None, *, params: Optional[Dict[str, str]] = None) -> JSON:
+        return self._endpoint(event_slug, "speakers", code, params=params)
 
-    def reviews(self, event_slug: str, id: Optional[int] = None) -> JSON:
-        return self._endpoint(event_slug, "reviews", id)
+    def reviews(self, event_slug: str, id: Optional[int] = None, *, params: Optional[Dict[str, str]] = None) -> JSON:
+        return self._endpoint(event_slug, "reviews", id, params=params)
 
-    def rooms(self, event_slug: str, id: Optional[int] = None) -> JSON:
-        return self._endpoint(event_slug, "rooms", id)
+    def rooms(self, event_slug: str, id: Optional[int] = None, *, params: Optional[Dict[str, str]] = None) -> JSON:
+        return self._endpoint(event_slug, "rooms", id, params=params)
 
-    def questions(self, event_slug: str, id: Optional[int] = None) -> JSON:
-        return self._endpoint(event_slug, "questions", id)
+    def questions(self, event_slug: str, id: Optional[int] = None, *, params: Optional[Dict[str, str]] = None) -> JSON:
+        return self._endpoint(event_slug, "questions", id, params=params)
 
-    def answers(self, event_slug: str, id: Optional[int] = None) -> JSON:
-        return self._endpoint(event_slug, "answers", id)
+    def answers(self, event_slug: str, id: Optional[int] = None, *, params: Optional[Dict[str, str]] = None) -> JSON:
+        return self._endpoint(event_slug, "answers", id, params=params)
 
-    def tags(self, event_slug: str, tag: Optional[str] = None) -> JSON:
-        return self._endpoint(event_slug, "tags", tag)
+    def tags(self, event_slug: str, tag: Optional[str] = None, *, params: Optional[Dict[str, str]] = None) -> JSON:
+        return self._endpoint(event_slug, "tags", tag, params=params)
 
 
 def _log_resp(json_resp: Union[List[Any], Dict[Any, Any]]):
