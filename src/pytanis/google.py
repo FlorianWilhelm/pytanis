@@ -29,7 +29,8 @@ class GoogleAPI:
         Remember to recreate the token everytime you change the scopes.
         This function will open a browser window for authentication.
         """
-        token_path = self.config.Google.token_json
+        if (token_path := self.config.Google.token_json) is None:
+            raise RuntimeError("You have to Google.token_json in your config.toml!")
         if not recreate and token_path.exists():
             return
 
@@ -43,7 +44,7 @@ class GoogleAPI:
     def _get_creds(self) -> Credentials:
         """Retrieve the credentials"""
         token_path = self.config.Google.token_json
-        if not token_path.exists():
+        if token_path is None or not token_path.exists():
             raise RuntimeError(f"Necessary token {token_path} does not exist!")
         creds = Credentials.from_authorized_user_file(str(token_path), self.scopes)
         if creds.expired and creds.refresh_token:

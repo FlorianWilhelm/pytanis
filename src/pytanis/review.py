@@ -36,5 +36,7 @@ def read_assignment_as_df(file_path: Path) -> pd.DataFrame:
 def sub_tracks_as_df(all_subs: Iterator[Submission]) -> pd.DataFrame:
     """Retrieves all submission and creates a dataframe of submission code and their tracks"""
     return (
-        pd.DataFrame({s.code: [s.track.en] for s in all_subs}).T.rename(columns={0: "track"}).rename_axis(index="sub")
+        pd.DataFrame({s.code: [s.track.en if s.track else "None"] for s in all_subs})
+        .T.rename(columns={0: "track"})
+        .rename_axis(index="sub")
     )

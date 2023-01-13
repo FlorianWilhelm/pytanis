@@ -35,13 +35,13 @@ class PretalxAPI:
         if config is None:
             config = get_cfg()
         self._config = config
-        self._get_orig = self._get
+        self._get_throttled = self._get
         self.set_throttling(1, 2)  # we are nice by default
 
     def set_throttling(self, calls: int, seconds: int):
         """Throttle the number of calls per seconds to the Pretalx API"""
         logger.debug("throttling", calls=calls, seconds=seconds)
-        self._get = throttle(calls, seconds)(self._get_orig)
+        self._get_throttled = throttle(calls, seconds)(self._get)
 
     def _get(self, endpoint: str, params: Optional[Dict[str, str]] = None) -> Response:
         """Retrieve data via GET request"""
@@ -52,7 +52,7 @@ class PretalxAPI:
 
     def _get_one(self, endpoint: str, params: Optional[Dict[str, str]] = None) -> JSON:
         """Retrieve a single resource result"""
-        resp = self._get(endpoint, params)
+        resp = self._get_throttled(endpoint, params)
         resp.raise_for_status()
         return resp.json()
 
@@ -87,8 +87,8 @@ class PretalxAPI:
         endpoint = f"/api/events/{event_slug}/{resource}/"
         count, results = self._get_many(endpoint, params)
         # parse according to the Pretalx API type and debug
-        results = ((logger.debug("result", resp=r), type.parse_obj(r))[1] for r in results)
-        return count, results
+        t_results = iter(logger.debug("result", resp=r) or type.parse_obj(r) for r in results)
+        return count, t_results
 
     def _endpoint_id(
         self,
@@ -120,8 +120,8 @@ class PretalxAPI:
     def events(self, *, params: Optional[Dict[str, str]] = None) -> Tuple[int, Iterator[Event]]:
         """Lists all events and their details"""
         count, results = self._get_many("/api/events/", params)
-        results = ((logger.debug("result", resp=r), Event.parse_obj(r))[1] for r in results)
-        return count, results
+        events = iter(logger.debug("result", resp=r) or Event.parse_obj(r) for r in results)
+        return count, events
 
     def submission(self, event_slug: str, code: str, *, params: Optional[Dict[str, str]] = None) -> Submission:
         """Returns a specific submission"""

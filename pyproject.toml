@@ -213,5 +213,5 @@ fmt = [
 ]
 all = [
     "style",
-#    "typing", # ToDo: Reintroduce later when things are more stable
+    "typing",
 ]

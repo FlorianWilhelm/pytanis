@@ -3,6 +3,9 @@
 Documentation: https://docs.pretalx.org/api/resources/index.html
 
 Attention: Quite often the API docs and the actual results of the API differ!
+
+ToDo:
+    * Find out why `extra=Extra.allow` causes mypy to fail. Seems like a bug in pydantic.
 """
 from datetime import date, datetime
 from typing import List, Optional
@@ -17,7 +20,7 @@ class Me(BaseModel):
     timezone: str
 
 
-class MultiLingualStr(BaseModel, extra=Extra.allow):
+class MultiLingualStr(BaseModel, extra=Extra.allow):  # type: ignore
     # ToDo: Add here more available languages, not mentioned in the API
     en: Optional[str]
     de: Optional[str]
