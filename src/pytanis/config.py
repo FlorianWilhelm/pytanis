@@ -58,11 +58,11 @@ class Config(BaseModel):
 
 def get_cfg_file() -> Path:
     """Determines the path of the config file"""
-    path = os.environ.get(PYTANIS_ENV, None)
-    if path is None:
+    path_str = os.environ.get(PYTANIS_ENV, None)
+    if path_str is None:
         path = Path.home() / Path(PYTANIS_CFG_PATH)
     else:
-        path = Path(path)
+        path = Path(path_str)
     return path
 
 

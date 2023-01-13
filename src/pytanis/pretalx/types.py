@@ -1,6 +1,6 @@
 """Return types of the Pretalx API
 
-Documentation: https://docs.pretalx.org/api/
+Documentation: https://docs.pretalx.org/api/resources/index.html
 
 Attention: Quite often the API docs and the actual results of the API differ!
 """

@@ -1,11 +1,11 @@
 """Client for the Pretalx API
 
-Documentation: https://docs.pretalx.org/api/
+Documentation: https://docs.pretalx.org/api/resources/index.html
 
 ToDo:
     * add additional parameters explicitly like querying according to the API
 """
-from typing import Any, Dict, Iterator, List, Optional, Tuple, Type, TypeVar, Union
+from typing import Any, Dict, Iterator, List, Optional, Tuple, Type, TypeVar, Union, cast
 
 import httpx
 from httpx import URL, Response
@@ -34,7 +34,7 @@ class PretalxAPI:
     def __init__(self, config: Optional[Config] = None):
         if config is None:
             config = get_cfg()
-        self.config = config
+        self._config = config
         self._get_orig = self._get
         self.set_throttling(1, 2)  # we are nice by default
 
@@ -45,7 +45,7 @@ class PretalxAPI:
 
     def _get(self, endpoint: str, params: Optional[Dict[str, str]] = None) -> Response:
         """Retrieve data via GET request"""
-        header = {'Authorization': self.config.Pretalx.api_token}
+        header = {'Authorization': self._config.Pretalx.api_token}
         url = URL("https://pretalx.com/").join(endpoint)
         logger.debug(f"request: {url.copy_merge_params(params)}")
         return httpx.get(url, headers=header, params=params)
@@ -61,18 +61,18 @@ class PretalxAPI:
         yield from resp["results"]
         while (next_page := resp['next']) is not None:
             endpoint = URL(next_page).path
-            resp = self._get_one(endpoint, dict(URL(next_page).params))
+            resp = cast(JSONObj, self._get_one(endpoint, dict(URL(next_page).params)))
             _log_resp(resp)
             yield from resp["results"]
 
     def _get_many(self, endpoint: str, params: Optional[Dict[str, str]] = None) -> Tuple[int, Iterator[JSONObj]]:
-        """Retrieves the number of results as well as the results as iterator"""
+        """Retrieves the result count as well as the results as iterator"""
         resp = self._get_one(endpoint, params)
         _log_resp(resp)
         if isinstance(resp, list):
             return len(resp), iter(resp)
         else:
-            logger.debug("Resolving pagination...")
+            logger.debug("resolving pagination...")
             return resp["count"], self._resolve_pagination(resp)
 
     def _endpoint_lst(

@@ -4,13 +4,13 @@
 
 <img src="https://raw.githubusercontent.com/FlorianWilhelm/pytanis/main/docs/assets/images/logo.svg" alt="Pytanis logo" width="500" role="img">
 
-Pytanis provides useful tools for conferences using [Pretalx] to handle the call for papers and creating a program!
+[Pytanis] provides useful tools for conferences using [Pretalx] to handle the call for papers and creating a program!
 
 |         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 |---------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | CI/CD   | [![CI - Test](https://github.com/FlorianWilhelm/pytanis/actions/workflows/run-tests.yml/badge.svg)](https://github.com/FlorianWilhelm/pytanis/actions/workflows/run-tests.yml) [![Coverage](https://img.shields.io/coveralls/github/FlorianWilhelm/pytanis/main.svg?logo=coveralls&label=Coverage)](https://coveralls.io/r/FlorianWilhelm/pytanis) [![CD - Build](https://github.com/FlorianWilhelm/pytanis/actions/workflows/publish-pkg.yml/badge.svg)](https://github.com/FlorianWilhelm/pytanis/actions/workflows/publish-pkg.yml) [![Docs - Build](https://github.com/FlorianWilhelm/pytanis/actions/workflows/build-rel-docs.yml/badge.svg)](https://github.com/FlorianWilhelm/pytanis/actions/workflows/build-rel-docs.yml)                                                                                                            |
 | Package | [![PyPI - Version](https://img.shields.io/pypi/v/pytanis.svg?logo=pypi&label=PyPI&logoColor=gold)](https://pypi.org/project/pytanis/) [![PyPI - Downloads](https://img.shields.io/pypi/dm/pytanis.svg?color=blue&label=Downloads&logo=pypi&logoColor=gold)](https://pepy.tech/project/pytanis) [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pytanis.svg?logo=python&label=Python&logoColor=gold)](https://pypi.org/project/pytanis/)                                                                                                                                                                                                                                                                                                                                                                                        |
-| Details | [![Project generated with PyScaffold](https://img.shields.io/badge/-PyScaffold-005CA0?logo=pyscaffold)](https://pyscaffold.org/) [![Hatch project](https://img.shields.io/badge/%F0%9F%A5%9A-Hatch-4051b5.svg)](https://github.com/pypa/hatch) [![code style - black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) [![types - Mypy](https://img.shields.io/badge/types-Mypy-blue.svg)](https://github.com/ambv/black) [![imports - isort](https://img.shields.io/badge/imports-isort-ef8336.svg)](https://github.com/pycqa/isort) [![License - MIT](https://img.shields.io/badge/license-MIT-9400d3.svg)](https://spdx.org/licenses/) [![GitHub Sponsors](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=ff69b4)](https://github.com/sponsors/FlorianWilhelm) |
+| Details | [![Project generated with PyScaffold](https://img.shields.io/badge/-PyScaffold-005CA0?logo=pyscaffold)](https://pyscaffold.org/) [![Hatch project](https://img.shields.io/badge/%F0%9F%A5%9A-Hatch-4051b5.svg)](https://github.com/pypa/hatch) [![code style - black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) [![types - Mypy](https://img.shields.io/badge/types-Mypy-blue.svg)](https://github.com/python/mypy) [![imports - isort](https://img.shields.io/badge/imports-isort-ef8336.svg)](https://github.com/pycqa/isort) [![License - MIT](https://img.shields.io/badge/license-MIT-9400d3.svg)](https://spdx.org/licenses/) [![GitHub Sponsors](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=ff69b4)](https://github.com/sponsors/FlorianWilhelm) |
 
 </div>
 
@@ -62,7 +62,7 @@ where you need to replace the dummy values in the sections `[Pretalx]` and `[Hel
 ### Retrieving the credentials and token
 * **Google**: Follow the [Python Quickstart for the Google API] to generate and download the file `client_secret.json`.
 Move it to the `~/.pytanis` folder as `client_secret.json`. The file `token.json` will be automatically generated
-later.
+later. Note that `config.toml` references those two files relative to its own location.
 * **Pretalx**: The API token for the [Pretalx API] can be found in your user settings.
 * **HelpDesk**: Use the same (shared) email you use to log into HelpDesk/LiveChat to create the token following
  [this video](https://www.youtube.com/watch?v=-EUZ_Ynvz5Q&t=32s). In case there is any trouble with livechat,
@@ -86,7 +86,9 @@ the unitest with or without coverage reports, respectively.
 
 ## Documentation
 
-The [documentation] is made with [Material for MkDocs](https://github.com/squidfunk/mkdocs-material) and is hosted by [GitHub Pages](https://docs.github.com/en/pages).
+The [documentation] is made with [Material for MkDocs] and is hosted by [GitHub Pages]. Your help to extend the
+documentation, especially in the context of using Pytanis for community conferences like [PyConDE], [EuroPython], etc.
+is highly appreciated.
 
 ## License
 
@@ -96,6 +98,7 @@ Pytanis is distributed under the terms of the [MIT](https://spdx.org/licenses/MI
 
 To start this project off a lot of inspiration and code was taken from [Alexander Hendorf] and [Matthias Hofmann].
 
+[Pytanis]: https://florianwilhelm.info/pytanis/
 [Python]: https://www.python.org/
 [Pretalx]: https://pretalx.com/
 [hatch]: https://hatch.pypa.io/
@@ -111,3 +114,7 @@ To start this project off a lot of inspiration and code was taken from [Alexande
 [Google Sheets]: https://www.google.com/sheets/about/
 [pydantic]: https://docs.pydantic.dev/
 [HelpDesk]: https://www.helpdesk.com/
+[Material for MkDocs]: https://github.com/squidfunk/mkdocs-material
+[GitHub Pages]: https://docs.github.com/en/pages
+[PyConDE]: https://pycon.de/
+[EuroPython]: https://europython.eu/

@@ -58,7 +58,7 @@ def throttle(calls: int, seconds: int = 1) -> Callable[[Callable[..., RT]], Call
 
     def decorator(func: Callable[..., RT]) -> Callable[..., RT]:
         # keeps track of the last calls
-        last_calls = list()
+        last_calls: List[float] = list()
 
         @functools.wraps(func)
         def wrapper(*args, **kwargs) -> RT:
