@@ -51,6 +51,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://florianwilhelm.info/pytanis/dev/reference/pytanis/review/</loc>
+         <lastmod>2020-02-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://florianwilhelm.info/pytanis/dev/reference/pytanis/utils/</loc>
          <lastmod>2020-02-02</lastmod>
          <changefreq>daily</changefreq>
@@ -67,6 +72,11 @@
     </url>
     <url>
          <loc>https://florianwilhelm.info/pytanis/dev/reference/pytanis/pretalx/types/</loc>
+         <lastmod>2020-02-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://florianwilhelm.info/pytanis/dev/usage/review/</loc>
          <lastmod>2020-02-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
