@@ -58,7 +58,7 @@ class Mail(BaseModel, extra=Extra.allow):  # type: ignore
     agent_id: str
     text: str
     status: str = "solved"  # ToDo: Reconsider this!
-    recipients: list[Recipient]
+    recipients: List[Recipient]
 
 
 class MailClient:
@@ -87,7 +87,7 @@ class MailClient:
         )
         return ticket
 
-    def sent(self) -> tuple[List[Tuple[Recipient, Ticket]], List[Tuple[Recipient, Exception]]]:
+    def sent(self) -> Tuple[List[Tuple[Recipient, Ticket]], List[Tuple[Recipient, Exception]]]:
         if self.mail is None:
             raise RuntimeError("There is no mail to be sent!")
 
