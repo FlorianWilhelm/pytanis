@@ -2,6 +2,7 @@
 
 ToDo:
     * add logging where appropriate
+    * Find out why `extra=Extra.allow` causes mypy to fail. Seems like a bug in pydantic.
 """
 from typing import List, Optional, Tuple
 
@@ -14,7 +15,7 @@ from .types import Assignment, Id, Message, NewTicket, Requester, Ticket
 logger = get_logger()
 
 
-class Recipient(BaseModel, extra=Extra.allow):
+class Recipient(BaseModel, extra=Extra.allow):  # type: ignore
     """Details about the recipient
 
     We allow extra fields that can be used for customization
@@ -32,7 +33,7 @@ class Recipient(BaseModel, extra=Extra.allow):
         return v
 
 
-class Mail(BaseModel, extra=Extra.allow):
+class Mail(BaseModel, extra=Extra.allow):  # type: ignore
     """Mail template
 
     We allow extra fields that can be used for customization.
@@ -63,13 +64,15 @@ class Mail(BaseModel, extra=Extra.allow):
 class MailClient:
     def __init__(self, helpdesk_api: HelpDeskAPI):
         self._helpdesk_api = helpdesk_api
-        self.mail = None
+        self.mail: Optional[Mail] = None
 
     def set_mail(self, mail: Mail) -> "MailClient":
         self.mail = mail
         return self
 
     def _create_ticket(self, mail_text: str, recipient: Recipient) -> NewTicket:
+        if self.mail is None:
+            raise RuntimeError("There is no mail to create a ticket from!")
         message = Message(text=mail_text)
         requester = Requester(name=recipient.name, email=recipient.email)
         team_id, agent_id = Id(ID=self.mail.team_id), Id(ID=self.mail.agent_id)
@@ -84,9 +87,9 @@ class MailClient:
         )
         return ticket
 
-    def sent(self) -> Tuple[List[Tuple[Recipient, NewTicket]], List[Tuple[Recipient, Exception]]]:
+    def sent(self) -> tuple[List[Tuple[Recipient, Ticket]], List[Tuple[Recipient, Exception]]]:
         if self.mail is None:
-            raise RuntimeError("There is no message to be sent!")
+            raise RuntimeError("There is no mail to be sent!")
 
         errors = []
         tickets = []
