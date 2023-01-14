@@ -20,8 +20,8 @@ class GoogleAPI:
     def __init__(self, config: Optional[Config] = None, scopes: List[str] = RO_SCOPE):
         if config is None:
             config = get_cfg()
-        self.config = config
-        self.scopes = scopes
+        self._config = config
+        self._scopes = scopes
 
     def init_token(self, recreate: bool = False):
         """Init the API token by creating it if not available
@@ -29,13 +29,14 @@ class GoogleAPI:
         Remember to recreate the token everytime you change the scopes.
         This function will open a browser window for authentication.
         """
-        if (token_path := self.config.Google.token_json) is None:
-            raise RuntimeError("You have to Google.token_json in your config.toml!")
+        if (token_path := self._config.Google.token_json) is None:
+            raise RuntimeError("You have to set Google.token_json in your config.toml!")
         if not recreate and token_path.exists():
             return
 
-        secret_path = self.config.Google.client_secret_json
-        flow = InstalledAppFlow.from_client_secrets_file(secret_path, self.scopes)
+        if (secret_path := self._config.Google.client_secret_json) is None:
+            raise RuntimeError("You have to set Google.client_secret_json in your config.toml!")
+        flow = InstalledAppFlow.from_client_secrets_file(str(secret_path), self._scopes)
         creds = flow.run_local_server(port=0)
 
         with open(token_path, 'w') as fh:
@@ -43,10 +44,10 @@ class GoogleAPI:
 
     def _get_creds(self) -> Credentials:
         """Retrieve the credentials"""
-        token_path = self.config.Google.token_json
+        token_path = self._config.Google.token_json
         if token_path is None or not token_path.exists():
             raise RuntimeError(f"Necessary token {token_path} does not exist!")
-        creds = Credentials.from_authorized_user_file(str(token_path), self.scopes)
+        creds = Credentials.from_authorized_user_file(str(token_path), self._scopes)
         if creds.expired and creds.refresh_token:
             creds.refresh(Request())
         return creds
