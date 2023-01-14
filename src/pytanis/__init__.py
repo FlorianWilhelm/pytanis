@@ -3,7 +3,8 @@ from importlib.metadata import PackageNotFoundError, version
 import structlog.stdlib
 
 from .google import GoogleAPI
-from .pretalx.client import PretalxAPI
+from .helpdesk import HelpDeskAPI
+from .pretalx import PretalxAPI
 
 try:
     __version__ = version("pytanis")
@@ -12,7 +13,7 @@ except PackageNotFoundError:  # pragma: no cover
 finally:
     del version, PackageNotFoundError
 
-__all__ = ["__version__", "GoogleAPI", "PretalxAPI"]
+__all__ = ["__version__", "GoogleAPI", "PretalxAPI", "HelpDeskAPI"]
 
 # transform structlog into a logging-friendly package
 # use `logging.basicConfig(level=logging.INFO, stream=sys.stdout)` as usual
