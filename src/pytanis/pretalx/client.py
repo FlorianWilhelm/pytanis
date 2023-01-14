@@ -9,6 +9,7 @@ from typing import Any, Dict, Iterator, List, Optional, Tuple, Type, TypeVar, Un
 
 import httpx
 from httpx import URL, Response
+from httpx_auth import HeaderApiKey
 from pydantic import BaseModel
 from structlog import get_logger
 
@@ -45,10 +46,10 @@ class PretalxAPI:
 
     def _get(self, endpoint: str, params: Optional[Dict[str, str]] = None) -> Response:
         """Retrieve data via GET request"""
-        header = {'Authorization': self._config.Pretalx.api_token}
+        auth = HeaderApiKey(self._config.Pretalx.api_token, header_name='Authorization')
         url = URL("https://pretalx.com/").join(endpoint)
         logger.debug(f"request: {url.copy_merge_params(params)}")
-        return httpx.get(url, headers=header, params=params)
+        return httpx.get(url, auth=auth, params=params)
 
     def _get_one(self, endpoint: str, params: Optional[Dict[str, str]] = None) -> JSON:
         """Retrieve a single resource result"""

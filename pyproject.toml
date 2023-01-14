@@ -32,6 +32,7 @@ dependencies = [
     "google-auth-httplib2",
     "google-auth-oauthlib",
     "httpx",
+    "httpx-auth",
     "structlog",
 ]
 dynamic = ["version"]
