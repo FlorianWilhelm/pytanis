@@ -1,6 +1,9 @@
 """Functionality around the Google API
 
 Documentation: https://developers.google.com/sheets/api/quickstart/python
+
+ToDo:
+    * Also add other scopes next to RO_SCOPE
 """
 import itertools
 from typing import Any, Dict, List, Optional

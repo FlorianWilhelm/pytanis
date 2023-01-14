@@ -48,7 +48,7 @@ class PretalxAPI:
         """Retrieve data via GET request"""
         auth = HeaderApiKey(self._config.Pretalx.api_token, header_name='Authorization')
         url = URL("https://pretalx.com/").join(endpoint)
-        logger.debug(f"request: {url.copy_merge_params(params)}")
+        logger.debug(f"GET: {url.copy_merge_params(params)}")
         return httpx.get(url, auth=auth, params=params)
 
     def _get_one(self, endpoint: str, params: Optional[Dict[str, str]] = None) -> JSON:

@@ -7,7 +7,7 @@ from shutil import copy
 import pytest
 
 from pytanis.config import PYTANIS_CFG_PATH, PYTANIS_ENV
-from pytanis.pretalx.client import PretalxAPI
+from pytanis.pretalx.api import PretalxAPI
 
 __location__ = Path(__file__).parent
 
