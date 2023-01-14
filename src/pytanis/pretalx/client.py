@@ -86,7 +86,6 @@ class PretalxAPI:
         """Queries an endpoint returning a list of resources"""
         endpoint = f"/api/events/{event_slug}/{resource}/"
         count, results = self._get_many(endpoint, params)
-        # parse according to the Pretalx API type and debug
         t_results = iter(logger.debug("result", resp=r) or type.parse_obj(r) for r in results)
         return count, t_results
 
