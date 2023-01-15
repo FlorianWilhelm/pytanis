@@ -46,11 +46,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://florianwilhelm.info/pytanis/dev/reference/pytanis/helpdesk/</loc>
-         <lastmod>2020-02-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://florianwilhelm.info/pytanis/dev/reference/pytanis/review/</loc>
          <lastmod>2020-02-02</lastmod>
          <changefreq>daily</changefreq>
@@ -61,12 +56,32 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://florianwilhelm.info/pytanis/dev/reference/pytanis/helpdesk/</loc>
+         <lastmod>2020-02-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://florianwilhelm.info/pytanis/dev/reference/pytanis/helpdesk/api/</loc>
+         <lastmod>2020-02-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://florianwilhelm.info/pytanis/dev/reference/pytanis/helpdesk/mail/</loc>
+         <lastmod>2020-02-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://florianwilhelm.info/pytanis/dev/reference/pytanis/helpdesk/types/</loc>
+         <lastmod>2020-02-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://florianwilhelm.info/pytanis/dev/reference/pytanis/pretalx/</loc>
          <lastmod>2020-02-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://florianwilhelm.info/pytanis/dev/reference/pytanis/pretalx/client/</loc>
+         <loc>https://florianwilhelm.info/pytanis/dev/reference/pytanis/pretalx/api/</loc>
          <lastmod>2020-02-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
