@@ -3,6 +3,7 @@
 ToDo:
     * add logging where appropriate
     * Find out why `extra=Extra.allow` causes mypy to fail. Seems like a bug in pydantic.
+    * Sending mails is quite slow, so using `tqdm` to show feedback to the current progress would be nice
 """
 from typing import Callable, List, Optional, Tuple
 
@@ -28,7 +29,7 @@ class Recipient(BaseModel):
     name: str
     email: str
     address_as: Optional[str]  # could be the first name
-    data: MetaData
+    data: Optional[MetaData]
 
     @validator("address_as")
     @classmethod
@@ -64,13 +65,15 @@ class Mail(BaseModel):
     text: str
     status: str = "solved"  # ToDo: Reconsider this!
     recipients: List[Recipient]
-    data: MetaData
+    data: Optional[MetaData]
 
 
 class MailClient:
     """Mail client for mass mails over HelpDesk"""
 
-    def __init__(self, helpdesk_api: HelpDeskAPI):
+    def __init__(self, helpdesk_api: Optional[HelpDeskAPI] = None):
+        if helpdesk_api is None:
+            helpdesk_api = HelpDeskAPI()
         self._helpdesk_api = helpdesk_api
         self.dry_run: Callable[[NewTicket], None] = self.print_new_ticket
 

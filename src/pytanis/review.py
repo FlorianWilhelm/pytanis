@@ -28,6 +28,7 @@ class Col:
 
     timestamp = "Timestamp"
     name = "Name"
+    address_as = "Address as"
     affiliation = "Affiliation"
     email = "Email"
     curr_assignments = "Current Assignments"
