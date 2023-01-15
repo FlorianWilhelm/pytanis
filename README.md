@@ -20,7 +20,7 @@
 was the name given  to the leading members of the government of a city (polis) in ancient Greece.  Offices that used this
 title usually had responsibility for presiding over councils of some kind, which met in the [Prytaneion].
 
-**This is a pre-alpha version! Don't use it!**
+**This is alpha version! It might break sometimes!**
 
 
 ## Features
