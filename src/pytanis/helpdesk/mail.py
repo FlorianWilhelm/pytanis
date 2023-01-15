@@ -106,10 +106,10 @@ class MailClient:
         print(f"Subject: {ticket.subject}")
         print(f"{ticket.message.text}")
 
-    def sent(
+    def send(
         self, mail: Mail, dry_run: bool = True
     ) -> Tuple[List[Tuple[Recipient, Optional[Ticket]]], List[Tuple[Recipient, Exception]]]:
-        """Sent a mail to all recipients using HelpDesk"""
+        """Send a mail to all recipients using HelpDesk"""
         errors = []
         tickets = []
         for recipient in mail.recipients:

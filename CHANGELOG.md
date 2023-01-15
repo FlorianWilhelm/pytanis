@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 0.1.1 (2023-01-16)
+
+- fix typo `sent` -> `send` in MailClient
+
 ## Version 0.1 (2023-01-15)
 
 - First alpha version to can be used
