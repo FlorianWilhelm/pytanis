@@ -15,8 +15,8 @@ nav:
   - Home:
     - About: index.md
     - Usage:
-        - 'Proposal Review': usage/review.md
         - 'Getting Started': usage/installation.md
+        - 'Proposal Review': usage/review.md
     - Changelog: changelog.md
     - License: license.md
     - Authors: authors.md
