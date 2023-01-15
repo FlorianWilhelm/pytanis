@@ -28,7 +28,6 @@ def test_sending_dummy_mail():
     )
 
     client = MailClient(HelpDeskAPI())
-    client.set_mail(test_mail)
-    tickets, errors = client.sent()
+    tickets, errors = client.sent(test_mail)
     assert not errors
     # Now also check your inbox and tell me if it worked!
