@@ -15,15 +15,20 @@ from .types import Assignment, Id, Message, NewTicket, Requester, Ticket
 logger = get_logger()
 
 
-class Recipient(BaseModel, extra=Extra.allow):  # type: ignore
+class MetaData(BaseModel, extra=Extra.allow):  # type: ignore
+    """Additional, arbitrary metadata provided by the user like for template filling"""
+
+
+class Recipient(BaseModel):
     """Details about the recipient
 
-    We allow extra fields that can be used for customization
+    Use the `data` field to store additional information
     """
 
     name: str
     email: str
     address_as: Optional[str]  # could be the first name
+    data: MetaData
 
     @validator("address_as")
     @classmethod
@@ -33,10 +38,10 @@ class Recipient(BaseModel, extra=Extra.allow):  # type: ignore
         return v
 
 
-class Mail(BaseModel, extra=Extra.allow):  # type: ignore
+class Mail(BaseModel):
     """Mail template
 
-    We allow extra fields that can be used for customization.
+    Use the `data` field to store additional information
 
     You can use the typical [Format String Syntax] and the objects `recipient` and `mail`
     to access metadata to complement the template, e.g.:
@@ -45,7 +50,7 @@ class Mail(BaseModel, extra=Extra.allow):  # type: ignore
     Hello {recipient.address_as},
 
     We hope it's ok to address you your first name rather than using your full name being {recipient.name}.
-    Have you read the email's subject '{mail.subject}'?
+    Have you read the email's subject '{mail.subject}'? How is your work right now at {recipient.data.company}?
 
     Cheers!
     ```
@@ -59,6 +64,7 @@ class Mail(BaseModel, extra=Extra.allow):  # type: ignore
     text: str
     status: str = "solved"  # ToDo: Reconsider this!
     recipients: List[Recipient]
+    data: MetaData
 
 
 class MailClient:

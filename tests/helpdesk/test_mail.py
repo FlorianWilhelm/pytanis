@@ -9,7 +9,9 @@ from pytanis.helpdesk.mail import Mail, MailClient, Recipient
 @pytest.mark.skipif(os.getenv('MAILTEST') is None, reason="people might get annoyed")
 def test_sending_dummy_mail():
     test_recipients = [
-        Recipient(name="Florian Wilhelm", email="Florian.Wilhelm@gmail.com", address_as="Flo", custom_stuff="X"),
+        Recipient(
+            name="Florian Wilhelm", email="Florian.Wilhelm@gmail.com", address_as="Flo", data={"company": "inovex"}
+        ),
     ]
     test_mail = Mail(
         subject="Pytanis API TEST: Ignore this message",
@@ -19,12 +21,16 @@ def test_sending_dummy_mail():
 
         Hope it's ok to call you {recipient.address_as} and not by your full {recipient.name}.
         Have you read the email's subject '{mail.subject}'?
+
+        How is your work at {recipient.data.company}? We contact you because of a {mail.data.reason}!
+
         Cheers!
         """,
         team_id="3f68251e-17e9-436f-90c3-c03b06a72472",  # Program
         agent_id="2d8b5727-49c8-410d-bae8-0da13a65609d",  # Program
         status="solved",
         recipients=test_recipients,
+        data={"reason": "promotion"},
     )
 
     client = MailClient(HelpDeskAPI())
