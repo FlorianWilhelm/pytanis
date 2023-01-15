@@ -9,3 +9,19 @@
 [mkdocs]: https://www.mkdocs.org/
 [hatch]: https://hatch.pypa.io/
 [virtualenv]: https://virtualenv.pypa.io/en/stable/
+[Python]: https://www.python.org/
+[Pretalx]: https://pretalx.com/
+[hatch]: https://hatch.pypa.io/
+[Prytanis]: https://en.wikipedia.org/wiki/Prytaneis
+[Prytaneion]: https://en.wikipedia.org/wiki/Prytaneion
+[Python Quickstart for the Google API]: https://developers.google.com/sheets/api/quickstart/python
+[Pretalx API]: https://pretalx.com/api/events/
+[documentation]: https://florianwilhelm.info/pytanis/
+[Google Forms]: https://www.google.com/forms/about/
+[Google Sheets]: https://www.google.com/sheets/about/
+[pydantic]: https://docs.pydantic.dev/
+[HelpDesk]: https://www.helpdesk.com/
+[Material for MkDocs]: https://github.com/squidfunk/mkdocs-material
+[GitHub Pages]: https://docs.github.com/en/pages
+[PyConDE]: https://pycon.de/
+[EuroPython]: https://europython.eu/

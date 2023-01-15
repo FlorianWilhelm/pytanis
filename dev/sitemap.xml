@@ -91,6 +91,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://florianwilhelm.info/pytanis/dev/usage/installation/</loc>
+         <lastmod>2020-02-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://florianwilhelm.info/pytanis/dev/usage/review/</loc>
          <lastmod>2020-02-02</lastmod>
          <changefreq>daily</changefreq>
