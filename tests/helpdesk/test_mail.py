@@ -14,7 +14,7 @@ def test_sending_dummy_mail():
         ),
     ]
     test_mail = Mail(
-        subject="Pytanis API TEST: Ignore this message",
+        subject="Pytanis API TEST: Ignore this message from {mail.data.me}",
         text="""Hello {recipient.address_as},
         This is an automated test message via our helpdesk using https://florianwilhelm.info/pytanis/!
         Looks like we are getting somewhere?
@@ -30,10 +30,10 @@ def test_sending_dummy_mail():
         agent_id="2d8b5727-49c8-410d-bae8-0da13a65609d",  # Program
         status="solved",
         recipients=test_recipients,
-        data={"reason": "promotion"},
+        data={"reason": "promotion", "me": "myself"},
     )
 
     client = MailClient(HelpDeskAPI())
-    tickets, errors = client.sent(test_mail)
+    tickets, errors = client.sent(test_mail, dry_run=False)
     assert not errors
     # Now also check your inbox and tell me if it worked!

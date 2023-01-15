@@ -4,7 +4,7 @@ ToDo:
     * add logging where appropriate
     * Find out why `extra=Extra.allow` causes mypy to fail. Seems like a bug in pydantic.
 """
-from typing import List, Optional, Tuple
+from typing import Callable, List, Optional, Tuple
 
 from pydantic import BaseModel, Extra, validator
 from structlog import get_logger
@@ -68,12 +68,15 @@ class Mail(BaseModel):
 
 
 class MailClient:
+    """Mail client for mass mails over HelpDesk"""
+
     def __init__(self, helpdesk_api: HelpDeskAPI):
         self._helpdesk_api = helpdesk_api
+        self.dry_run: Callable[[NewTicket], None] = self.print_new_ticket
 
     @staticmethod
-    def _create_ticket(mail: Mail, mail_text: str, recipient: Recipient) -> NewTicket:
-        message = Message(text=mail_text)
+    def _create_ticket(mail: Mail, recipient: Recipient) -> NewTicket:
+        message = Message(text=mail.text)
         requester = Requester(name=recipient.name, email=recipient.email)
         team_id, agent_id = Id(ID=mail.team_id), Id(ID=mail.agent_id)
         assignment = Assignment(team=team_id, agent=agent_id)
@@ -87,15 +90,38 @@ class MailClient:
         )
         return ticket
 
-    def sent(self, mail: Mail) -> Tuple[List[Tuple[Recipient, Ticket]], List[Tuple[Recipient, Exception]]]:
+    @staticmethod
+    def print_new_ticket(ticket: NewTicket):
+        """Default action in a dry-run. Mainly for making sure you sent what you mean!
+
+        Overwrite it by assigning to self.dry_run another function
+
+        ToDo: Make this function nice, maybe use the `rich` library even
+        """
+        print("#" * 40)
+        print(f"Recipient: {ticket.requester.name} <{ticket.requester.email}>")
+        print(f"Subject: {ticket.subject}")
+        print(f"{ticket.message.text}")
+
+    def sent(
+        self, mail: Mail, dry_run: bool = True
+    ) -> Tuple[List[Tuple[Recipient, Optional[Ticket]]], List[Tuple[Recipient, Exception]]]:
+        """Sent a mail to all recipients using HelpDesk"""
         errors = []
         tickets = []
         for recipient in mail.recipients:
+            recip_mail = mail.copy()
             try:
-                mail_text = mail.text.format(recipient=recipient, mail=mail)
-                ticket = self._create_ticket(mail, mail_text, recipient)
-                resp = self._helpdesk_api.create_ticket(ticket)
-                resp_ticket = Ticket.parse_obj(resp)
+                recip_mail.subject = mail.subject.format(recipient=recipient, mail=mail)
+                # be aware here that the body might reference to subject line, so it must be filled already
+                recip_mail.text = recip_mail.text.format(recipient=recipient, mail=recip_mail)
+                ticket = self._create_ticket(recip_mail, recipient)
+                if dry_run:
+                    self.print_new_ticket(ticket)
+                    resp_ticket = None
+                else:
+                    resp = self._helpdesk_api.create_ticket(ticket)
+                    resp_ticket = Ticket.parse_obj(resp)
             except Exception as e:
                 errors.append((recipient, e))
             else:
