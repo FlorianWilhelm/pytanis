@@ -16,13 +16,18 @@ keywords = ["pretalx", "conference", "cfp"]
 authors = [
     { name = "Florian Wilhelm", email = "Florian.Wilhelm@gmail.com" },
 ]
+# classifiers from https://pypi.org/classifiers/
 classifiers = [
-    "Development Status :: 2 - Pre-Alpha",
+    "Development Status :: 3 - Alpha",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: Implementation :: CPython",
+    "Operating System :: OS Independent",
+    "Topic :: Communications :: Email",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Utilities",
 ]
 dependencies = [
     "pandas",
