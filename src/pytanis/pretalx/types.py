@@ -139,7 +139,7 @@ class User(BaseModel):
 class Review(BaseModel):
     id: int
     submission: str
-    user: str  # but says 'name' and 'email' in the API docs
+    user: str
     text: Optional[str]
     score: Optional[float]  # converted from str if present
     created: datetime
