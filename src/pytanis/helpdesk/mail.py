@@ -14,7 +14,7 @@ from tqdm.auto import tqdm
 from .api import HelpDeskAPI
 from .types import Assignment, Id, Message, NewTicket, Requester, Ticket
 
-logger = get_logger()
+_logger = get_logger()
 
 
 class MetaData(BaseModel, extra=Extra.allow):  # type: ignore

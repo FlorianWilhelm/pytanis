@@ -16,7 +16,7 @@ from ..config import Config, get_cfg
 from ..utils import throttle
 from .types import Agent, NewTicket, Team
 
-logger = get_logger()
+_logger = get_logger()
 
 
 JSONObj = Dict[str, Any]
@@ -42,7 +42,7 @@ class HelpDeskAPI:
 
     def set_throttling(self, calls: int, seconds: int):
         """Throttle the number of calls per seconds to the Pretalx API"""
-        logger.debug("throttling", calls=calls, seconds=seconds)
+        _logger.debug("throttling", calls=calls, seconds=seconds)
         self._get_throttled = throttle(calls, seconds)(self._get)
         self._post_throttled = throttle(calls, seconds)(self._post)
 
@@ -50,7 +50,7 @@ class HelpDeskAPI:
         """Retrieve data via raw GET request"""
         auth = Basic(self._config.HelpDesk.account, self._config.HelpDesk.token)
         url = URL("https://api.helpdesk.com/v1/").join(endpoint)
-        logger.debug(f"GET: {url.copy_merge_params(params)}")
+        _logger.debug(f"GET: {url.copy_merge_params(params)}")
         return httpx.get(url, auth=auth, params=params, headers=self._headers)
 
     def get(self, endpoint: str, params: Optional[Dict[str, str]] = None) -> JSON:
@@ -63,7 +63,7 @@ class HelpDeskAPI:
         """Sent data via raw POST request"""
         auth = Basic(self._config.HelpDesk.account, self._config.HelpDesk.token)
         url = URL("https://api.helpdesk.com/v1/").join(endpoint)
-        logger.debug(f"POST: {url.copy_merge_params(params)}")
+        _logger.debug(f"POST: {url.copy_merge_params(params)}")
         return httpx.post(url, auth=auth, params=params, json=data, headers=self._headers)
 
     def post(self, endpoint: str, data: Dict[str, Any], params: Optional[Dict[str, str]] = None) -> JSON:
