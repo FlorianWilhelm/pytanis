@@ -9,11 +9,12 @@ from typing import Callable, List, Optional, Tuple
 
 from pydantic import BaseModel, Extra, validator
 from structlog import get_logger
+from tqdm.auto import tqdm
 
 from .api import HelpDeskAPI
 from .types import Assignment, Id, Message, NewTicket, Requester, Ticket
 
-logger = get_logger()
+_logger = get_logger()
 
 
 class MetaData(BaseModel, extra=Extra.allow):  # type: ignore
@@ -112,7 +113,7 @@ class MailClient:
         """Send a mail to all recipients using HelpDesk"""
         errors = []
         tickets = []
-        for recipient in mail.recipients:
+        for recipient in tqdm(mail.recipients):
             recip_mail = mail.copy()
             try:
                 recip_mail.subject = mail.subject.format(recipient=recipient, mail=mail)

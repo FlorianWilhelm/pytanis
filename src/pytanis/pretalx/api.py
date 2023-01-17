@@ -12,12 +12,13 @@ from httpx import URL, Response
 from httpx_auth import HeaderApiKey
 from pydantic import BaseModel
 from structlog import get_logger
+from tqdm.auto import tqdm
 
 from ..config import Config, get_cfg
 from ..utils import rm_keys, throttle
 from .types import Answer, Event, Me, Question, Review, Room, Speaker, Submission, Tag, Talk
 
-logger = get_logger()
+_logger = get_logger()
 
 
 T = TypeVar('T', bound=BaseModel)
@@ -32,23 +33,24 @@ JSON = Union[JSONObj, JSONLst]
 class PretalxAPI:
     """Client for the Pretalx API"""
 
-    def __init__(self, config: Optional[Config] = None):
+    def __init__(self, config: Optional[Config] = None, blocking: bool = False):
         if config is None:
             config = get_cfg()
         self._config = config
         self._get_throttled = self._get
+        self.blocking = blocking
         self.set_throttling(1, 2)  # we are nice by default
 
     def set_throttling(self, calls: int, seconds: int):
         """Throttle the number of calls per seconds to the Pretalx API"""
-        logger.debug("throttling", calls=calls, seconds=seconds)
+        _logger.debug("throttling", calls=calls, seconds=seconds)
         self._get_throttled = throttle(calls, seconds)(self._get)
 
     def _get(self, endpoint: str, params: Optional[Dict[str, str]] = None) -> Response:
         """Retrieve data via GET request"""
         auth = HeaderApiKey(self._config.Pretalx.api_token, header_name='Authorization')
         url = URL("https://pretalx.com/").join(endpoint)
-        logger.debug(f"GET: {url.copy_merge_params(params)}")
+        _logger.debug(f"GET: {url.copy_merge_params(params)}")
         return httpx.get(url, auth=auth, params=params)
 
     def _get_one(self, endpoint: str, params: Optional[Dict[str, str]] = None) -> JSON:
@@ -72,8 +74,11 @@ class PretalxAPI:
         _log_resp(resp)
         if isinstance(resp, list):
             return len(resp), iter(resp)
+        elif self.blocking:
+            _logger.debug("blocking resolution of pagination...")
+            return resp["count"], iter(list(tqdm(self._resolve_pagination(resp), total=resp["count"])))
         else:
-            logger.debug("resolving pagination...")
+            _logger.debug("non-blocking resolution of pagination...")
             return resp["count"], self._resolve_pagination(resp)
 
     def _endpoint_lst(
@@ -87,7 +92,7 @@ class PretalxAPI:
         """Queries an endpoint returning a list of resources"""
         endpoint = f"/api/events/{event_slug}/{resource}/"
         count, results = self._get_many(endpoint, params)
-        t_results = iter(logger.debug("result", resp=r) or type.parse_obj(r) for r in results)
+        t_results = iter(_logger.debug("result", resp=r) or type.parse_obj(r) for r in results)
         return count, t_results
 
     def _endpoint_id(
@@ -102,7 +107,7 @@ class PretalxAPI:
         """Query an endpoint returning a single resource"""
         endpoint = f"/api/events/{event_slug}/{resource}/{id}/"
         result = self._get_one(endpoint, params)
-        logger.debug("result", resp=result)
+        _logger.debug("result", resp=result)
         return type.parse_obj(result)
 
     def me(self) -> Me:
@@ -114,13 +119,13 @@ class PretalxAPI:
         """Returns detailed information about a specific event"""
         endpoint = f"/api/events/{event_slug}/"
         result = self._get_one(endpoint, params)
-        logger.debug("result", resp=result)
+        _logger.debug("result", resp=result)
         return Event.parse_obj(result)
 
     def events(self, *, params: Optional[Dict[str, str]] = None) -> Tuple[int, Iterator[Event]]:
         """Lists all events and their details"""
         count, results = self._get_many("/api/events/", params)
-        events = iter(logger.debug("result", resp=r) or Event.parse_obj(r) for r in results)
+        events = iter(_logger.debug("result", resp=r) or Event.parse_obj(r) for r in results)
         return count, events
 
     def submission(self, event_slug: str, code: str, *, params: Optional[Dict[str, str]] = None) -> Submission:
@@ -193,4 +198,4 @@ class PretalxAPI:
 def _log_resp(json_resp: Union[List[Any], Dict[Any, Any]]):
     """Log everything except of the actual 'results'"""
     if isinstance(json_resp, Dict):
-        logger.debug(f"response: {rm_keys('results', json_resp)}")
+        _logger.debug(f"response: {rm_keys('results', json_resp)}")
