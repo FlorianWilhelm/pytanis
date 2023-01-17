@@ -39,6 +39,7 @@ dependencies = [
     "httpx",
     "httpx-auth",
     "structlog",
+    "tqdm",
 ]
 dynamic = ["version"]
 

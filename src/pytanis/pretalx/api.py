@@ -12,6 +12,7 @@ from httpx import URL, Response
 from httpx_auth import HeaderApiKey
 from pydantic import BaseModel
 from structlog import get_logger
+from tqdm.auto import tqdm
 
 from ..config import Config, get_cfg
 from ..utils import rm_keys, throttle
@@ -32,11 +33,12 @@ JSON = Union[JSONObj, JSONLst]
 class PretalxAPI:
     """Client for the Pretalx API"""
 
-    def __init__(self, config: Optional[Config] = None):
+    def __init__(self, config: Optional[Config] = None, blocking: bool = False):
         if config is None:
             config = get_cfg()
         self._config = config
         self._get_throttled = self._get
+        self.blocking = blocking
         self.set_throttling(1, 2)  # we are nice by default
 
     def set_throttling(self, calls: int, seconds: int):
@@ -72,8 +74,11 @@ class PretalxAPI:
         _log_resp(resp)
         if isinstance(resp, list):
             return len(resp), iter(resp)
+        elif self.blocking:
+            logger.debug("blocking resolution of pagination...")
+            return resp["count"], iter(list(tqdm(self._resolve_pagination(resp), total=resp["count"])))
         else:
-            logger.debug("resolving pagination...")
+            logger.debug("non-blocking resolution of pagination...")
             return resp["count"], self._resolve_pagination(resp)
 
     def _endpoint_lst(

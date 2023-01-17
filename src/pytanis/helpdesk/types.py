@@ -50,5 +50,3 @@ class NewTicket(BaseModel, extra=Extra.allow):  # type: ignore
 
 class Ticket(BaseModel, extra=Extra.allow):  # type: ignore
     """Actual ticket as returned by the API"""
-
-    pass
