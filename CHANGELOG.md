@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 0.2 (2023-01-XX)
+
+- have a progress bar for long-running commands when possible
+
 ## Version 0.1.1 (2023-01-16)
 
 - fix typo `sent` -> `send` in MailClient
