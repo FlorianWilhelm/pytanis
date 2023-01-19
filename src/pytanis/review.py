@@ -16,7 +16,7 @@ columns.
 """
 import json
 from pathlib import Path
-from typing import Iterator, Union
+from typing import Iterable, Union
 
 import pandas as pd
 
@@ -28,11 +28,12 @@ class Col:
 
     timestamp = "Timestamp"
     name = "Name"
+    title = "Title"
     address_as = "Address as"
     affiliation = "Affiliation"
     email = "Email"
     curr_assignments = "Current Assignments"
-    num_assignments = "#Assignments"
+    nassignments = "#Assignments"
     track = "Track"
     submission = "Submission"
     target_nreviews = "Target #Reviews"
@@ -48,6 +49,12 @@ class Col:
     all_proposals = "All Proposals"
     public = "Public"
     comment = "Comment"
+    speaker_codes = "Speaker codes"
+    speaker_names = "Speaker names"
+    duration = "Duration"
+    type = "Type"
+    state = "State"
+    pending_state = "Pending state"
 
 
 def read_assignment_as_df(file_path: Path) -> pd.DataFrame:
@@ -59,12 +66,23 @@ def read_assignment_as_df(file_path: Path) -> pd.DataFrame:
     return df
 
 
-def sub_tracks_as_df(all_subs: Iterator[Submission]) -> pd.DataFrame:
-    """Retrieves all submissions and creates a dataframe of submission codes and tracks"""
-    return (
-        pd.DataFrame({s.code: [s.track.en if s.track else "None"] for s in all_subs})
-        .T.rename(columns={0: Col.track})
-        .rename_axis(index=Col.submission)
+def subs_as_df(subs: Iterable[Submission]) -> pd.DataFrame:
+    """Convert submissions into a dataframe"""
+    return pd.DataFrame(
+        [
+            {
+                Col.submission: sub.code,
+                Col.title: sub.title,
+                Col.track: sub.track.en if sub.track else None,
+                Col.speaker_codes: [speaker.code for speaker in sub.speakers],
+                Col.speaker_names: [speaker.name for speaker in sub.speakers],
+                Col.duration: sub.duration,
+                Col.type: sub.submission_type.en,
+                Col.state: sub.state,
+                Col.pending_state: sub.pending_state,
+            }
+            for sub in subs
+        ]
     )
 
 
