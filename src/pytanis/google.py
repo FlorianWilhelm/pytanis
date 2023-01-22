@@ -48,7 +48,7 @@ def gspread_client(scopes: List[Scope], config: Config) -> gspread.client.Client
     return gc
 
 
-class GoogleAPI:
+class GSheetClient:
     """Google API to easily handle GSheets and other files on GDrive
 
     By default, only the least permissive scope `GSHEET_RO` is used. Change `scopes` to have also read/write

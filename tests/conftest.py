@@ -7,7 +7,7 @@ from shutil import copy
 import pytest
 
 from pytanis.config import PYTANIS_CFG_PATH, PYTANIS_ENV
-from pytanis.pretalx.api import PretalxAPI
+from pytanis.pretalx.client import PretalxClient
 
 __location__ = Path(__file__).parent
 
@@ -30,5 +30,5 @@ def tmp_config(tmp_path):
 
 
 @pytest.fixture
-def pretalx_api():
-    return PretalxAPI()
+def pretalx_client():
+    return PretalxClient()

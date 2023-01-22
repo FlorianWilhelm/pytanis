@@ -30,7 +30,7 @@ JSON = Union[JSONObj, JSONLst]
 """Type of the JSON response as returned by the Pretalx API"""
 
 
-class PretalxAPI:
+class PretalxClient:
     """Client for the Pretalx API"""
 
     def __init__(self, config: Optional[Config] = None, blocking: bool = False):
