@@ -55,7 +55,9 @@ class GSheetClient:
     access but be careful with `GDRIVE_RW` that gives read/write access to ALL your files ;-)
     """
 
-    def __init__(self, config: Optional[Config] = None, scopes: List[Scope] = [Scope.GSHEET_RO]):
+    def __init__(self, config: Optional[Config] = None, scopes: Optional[List[Scope]] = None):
+        if scopes is None:
+            scopes = [Scope.GSHEET_RO]
         if config is None:
             config = get_cfg()
         self._config = config
