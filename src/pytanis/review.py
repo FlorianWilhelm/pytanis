@@ -20,13 +20,13 @@ from typing import Iterable, Union
 
 import pandas as pd
 
-from .pretalx.types import Submission
+from .pretalx.types import Review, Speaker, Submission
 
 
 class Col:
     """Convention of column names for the functions below."""
 
-    timestamp = "Timestamp"
+    created = "Created"
     name = "Name"
     title = "Title"
     address_as = "Address as"
@@ -49,12 +49,17 @@ class Col:
     all_proposals = "All Proposals"
     public = "Public"
     comment = "Comment"
-    speaker_codes = "Speaker codes"
-    speaker_names = "Speaker names"
+    speaker_code = "Speaker code"
+    speaker_name = "Speaker name"
+    biography = "Biography"
     duration = "Duration"
-    type = "Type"
+    submission_type = "Submission type"
+    submission_type_id = "Submission type id"
     state = "State"
     pending_state = "Pending state"
+    review_score = "Review Score"
+    vote_score = "Vote Score"
+    nvotes = "#Votes"
 
 
 def read_assignment_as_df(file_path: Path) -> pd.DataFrame:
@@ -66,24 +71,67 @@ def read_assignment_as_df(file_path: Path) -> pd.DataFrame:
     return df
 
 
-def subs_as_df(subs: Iterable[Submission]) -> pd.DataFrame:
-    """Convert submissions into a dataframe"""
-    return pd.DataFrame(
-        [
-            {
-                Col.submission: sub.code,
-                Col.title: sub.title,
-                Col.track: sub.track.en if sub.track else None,
-                Col.speaker_codes: [speaker.code for speaker in sub.speakers],
-                Col.speaker_names: [speaker.name for speaker in sub.speakers],
-                Col.duration: sub.duration,
-                Col.type: sub.submission_type.en,
-                Col.state: sub.state,
-                Col.pending_state: sub.pending_state,
-            }
-            for sub in subs
-        ]
-    )
+def subs_as_df(subs: Iterable[Submission], with_questions: bool = False, question_prefix: str = "Q: ") -> pd.DataFrame:
+    """Convert submissions into a dataframe
+
+    Make sure to have `params={"questions": "all"}` for the PretalxAPI if `with_questions` is True.
+    """
+    rows = []
+    for sub in subs:
+        row = {
+            Col.submission: sub.code,
+            Col.title: sub.title,
+            Col.track: sub.track.en if sub.track else None,
+            Col.speaker_code: [speaker.code for speaker in sub.speakers],
+            Col.speaker_name: [speaker.name for speaker in sub.speakers],
+            Col.duration: sub.duration,
+            Col.submission_type: sub.submission_type.en,
+            Col.submission_type_id: sub.submission_type_id,
+            Col.state: sub.state,
+            Col.pending_state: sub.pending_state,
+            Col.created: sub.created,
+        }
+        if with_questions and sub.answers is not None:
+            for answer in sub.answers:
+                row[f"{question_prefix}{answer.question.question.en}"] = answer.answer
+        rows.append(row)
+    return pd.DataFrame(rows)
+
+
+def speakers_as_df(
+    speakers: Iterable[Speaker], with_questions: bool = False, question_prefix: str = "Q: "
+) -> pd.DataFrame:
+    """Convert speakers into a dataframe
+
+    Make sure to have `params={"questions": "all"}` for the PretalxAPI if `with_questions` is True.
+    """
+    rows = []
+    for speaker in speakers:
+        row = {
+            Col.speaker_code: speaker.code,
+            Col.speaker_name: speaker.name,
+            Col.email: speaker.email,
+            Col.biography: speaker.biography,
+            Col.submission: speaker.submissions,
+        }
+        if with_questions and speaker.answers is not None:
+            for answer in speaker.answers:
+                # The API returns also questions that are 'per proposal/submission', we get these using the
+                # submission endpoint and don't want them here due to ambiguity if several submission were made.
+                if answer.person is not None:
+                    row[f"{question_prefix}{answer.question.question.en}"] = answer.answer
+        rows.append(row)
+    return pd.DataFrame(rows)
+
+
+def reviews_as_df(reviews: Iterable[Review]) -> pd.DataFrame:
+    """Convert the reviews to a dataframe"""
+    df = pd.DataFrame([review.dict() for review in reviews])
+    df.rename(columns={"user": Col.name, "score": Col.review_score}, inplace=True)  # name is the key we can join on
+    # make first letter of column upper-case in accordance with our convention
+    df.rename(columns={col: col.title() for col in df.columns}, inplace=True)
+
+    return df
 
 
 def save_assignments_as_json(df: pd.DataFrame, file_path: Union[Path, str]):

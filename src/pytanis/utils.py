@@ -4,6 +4,7 @@ import time
 from math import fabs
 from typing import Any, Callable, Dict, List, TypeVar, Union
 
+import pandas as pd
 from structlog import get_logger
 
 RT = TypeVar('RT')  # return type
@@ -81,3 +82,15 @@ def throttle(calls: int, seconds: int = 1) -> Callable[[Callable[..., RT]], Call
         return wrapper
 
     return decorator
+
+
+def implode(df: pd.DataFrame, cols: Union[str, List[str]]) -> pd.DataFrame:
+    """The inverse of Pandas' explode"""
+    if not isinstance(cols, list):
+        cols = [cols]
+    orig_cols = df.columns
+    grp_cols = [col for col in df.columns if col not in cols]
+    df = df.groupby(grp_cols, group_keys=True, dropna=False).aggregate({col: lambda x: x.tolist() for col in cols})
+    df.reset_index(inplace=True)
+    df = df.loc[:, orig_cols]
+    return df
