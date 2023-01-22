@@ -22,7 +22,7 @@ class Me(BaseModel):
 
 class MultiLingualStr(BaseModel, extra=Extra.allow):  # type: ignore
     # ToDo: Add here more available languages, not mentioned in the API
-    en: str  # we assume english is always given to simplify things
+    en: Optional[str]  # we assume though that english is always given to simplify things
     de: Optional[str]
 
 

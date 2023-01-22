@@ -1,6 +1,6 @@
 """Functionality around the HelpDesk / LiveChat API"""
 
-from .api import HelpDeskAPI
+from .client import HelpDeskClient
 from .mail import Mail, MailClient, Recipient
 
-__all__ = ["HelpDeskAPI", "Mail", "MailClient", "Recipient"]
+__all__ = ["HelpDeskClient", "Mail", "MailClient", "Recipient"]

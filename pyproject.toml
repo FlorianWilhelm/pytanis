@@ -33,13 +33,12 @@ dependencies = [
     "pandas",
     "tomli",
     "pydantic",
-    "google-api-python-client",
-    "google-auth-httplib2",
-    "google-auth-oauthlib",
     "httpx",
     "httpx-auth",
     "structlog",
     "tqdm",
+    "gspread",
+    "gspread-dataframe",
 ]
 dynamic = ["version"]
 

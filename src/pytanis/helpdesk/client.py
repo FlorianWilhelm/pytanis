@@ -27,7 +27,7 @@ JSON = Union[JSONObj, JSONLst]
 """Type of the JSON response as returned by the HelpDesk / LiveChat API"""
 
 
-class HelpDeskAPI:
+class HelpDeskClient:
     def __init__(self, config: Optional[Config] = None):
         if config is None:
             config = get_cfg()

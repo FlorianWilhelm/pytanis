@@ -11,7 +11,7 @@ from pydantic import BaseModel, Extra, validator
 from structlog import get_logger
 from tqdm.auto import tqdm
 
-from .api import HelpDeskAPI
+from .client import HelpDeskClient
 from .types import Assignment, Id, Message, NewTicket, Requester, Ticket
 
 _logger = get_logger()
@@ -72,10 +72,10 @@ class Mail(BaseModel):
 class MailClient:
     """Mail client for mass mails over HelpDesk"""
 
-    def __init__(self, helpdesk_api: Optional[HelpDeskAPI] = None):
-        if helpdesk_api is None:
-            helpdesk_api = HelpDeskAPI()
-        self._helpdesk_api = helpdesk_api
+    def __init__(self, helpdesk_client: Optional[HelpDeskClient] = None):
+        if helpdesk_client is None:
+            helpdesk_client = HelpDeskClient()
+        self._helpdesk_client = helpdesk_client
         self.dry_run: Callable[[NewTicket], None] = self.print_new_ticket
 
     @staticmethod
@@ -124,7 +124,7 @@ class MailClient:
                     self.print_new_ticket(ticket)
                     resp_ticket = None
                 else:
-                    resp = self._helpdesk_api.create_ticket(ticket)
+                    resp = self._helpdesk_client.create_ticket(ticket)
                     resp_ticket = Ticket.parse_obj(resp)
             except Exception as e:
                 errors.append((recipient, e))
