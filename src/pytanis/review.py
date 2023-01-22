@@ -13,6 +13,9 @@ the naming of the Pretalx API.
 
 We follow the convention over configuration principle here and thus check out the `Col` class for the naming of
 columns.
+
+ToDo:
+    * Structure the columns in `Col` nicely according to their usage
 """
 import json
 from pathlib import Path
