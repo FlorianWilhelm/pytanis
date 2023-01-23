@@ -42,7 +42,11 @@ To install Pytanis simple run:
 ```commandline
 pip install pytanis
 ```
-and then create a file `~/.pytanis/config.toml` with the content:
+or to install all recommended additional dependencies:
+```commandline
+pip install pytanis[all]
+```
+Then create a file `~/.pytanis/config.toml` with the content:
 ```toml
 [Pretalx]
 api_token = "932ndsf9uk32nf9sdkn3454532nj32jn"

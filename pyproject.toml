@@ -42,6 +42,12 @@ dependencies = [
 ]
 dynamic = ["version"]
 
+[project.optional-dependencies]
+all = [
+    "ipywidgets", # nicer progress bar in Jupyter lab/notebook
+    "gspread-formatting",
+]
+
 [project.urls]
 Documentation = "https://florianwilhelm.info/pytanis/"
 Sponsor = "https://github.com/sponsors/FlorianWilhelm"
