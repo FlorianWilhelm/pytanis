@@ -10,11 +10,15 @@ from typing import List, Optional, Union
 
 import gspread
 import pandas as pd
+from gspread.client import APIError
 from gspread.spreadsheet import Spreadsheet
 from gspread.worksheet import Worksheet
-from gspread_dataframe import get_as_dataframe
+from gspread_dataframe import get_as_dataframe, set_with_dataframe
+from structlog import get_logger
 
 from .config import Config, get_cfg
+
+_logger = get_logger()
 
 
 class Scope(Enum):
@@ -48,21 +52,34 @@ def gspread_client(scopes: List[Scope], config: Config) -> gspread.client.Client
     return gc
 
 
+class PermissionDeniedException(Exception):
+    """Exception for APIError with status PERMISSION_DENIED
+
+    Most likely thrown in cases when the scope is not `GSHEET_RW` or the token needs to be updated accordingly.
+    """
+
+
 class GSheetClient:
     """Google API to easily handle GSheets and other files on GDrive
 
-    By default, only the least permissive scope `GSHEET_RO` is used. Change `scopes` to have also read/write
-    access but be careful with `GDRIVE_RW` that gives read/write access to ALL your files ;-)
+    By default, only the least permissive scope `GSHEET_RO` in case of `read_only = True` is used.
     """
 
-    def __init__(self, config: Optional[Config] = None, scopes: Optional[List[Scope]] = None):
-        if scopes is None:
-            scopes = [Scope.GSHEET_RO]
+    def __init__(self, config: Optional[Config] = None, read_only: bool = True):
+        self._read_only = read_only
+        if read_only:
+            self._scopes = [Scope.GSHEET_RO]
+        else:
+            self._scopes = [Scope.GSHEET_RW]
         if config is None:
             config = get_cfg()
         self._config = config
-        self._scopes = scopes
-        self.gc = gspread_client(scopes, config)  # gspread client for more functionality
+        self.gc = gspread_client(self._scopes, config)  # gspread client for more functionality
+
+    def recreate_token(self):
+        """Recreate the current token using the scopes given at initialization"""
+        self._config.Google.token_json.unlink(missing_ok=True)
+        self.gc = gspread_client(self._scopes, self._config)
 
     def gsheet(self, spreadsheet_id: str, worksheet_name: Optional[str] = None) -> Union[Worksheet, Spreadsheet]:
         """Retrieve a Google sheet by its id and the name
@@ -79,6 +96,32 @@ class GSheetClient:
         else:
             worksheet = spreadsheet.worksheet(worksheet_name)
             return worksheet
+
+    def save_df_as_gsheet(self, df: pd.DataFrame, spreadsheet_id: str, worksheet_name: str, **kwargs):
+        """Save the given dataframe as worksheet in a spreadsheet
+
+        Make sure that the scope passed gives you write permissions
+
+        Args:
+            df: dataframe to save
+            spreadsheet_id: id of the Google spreadsheet
+            worksheet_name: name of the worksheet within the spreadsheet
+            **kwargs: extra keyword arguments passed to `set_with_dataframe`
+        """
+        worksheet = self.gsheet(spreadsheet_id, worksheet_name)
+        try:
+            worksheet.clear()  # make sure it's really only the dataframe, not some residue
+            set_with_dataframe(worksheet, df, **kwargs)
+        except APIError as e:
+            if e.response.json()['error']['status'] == 'PERMISSION_DENIED':
+                if self._read_only:
+                    msg = "For saving `read_only=False` is needed when initializing this client!"
+                    raise PermissionDeniedException(msg) from e
+                else:
+                    msg = "Attempt to recreate your current token by calling the method `recreate_token()` first!"
+                    raise PermissionDeniedException(msg) from e
+            else:
+                raise e
 
     def gsheet_as_df(self, spreadsheet_id: str, worksheet_name: str, **kwargs) -> pd.DataFrame:
         """Returns a worksheet as dataframe"""

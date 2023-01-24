@@ -8,6 +8,7 @@
 - timeout of 60s for PretalxAPI as it is really slow which caused a lot of timeout errors
 - rename `*API` to `*Client` as it's rather a client for an API
 - moved some functionality from `review` to `pretalx.utils`
+- GSheetClient allows uploading dataframes to Google Sheets
 
 ## Version 0.1.1 (2023-01-16)
 
