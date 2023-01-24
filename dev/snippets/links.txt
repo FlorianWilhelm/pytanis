@@ -17,7 +17,9 @@
 [Python Quickstart for the Google API]: https://developers.google.com/sheets/api/quickstart/python
 [Pretalx API]: https://pretalx.com/api/events/
 [documentation]: https://florianwilhelm.info/pytanis/
+[Google Form]: https://www.google.com/forms/about/
 [Google Forms]: https://www.google.com/forms/about/
+[Google Sheet]: https://www.google.com/sheets/about/
 [Google Sheets]: https://www.google.com/sheets/about/
 [pydantic]: https://docs.pydantic.dev/
 [HelpDesk]: https://www.helpdesk.com/
