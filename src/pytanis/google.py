@@ -123,7 +123,7 @@ class GSheetClient:
             else:
                 raise e
 
-    def gsheet_as_df(self, spreadsheet_id: str, worksheet_name: str, **kwargs) -> pd.DataFrame:
+    def gsheet_as_df(self, spreadsheet_id: str, worksheet_name: str, **kwargs: Union[str, bool, int]) -> pd.DataFrame:
         """Returns a worksheet as dataframe"""
         worksheet = self.gsheet(spreadsheet_id, worksheet_name)
         df = get_as_dataframe(worksheet, **kwargs)
