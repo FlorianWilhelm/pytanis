@@ -47,8 +47,8 @@ or to install all recommended additional dependencies:
 pip install pytanis[all]
 ```
 Then create a configuration file and directory in your user's home directory. For Linux/MacOS/Unix use
-`~/.pytanis/config.toml` and for Windows `$HOME\.pytanis\config.toml`, where $HOME is e.g. `C:\Users\yourusername\`.
-Use your favourite editor to open `config.toml` within the directory `.pytanis` and add the following content:
+`~/.pytanis/config.toml` and for Windows `$HOME\.pytanis\config.toml`, where `$HOME` is e.g. `C:\Users\yourusername\`.
+Use your favourite editor to open `config.toml` within the `.pytanis` directory and add the following content:
 ```toml
 [Pretalx]
 api_token = "932ndsf9uk32nf9sdkn3454532nj32jn"
