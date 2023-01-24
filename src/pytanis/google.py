@@ -97,7 +97,9 @@ class GSheetClient:
             worksheet = spreadsheet.worksheet(worksheet_name)
             return worksheet
 
-    def save_df_as_gsheet(self, df: pd.DataFrame, spreadsheet_id: str, worksheet_name: str, **kwargs):
+    def save_df_as_gsheet(
+        self, df: pd.DataFrame, spreadsheet_id: str, worksheet_name: str, **kwargs: Union[str, bool, int]
+    ):
         """Save the given dataframe as worksheet in a spreadsheet
 
         Make sure that the scope passed gives you write permissions
