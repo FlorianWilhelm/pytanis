@@ -39,13 +39,14 @@ dependencies = [
     "tqdm",
     "gspread",
     "gspread-dataframe",
+    "gspread-formatting",
+
 ]
 dynamic = ["version"]
 
 [project.optional-dependencies]
 all = [
     "ipywidgets", # nicer progress bar in Jupyter lab/notebook
-    "gspread-formatting",
 ]
 
 [project.urls]

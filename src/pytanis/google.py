@@ -5,18 +5,28 @@ Documentation:
     * [GSpread](https://docs.gspread.org/)
     * [GSpread-Dataframe](https://gspread-dataframe.readthedocs.io/)
 """
+import string
 from enum import Enum
 from typing import List, Optional, Union
 
 import gspread
+import numpy as np
 import pandas as pd
 from gspread.client import APIError
 from gspread.spreadsheet import Spreadsheet
 from gspread.worksheet import Worksheet
 from gspread_dataframe import get_as_dataframe, set_with_dataframe
+from gspread_formatting import (
+    format_cell_range,
+    get_conditional_format_rules,
+    get_default_format,
+    set_data_validation_for_cell_range,
+)
 from structlog import get_logger
 
 from .config import Config, get_cfg
+
+__all__ = ["GSheetClient", "gsheet_rows_for_fmt", "PermissionDeniedException"]
 
 _logger = get_logger()
 
@@ -97,6 +107,17 @@ class GSheetClient:
             worksheet = spreadsheet.worksheet(worksheet_name)
             return worksheet
 
+    def _exception_feedback(self, error: APIError):
+        if error.response.json()['error']['status'] == 'PERMISSION_DENIED':
+            if self._read_only:
+                msg = "For saving `read_only=False` is needed when initializing this client!"
+                raise PermissionDeniedException(msg) from error
+            else:
+                msg = "Attempt to recreate your current token by calling the method `recreate_token()` first!"
+                raise PermissionDeniedException(msg) from error
+        else:
+            raise error
+
     def save_df_as_gsheet(
         self, df: pd.DataFrame, spreadsheet_id: str, worksheet_name: str, **kwargs: Union[str, bool, int]
     ):
@@ -111,19 +132,29 @@ class GSheetClient:
             **kwargs: extra keyword arguments passed to `set_with_dataframe`
         """
         worksheet = self.gsheet(spreadsheet_id, worksheet_name)
+        # make sure it's really only the dataframe, not some residue
+        self.clear_gsheet(spreadsheet_id, worksheet_name)
         try:
-            worksheet.clear()  # make sure it's really only the dataframe, not some residue
             set_with_dataframe(worksheet, df, **kwargs)
-        except APIError as e:
-            if e.response.json()['error']['status'] == 'PERMISSION_DENIED':
-                if self._read_only:
-                    msg = "For saving `read_only=False` is needed when initializing this client!"
-                    raise PermissionDeniedException(msg) from e
-                else:
-                    msg = "Attempt to recreate your current token by calling the method `recreate_token()` first!"
-                    raise PermissionDeniedException(msg) from e
-            else:
-                raise e
+        except APIError as error:
+            self._exception_feedback(error)
+
+    def clear_gsheet(self, spreadsheet_id: str, worksheet_name: str):
+        """Clear the whole worksheet, also the formatting"""
+        worksheet = self.gsheet(spreadsheet_id, worksheet_name)
+        default_fmt = get_default_format(worksheet.spreadsheet)
+        last_row = worksheet.row_count
+        last_col = gsheet_col(worksheet.col_count)
+        range = f"A1:{last_col}{last_row}"
+        try:
+            worksheet.clear()
+            format_cell_range(worksheet, range, default_fmt)
+            rules = get_conditional_format_rules(worksheet)
+            rules.clear()
+            rules.save()
+            set_data_validation_for_cell_range(worksheet, range, None)
+        except APIError as error:
+            self._exception_feedback(error)
 
     def gsheet_as_df(self, spreadsheet_id: str, worksheet_name: str, **kwargs: Union[str, bool, int]) -> pd.DataFrame:
         """Returns a worksheet as dataframe"""
@@ -133,3 +164,21 @@ class GSheetClient:
         df.dropna(how='all', inplace=True, axis=0)
         df.dropna(how='all', inplace=True, axis=1)
         return df
+
+
+def gsheet_col(idx: int) -> str:
+    """Convert a column index to Google Sheet range notation, e.g. A, BE, etc."""
+    idx += 1
+    chars = []
+    while idx:
+        chars.append(string.ascii_uppercase[(idx % 26) - 1])
+        idx //= 27
+    return "".join(chars[::-1])
+
+
+def gsheet_rows_for_fmt(df: pd.DataFrame, mask: pd.Series) -> List[str]:
+    """Get the Google Sheet row range specifications for formatting"""
+    rows = pd.Series(np.argwhere(mask.to_numpy()).reshape(-1) + 2)  # +2 since 1-index and header
+    last_col = gsheet_col(len(df.columns) - 1)  # last index
+    rows = rows.map(lambda x: f"A{x}:{last_col}{x}")
+    return rows.to_list()
