@@ -140,14 +140,13 @@ class GSheetClient:
             self._exception_feedback(error)
 
     def clear_gsheet(self, spreadsheet_id: str, worksheet_name: str):
-        """Clear the whole worksheet, also the formatting"""
+        """Clear the worksheet including values, formatting, filtering, etc."""
         worksheet = self.gsheet(spreadsheet_id, worksheet_name)
         default_fmt = get_default_format(worksheet.spreadsheet)
-        last_row = worksheet.row_count
-        last_col = gsheet_col(worksheet.col_count)
-        range = f"A1:{last_col}{last_row}"
+        range = worksheet_range(worksheet)
         try:
             worksheet.clear()
+            worksheet.clear_basic_filter()
             format_cell_range(worksheet, range, default_fmt)
             rules = get_conditional_format_rules(worksheet)
             rules.clear()
@@ -182,3 +181,10 @@ def gsheet_rows_for_fmt(df: pd.DataFrame, mask: pd.Series) -> List[str]:
     last_col = gsheet_col(len(df.columns) - 1)  # last index
     rows = rows.map(lambda x: f"A{x}:{last_col}{x}")
     return rows.to_list()
+
+
+def worksheet_range(worksheet: Worksheet) -> str:
+    """Returns a range encompassing the whole worksheet"""
+    last_row = worksheet.row_count
+    last_col = gsheet_col(worksheet.col_count)
+    return f"A1:{last_col}{last_row}"
