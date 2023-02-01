@@ -30,6 +30,7 @@ where you need to replace the dummy values in the sections `[Pretalx]` and `[Hel
 Move it to the `~/.pytanis` folder as `client_secret.json`. The file `token.json` will be automatically generated
 later. Note that `config.toml` references those two files relative to its own location.
 * **Pretalx**: The API token for the [Pretalx API] can be found in your user settings.
-* **HelpDesk**: Use the same (shared) email you use to log into HelpDesk/LiveChat to create the token following
- [this video](https://www.youtube.com/watch?v=-EUZ_Ynvz5Q&t=32s). In case there is any trouble with livechat,
-  contact a helpdesk admin.
+* **HelpDesk**: Log into the [LiveChat Developer Console] then go to <kbd>Tools</kbd> » <kbd>Personal Access Tokens</kbd>.
+  Hit <kbd>Create new token +</kbd>, enter a the name `Pytanis`, select all scopes and confirm. In the following screen
+  copy the `Account ID`, `Entity ID` and `Token` and paste them into `config.toml`.
+  In case there is any trouble with livechat, contact a helpdesk admin.
