@@ -49,7 +49,7 @@ gsheet_df = gsheet_client.gsheet_as_df(SPREADSHEET_ID, WORKSHEET_NAME)
 where `SPREADSHEET_ID` is the ID taken from the spreadsheet's url, e.g. the ID is `17juVXM7V3p7Fgfi-9WkwPlMAYJB-DuxRhYCi_hastbB`
 if your spreadsheet's url is `https://docs.google.com/spreadsheets/d/17juVXM7V3p7Fgfi-9WkwPlMAYJB-DuxRhYCi_hastbB/edit#gid=1289752230`,
 and `WORKSHEET_NAME` is the name of the actual sheet, e.g. `Form responses 1`, that you find in the lower bar of your
-spreadsheet. Check out [Pytanis' google module](../reference/pytanis/google/) to learn about more functionality.
+spreadsheet. Check out [Pytanis' google module](../../reference/pytanis/google/#pytanis.google) to learn about more functionality.
 
 ## Onboarding Reviewers in Pretalx
 
