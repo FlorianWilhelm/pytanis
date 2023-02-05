@@ -33,7 +33,7 @@ theme:
   favicon: assets/images/logo.svg
   icon:
     repo: fontawesome/brands/github-alt
-    logo: fontawesome/solid/people-group
+    logo: material/pillar
   font:
     text: Roboto
     code: Roboto Mono
