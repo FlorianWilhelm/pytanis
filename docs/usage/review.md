@@ -1,6 +1,7 @@
 # The Review Process
 
 On a high-level, the review process of the proposals for a conference works like that:
+
 1. finding external reviewers and learning about their preferences,
 2. onboarding reviewers in [Pretalx],
 3. assign proposals to reviewers according to their preferences,
@@ -10,8 +11,8 @@ On a high-level, the review process of the proposals for a conference works like
 ## Finding external Reviewers and learning about their preferences
 
 For the PyConDE / PyData Berlin 2023, we were looking for about 50 external reviewers since we expected about 400
-proposals, and we wanted to have 3 reviews per proposal. This would about to 25 proposals to review per person and still
-manageable within a few weeks if you schedule 5-15 minutes per proposal.
+proposals, and we wanted to have 3 reviews per proposal. This would amount to about 25 proposals to review per person
+and still manageable within a few weeks if you schedule 5-15 minutes per proposal.
 
 To get external reviewers, we would only ask within our circle of trust and refer them to some [Google Forms]. This
 basically consisted of following questions with descriptions:
@@ -38,7 +39,17 @@ basically consisted of following questions with descriptions:
     to parse the resulting [Google Sheet]. So it's better to avoid them in track names.
 
 Every submission of the Google Form is then automatically added to a Google Sheet, which can be easily read with the
-help of Pytanis.
+help of Pytanis. It's as simple as:
+```python
+from pytanis import GSheetClient
+
+gsheet_client = GSheetClient()
+gsheet_df = gsheet_client.gsheet_as_df(SPREADSHEET_ID, WORKSHEET_NAME)
+```
+where `SPREADSHEET_ID` is the ID taken from the spreadsheet's url, e.g. the ID is `17juVXM7V3p7Fgfi-9WkwPlMAYJB-DuxRhYCi_hastbB`
+if your spreadsheet's url is `https://docs.google.com/spreadsheets/d/17juVXM7V3p7Fgfi-9WkwPlMAYJB-DuxRhYCi_hastbB/edit#gid=1289752230`,
+and `WORKSHEET_NAME` is the name of the actual sheet, e.g. `Form responses 1`, that you find in the lower bar of your
+spreadsheet. Check out [Pytanis' google module](reference/SUMMARY.md#pytanis.google) to learn about more functionality.
 
 ## Onboarding Reviewers in Pretalx
 

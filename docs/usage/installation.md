@@ -25,10 +25,10 @@ token = "dal:Sx4id934C3Y-X934jldjdfjk"
 where you need to replace the dummy values in the sections `[Pretalx]` and `[HelpDesk]` accordingly.
 
 !!! info
-  You have to configure the credentials and tokens only for the sections you actually want to use.
-  For instance, `[Pretalx]` and `[Google]` are the most important sections for users that want to interact with
-  [Pretalx] and also [Google Sheets]. If for instance no access to [HelpDesk] is necessary, e.g. no
-  mails need to be sent, you can just leave out the key/value pairs in the `[HelpDesk]` section.
+    You have to configure the credentials and tokens only for the sections you actually want to use.
+    For instance, `[Pretalx]` and `[Google]` are the most important sections for users that want to interact with
+    [Pretalx] and also [Google Sheets]. If for instance no access to [HelpDesk] is necessary, e.g. no
+    mails need to be sent, you can just leave out the key/value pairs in the `[HelpDesk]` section.
 
 
 ### Retrieving the credentials and token
