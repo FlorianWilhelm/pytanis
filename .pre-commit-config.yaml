@@ -20,7 +20,7 @@ repos:
 
 # If you want to avoid flake8 errors due to unused vars or imports:
 - repo: https://github.com/PyCQA/autoflake
-  rev: v2.0.0
+  rev: v2.0.1
   hooks:
   - id: autoflake
     args: [
@@ -35,7 +35,7 @@ repos:
   - id: isort
 
 - repo: https://github.com/psf/black
-  rev: 22.12.0
+  rev: 23.1.0
   hooks:
   - id: black
     language_version: python3
