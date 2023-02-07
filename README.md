@@ -17,10 +17,10 @@
 -----
 
 **Trivia**: The name *Pytanis* is a reference to [Prytanis] using the typical *py* prefix of [Python] tools. [Prytanis]
-was the name given  to the leading members of the government of a city (polis) in ancient Greece.  Offices that used this
-title usually had responsibility for presiding over councils of some kind, which met in the [Prytaneion].
+was the name given  to the leading members of the government of a city (polis) in ancient Greece. Offices that used this
+title usually had responsibility for presiding over councils of some kind, which met in the [Prytaneion]. Romani ite domum!
 
-**This is alpha version! It might break sometimes!**
+**This is an alpha version! It might break sometimes!**
 
 
 ## Features
@@ -65,7 +65,7 @@ token = "dal:Sx4id934C3Y-X934jldjdfjk"
 where you need to replace the dummy values in the sections `[Pretalx]` and `[HelpDesk]` accordingly.
 
 
-### Retrieving the credentials and token
+### Retrieving the credentials and tokens
 * **Google**: Follow the [Python Quickstart for the Google API] to generate and download the file `client_secret.json`.
 Move it to the `~/.pytanis` folder as `client_secret.json`. The file `token.json` will be automatically generated
 later. Note that `config.toml` references those two files relative to its own location.

@@ -42,7 +42,7 @@ that any documentation update is done in the same way was a code contribution.
 
 !!! tip
       Please notice that the [GitHub web interface] provides a quick way of
-      propose changes in `Pytanis`'s files. While this mechanism can
+      propose changes in `Pytanis`' files. While this mechanism can
       be tricky for normal code contributions, it works perfectly fine for
       contributing to the docs, and can be quite handy.
 

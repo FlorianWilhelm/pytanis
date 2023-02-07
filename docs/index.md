@@ -3,11 +3,11 @@
 > Utilities for the program organization of conferences using Pretalx!
 
 
-**This is alpha version! It might break sometimes!**
+**This is an alpha version! It might break sometimes!**
 
 **Trivia**: The name *Pytanis* is a reference to [Prytanis] using the typical *py* prefix of [Python] tools. [Prytanis]
 was the name given  to the leading members of the government of a city (polis) in ancient Greece.  Offices that used this
-title usually had responsibility for presiding over councils of some kind, which met in the [Prytaneion].
+title usually had responsibility for presiding over councils of some kind, which met in the [Prytaneion]. Romani ite domum!
 
 
 ## Features

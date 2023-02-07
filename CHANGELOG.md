@@ -1,14 +1,15 @@
 # Changelog
 
-## Version 0.2 (2023-01-XX)
+## Version 0.2 (2023-02-XX)
 
 - have a progress bar for long-running commands when possible
-- use [gspread](https://docs.gspread.org/) to handle the low-level GoogleAPI
-- use [gspread-dataframe](https://gspread-dataframe.readthedocs.io/) to handle converting a worksheet into a dataframe
-- timeout of 60s for PretalxAPI as it is really slow which caused a lot of timeout errors
+- switched to [gspread](https://docs.gspread.org/) for handling the low-level GoogleAPI
+- using [gspread-dataframe](https://gspread-dataframe.readthedocs.io/) for converting a worksheet into a dataframe
+- timeout of 60s for PretalxAPI as it is really slow, which caused a lot of timeout errors
 - rename `*API` to `*Client` as it's rather a client for an API
 - moved some functionality from `review` to `pretalx.utils`
-- GSheetClient allows uploading dataframes to Google Sheets
+- `GSheetClient` allows now uploading dataframes as Google Sheets
+- an awesome logo created by Paula González Avalos
 
 ## Version 0.1.1 (2023-01-16)
 
