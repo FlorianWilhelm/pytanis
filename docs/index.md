@@ -1,7 +1,10 @@
 # Pytanis
 
-> Utilities for the program organization of conferences using Pretalx!
+<div align="center">
+<img src="https://raw.githubusercontent.com/FlorianWilhelm/pytanis/main/docs/assets/images/logo.svg" alt="Pytanis logo" width="500" role="img">
+</div>
 
+> Utilities for the program organization of conferences using Pretalx!
 
 **This is an alpha version! It might break sometimes!**
 
