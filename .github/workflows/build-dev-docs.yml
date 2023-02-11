@@ -11,8 +11,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: dev-docs-deploy
-  cancel-in-progress: true
+  group: docs-deploy
 
 env:
   FORCE_COLOR: "1"
