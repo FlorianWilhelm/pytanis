@@ -27,9 +27,7 @@ from pytanis.helpdesk import Recipient
 
 recipients = [
     Recipient(name="Peter Parker", email="peter@parker.com", address_as="Peter"),
-    Recipient(
-        name="Mary-Jane Watson", email="marry-jane@watson.com", address_as="Mary-Jane"
-    ),
+    Recipient(name="Mary Watson", email="marry-jane@watson.com", address_as="Mary"),
 ]
 ```
 in most cases you will create this using a dataframe of some [Google Sheet], and thus it will look more like:
