@@ -1,5 +1,7 @@
+#
+
 <div align="center">
-<img src="https://raw.githubusercontent.com/FlorianWilhelm/pytanis/main/docs/assets/images/logo.svg" alt="Pytanis logo" width="700" role="img">
+<img src="https://raw.githubusercontent.com/FlorianWilhelm/pytanis/main/docs/assets/images/logo.svg" alt="Pytanis logo" width="500" role="img">
 </div>
 
 > Utilities for the program organization of conferences using Pretalx!
