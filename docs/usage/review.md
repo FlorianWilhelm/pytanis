@@ -44,7 +44,7 @@ basically consisted of following questions with descriptions:
       their batch is done.
 
 Every submission of the Google Form is then automatically added to a Google Sheet, let's call it *volunteer sheet*, which can be easily read with the
-help of Pytanis. Check out our [Google Sheet docs](gsheet.md) and [Pytanis' google module](../../reference/pytanis/google/#pytanis.google) to learn about more functionality.
+help of Pytanis. Check out our [Google Sheet docs](gsheet.md) and [Pytanis' google module] to learn about more functionality.
 
 
 ## 2. Onboarding Reviewers in Pretalx
@@ -108,7 +108,7 @@ aforementioned algorithm is run and the assignment JSON file written.
 From time to time, you want to get in contact with your reviewers to remind them of some deadline or just to say
 thank you for their work. Pytanis has an easy interface to [HelpDesk] that can be used as an e-mail client. For some
 practical examples, just check out the notebook [20_mail_to_reviewers_v1], the [docs about mailing](mail.md),
-as well as the [Pytanis' mail references](../../reference/pytanis/helpdesk/mail/#pytanis.helpdesk.mail).
+as well as the [Pytanis' mail references].
 
 ## 5. Track the whole process
 
@@ -126,3 +126,5 @@ is always a good idea. Many of those analyses are really individual, and you can
 [contribute]: ../contributing.md
 [10_reviewer-assignment_v1]: https://github.com/FlorianWilhelm/pytanis/blob/main/notebooks/pyconde-pydata-berlin-2023/10_reviewer-assignment_v1.ipynb
 [20_mail_to_reviewers_v1]: https://github.com/FlorianWilhelm/pytanis/blob/main/notebooks/pyconde-pydata-berlin-2023/20_mail_to_reviewers_v1.ipynb
+[Pytanis' mail references]: ../../reference/pytanis/helpdesk/mail/#pytanis.helpdesk.mail
+[Pytanis' google module]: ../../reference/pytanis/google/#pytanis.google

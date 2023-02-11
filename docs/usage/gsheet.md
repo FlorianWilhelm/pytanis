@@ -37,11 +37,12 @@ In case you want even more functionality and a dataframe is just not enough, you
 [Worksheet object] or [Spreadsheet object] of [GSpread]. GSpread gives you full access to the API of Google Sheet and
 all the `gsheet_as_df` does is to basically use [GSpread-Dataframe] to convert this into a [Pandas] dataframe to simplify
 things for you. Also check out [GSpread-Formatting] if you want to use features like conditional formatting, colors cells, etc.
-[Pytanis' google module](../../reference/pytanis/google/#pytanis.google) gives you a complete reference of the
-current functionality within Pytanis but make sure to check out the [GSpread] ecosystem too as mentioned above.
+[Pytanis' google module] gives you a complete reference of the current functionality within Pytanis but make sure to check
+out the [GSpread] ecosystem too as mentioned above.
 
 [GSpread]: https://docs.gspread.org/
 [GSpread-Dataframe]: https://gspread-dataframe.readthedocs.io/
 [GSpread-Formatting]: https://gspread-formatting.readthedocs.io/
-[Worksheet object](https://docs.gspread.org/en/latest/api/models/worksheet.html#worksheet)
-[Spreadsheet object](https://docs.gspread.org/en/latest/api/models/spreadsheet.html#spreadsheet)
+[Worksheet object]: https://docs.gspread.org/en/latest/api/models/worksheet.html#worksheet
+[Spreadsheet object]: https://docs.gspread.org/en/latest/api/models/spreadsheet.html#spreadsheet
+[Pytanis' google module]: ../../reference/pytanis/google/#pytanis.google
