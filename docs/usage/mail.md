@@ -33,9 +33,9 @@ recipients = [
 in most cases you will create this using a dataframe of some [Google Sheet], and thus it will look more like:
 ```python
 recipients = []
-recp_df = google_sheet_df[["Your given name ", "Your family name ", "E-mail"]]
+recip_df = google_sheet_df[["Your given name ", "Your family name ", "E-mail"]]
 
-for _, row in recp_df.iterrows():
+for _, row in recip_df.iterrows():
     recipient = Recipient(
         name=f"{row['Your given name ']} {row['Your family name ']}",
         email=row["E-mail"],
