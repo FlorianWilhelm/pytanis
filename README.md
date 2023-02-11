@@ -28,11 +28,10 @@ title usually had responsibility for presiding over councils of some kind, which
 - [x] easily access [Google Sheets], potentially filled by some [Google Forms], and download it as DataFrame
 - [x] easy to use [Pretalx] client that return proper Python objects thanks to the power of [pydantic]
 - [x] simple [HelpDesk] client for batch mails, e.g. to your reviewers
+- [x] awesome [documentation] with best practices for the program committee of any community conference
 - [ ] tools to assign proposals to reviewers based on constraints like preferences
 - [ ] tools to support the final selection process of proposals
 - [ ] tools to support the creation of the final program schedule
-- [ ] awesome [documentation] with best practices for the program committee of any community conference
-
 
 
 ## Getting started
@@ -64,7 +63,7 @@ token = "dal:Sx4id934C3Y-X934jldjdfjk"
 where you need to replace the dummy values in the sections `[Pretalx]` and `[HelpDesk]` accordingly.
 
 
-### Retrieving the credentials and tokens
+### Retrieving the Credentials and Tokens
 * **Google**: Follow the [Python Quickstart for the Google API] to generate and download the file `client_secret.json`.
 Move it to the `~/.pytanis` folder as `client_secret.json`. The file `token.json` will be automatically generated
 later. Note that `config.toml` references those two files relative to its own location.

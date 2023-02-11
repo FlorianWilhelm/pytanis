@@ -44,17 +44,7 @@ basically consisted of following questions with descriptions:
       their batch is done.
 
 Every submission of the Google Form is then automatically added to a Google Sheet, let's call it *volunteer sheet*, which can be easily read with the
-help of Pytanis. It's as simple as:
-```python
-from pytanis import GSheetClient
-
-gsheet_client = GSheetClient()
-gsheet_df = gsheet_client.gsheet_as_df(SPREADSHEET_ID, WORKSHEET_NAME)
-```
-where `SPREADSHEET_ID` is the ID taken from the spreadsheet's url, e.g. the ID is `17juVXM7V3p7Fgfi-9WkwPlMAYJB-DuxRhYCi_hastbB`
-if your spreadsheet's url is `https://docs.google.com/spreadsheets/d/17juVXM7V3p7Fgfi-9WkwPlMAYJB-DuxRhYCi_hastbB/edit#gid=1289752230`,
-and `WORKSHEET_NAME` is the name of the actual sheet, e.g. `Form responses 1`, that you find in the lower bar of your
-spreadsheet. Check out our [Google Sheet docs](gsheet.md) and [Pytanis' google module](../../reference/pytanis/google/#pytanis.google) to learn about more functionality.
+help of Pytanis. Check out our [Google Sheet docs](gsheet.md) and [Pytanis' google module](../../reference/pytanis/google/#pytanis.google) to learn about more functionality.
 
 
 ## 2. Onboarding Reviewers in Pretalx

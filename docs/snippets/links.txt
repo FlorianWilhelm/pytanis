@@ -27,3 +27,4 @@
 [GitHub Pages]: https://docs.github.com/en/pages
 [PyConDE]: https://pycon.de/
 [EuroPython]: https://europython.eu/
+[Pandas]: https://pandas.pydata.org/

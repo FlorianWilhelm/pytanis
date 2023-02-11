@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 0.2 (2023-02-XX)
+## Version 0.2 (2023-02-11)
 
 - have a progress bar for long-running commands when possible
 - switched to [gspread](https://docs.gspread.org/) for handling the low-level GoogleAPI
@@ -10,6 +10,7 @@
 - moved some functionality from `review` to `pretalx.utils`
 - `GSheetClient` allows now uploading dataframes as Google Sheets
 - an awesome logo created by Paula González Avalos
+- way more usage documentation
 
 ## Version 0.1.1 (2023-01-16)
 
