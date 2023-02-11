@@ -33,7 +33,7 @@ site_dir: site
 theme:
   name: material
   language: en
-  favicon: assets/images/logo.svg
+  favicon: assets/images/favicon.svg
   icon:
     repo: fontawesome/brands/github-alt
     logo: material/pillar
