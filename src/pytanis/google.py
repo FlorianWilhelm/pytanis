@@ -1,9 +1,10 @@
-"""Functionality around the Google API
+"""Functionality around the Google's Spreadsheet API
 
-Documentation:
+Additional Documentation:
     * [Google GSheet API](https://developers.google.com/sheets/api/quickstart/python)
     * [GSpread](https://docs.gspread.org/)
     * [GSpread-Dataframe](https://gspread-dataframe.readthedocs.io/)
+    * [GSpread-Formatting](https://gspread-formatting.readthedocs.io/)
 """
 import string
 from enum import Enum

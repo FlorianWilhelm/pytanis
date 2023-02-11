@@ -17,6 +17,9 @@ nav:
     - Usage:
         - 'Getting Started': usage/installation.md
         - 'Proposal Review': usage/review.md
+        - 'Pretalx Data': usage/pretalx.md
+        - 'Google Sheets': usage/gsheet.md
+        - 'Sending Mails': usage/mail.md
     - Changelog: changelog.md
     - License: license.md
     - Authors: authors.md

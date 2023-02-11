@@ -1,3 +1,5 @@
+## Installation
+
 To install Pytanis simple run:
 ```commandline
 pip install pytanis
@@ -31,7 +33,7 @@ where you need to replace the dummy values in the sections `[Pretalx]` and `[Hel
     mails need to be sent, you can just leave out the key/value pairs in the `[HelpDesk]` section.
 
 
-### Retrieving the credentials and tokens
+## Retrieving the credentials and tokens
 * **Google**: Follow the [Python Quickstart for the Google API] to generate and download the file `client_secret.json`.
 Move it to the `~/.pytanis` folder as `client_secret.json`. The file `token.json` will be automatically generated
 later. Note that `config.toml` references those two files relative to its own location.

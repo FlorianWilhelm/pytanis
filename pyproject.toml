@@ -12,7 +12,7 @@ description = "Utilities for the program organization of conferences using Preta
 readme = "README.md"
 requires-python = ">=3.8"
 license = "MIT"
-keywords = ["pretalx", "conference", "cfp"]
+keywords = ["pretalx", "conference", "cfp", "google sheet", "gsheet", "helpdesk"]
 authors = [
     { name = "Florian Wilhelm", email = "Florian.Wilhelm@gmail.com" },
 ]
