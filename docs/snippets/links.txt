@@ -28,3 +28,4 @@
 [PyConDE]: https://pycon.de/
 [EuroPython]: https://europython.eu/
 [Pandas]: https://pandas.pydata.org/
+[LiveChat Developer Console]: https://developers.livechat.com/console/apps
