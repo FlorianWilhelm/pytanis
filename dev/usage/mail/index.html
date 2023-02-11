@@ -19,14 +19,12 @@
 
 <span class=n>recipients</span> <span class=o>=</span> <span class=p>[</span>
     <span class=n>Recipient</span><span class=p>(</span><span class=n>name</span><span class=o>=</span><span class=s2>"Peter Parker"</span><span class=p>,</span> <span class=n>email</span><span class=o>=</span><span class=s2>"peter@parker.com"</span><span class=p>,</span> <span class=n>address_as</span><span class=o>=</span><span class=s2>"Peter"</span><span class=p>),</span>
-    <span class=n>Recipient</span><span class=p>(</span>
-        <span class=n>name</span><span class=o>=</span><span class=s2>"Mary-Jane Watson"</span><span class=p>,</span> <span class=n>email</span><span class=o>=</span><span class=s2>"marry-jane@watson.com"</span><span class=p>,</span> <span class=n>address_as</span><span class=o>=</span><span class=s2>"Mary-Jane"</span>
-    <span class=p>),</span>
+    <span class=n>Recipient</span><span class=p>(</span><span class=n>name</span><span class=o>=</span><span class=s2>"Mary Watson"</span><span class=p>,</span> <span class=n>email</span><span class=o>=</span><span class=s2>"marry-jane@watson.com"</span><span class=p>,</span> <span class=n>address_as</span><span class=o>=</span><span class=s2>"Mary"</span><span class=p>),</span>
 <span class=p>]</span>
 </code></pre></div> in most cases you will create this using a dataframe of some <a href=https://www.google.com/sheets/about/ >Google Sheet</a>, and thus it will look more like: <div class=highlight><pre><span></span><code><span class=n>recipients</span> <span class=o>=</span> <span class=p>[]</span>
-<span class=k>for</span> <span class=n>_</span><span class=p>,</span> <span class=n>row</span> <span class=ow>in</span> <span class=n>googl_sheet_df</span><span class=p>[</span>
-    <span class=p>[</span><span class=s2>"Your given name "</span><span class=p>,</span> <span class=s2>"Your family name "</span><span class=p>,</span> <span class=s2>"E-mail"</span><span class=p>]</span>
-<span class=p>]</span><span class=o>.</span><span class=n>iterrows</span><span class=p>():</span>
+<span class=n>recp_df</span> <span class=o>=</span> <span class=n>google_sheet_df</span><span class=p>[[</span><span class=s2>"Your given name "</span><span class=p>,</span> <span class=s2>"Your family name "</span><span class=p>,</span> <span class=s2>"E-mail"</span><span class=p>]]</span>
+
+<span class=k>for</span> <span class=n>_</span><span class=p>,</span> <span class=n>row</span> <span class=ow>in</span> <span class=n>recp_df</span><span class=o>.</span><span class=n>iterrows</span><span class=p>():</span>
     <span class=n>recipient</span> <span class=o>=</span> <span class=n>Recipient</span><span class=p>(</span>
         <span class=n>name</span><span class=o>=</span><span class=sa>f</span><span class=s2>"</span><span class=si>{</span><span class=n>row</span><span class=p>[</span><span class=s1>'Your given name '</span><span class=p>]</span><span class=si>}</span><span class=s2> </span><span class=si>{</span><span class=n>row</span><span class=p>[</span><span class=s1>'Your family name '</span><span class=p>]</span><span class=si>}</span><span class=s2>"</span><span class=p>,</span>
         <span class=n>email</span><span class=o>=</span><span class=n>row</span><span class=p>[</span><span class=s2>"E-mail"</span><span class=p>],</span>
