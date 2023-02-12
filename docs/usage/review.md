@@ -10,7 +10,7 @@ On a high-level, the review process of the proposals for a conference works like
 4. communicate with the reviewers occasionally for updates,
 5. track the whole process.
 
-## 1. Finding external Reviewers and learning about their preferences
+## 1. Finding external Reviewers and Learning about their Preferences
 
 For the PyConDE / PyData Berlin 2023, we were looking for about 50 external reviewers since we expected about 400
 proposals, and we wanted to have 3 reviews per proposal. This would amount to about 25 proposals to review per person

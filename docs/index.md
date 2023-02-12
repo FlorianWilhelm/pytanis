@@ -3,7 +3,7 @@
 <div align="center">
 <img src="https://raw.githubusercontent.com/FlorianWilhelm/pytanis/main/docs/assets/images/logo.svg" alt="Pytanis logo" width="500" role="img">
 </div>
-> Utilities for the program organization of conferences using Pretalx!
+Pytanis provides all the tooling you need for conferences using [Pretalx] to handle the call for papers and creating a program.
 
 **This is an alpha version! It might break sometimes!**
 

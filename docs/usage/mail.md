@@ -89,7 +89,7 @@ mail = Mail(
 )
 ```
 
-## Sending an E-mail
+### Sending an E-mail
 
 Now we have everything assembled to send the e-mail with:
 ```python
@@ -106,7 +106,7 @@ The method `send` returns a list of successfully `responses` and a hopefully emp
 is a list of tuples where each tuple holds the [Recipient] as wells as the returned HelpDesk ticket. The `errors` list is
 a list of tuples with the [Recipient] and the corresponding exception object which occured when sending the mail to the recipient.
 
-## More Resources
+## Advanced Usage
 
 For more details, check out [Pytanis' mail references](../../reference/pytanis/helpdesk/mail/#pytanis.helpdesk.mail)
 and also the notebook [20_mail_to_reviewers_v1].
