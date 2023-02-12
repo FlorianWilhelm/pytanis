@@ -2,7 +2,7 @@
 
 <img src="https://raw.githubusercontent.com/FlorianWilhelm/pytanis/main/docs/assets/images/logo.svg" alt="Pytanis logo" width="500" role="img">
 
-[Pytanis] provides useful tools for conferences using [Pretalx] to handle the call for papers and creating a program!
+[Pytanis] provides all the tooling you need for conferences using [Pretalx] to handle the call for papers and creating a program.
 
 
 |         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
