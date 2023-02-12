@@ -35,9 +35,8 @@ theme:
   language: en
   favicon: assets/images/favicon.svg
   logo: assets/images/icon.svg
-#  icon:
-#    repo: fontawesome/brands/github-alt
-#    logo: material/pillar
+  icon:
+    repo: fontawesome/brands/github-alt
   font:
     text: Roboto
     code: Roboto Mono
