@@ -80,7 +80,7 @@ This section is only relevant if you want to contribute to Pytanis itself. Your 
 After having cloned this repository:
 
 1. install [hatch] globally, e.g. `pipx install hatch`,
-2. create the default environment with `hatch env create`,
+2. create the default environment with `hatch env create` (you might have to restart your shell),
 3. activate the default environment with `hatch shell`,
 4. \[only once\] run `pre-commit install` to install [pre-commit],
 
