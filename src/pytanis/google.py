@@ -7,6 +7,7 @@ Additional Documentation:
     * [GSpread-Formatting](https://gspread-formatting.readthedocs.io/)
 """
 import string
+import time
 from enum import Enum
 from typing import List, Optional, Union
 
@@ -92,7 +93,15 @@ class GSheetClient:
         self._config.Google.token_json.unlink(missing_ok=True)
         self.gc = gspread_client(self._scopes, self._config)
 
-    def gsheet(self, spreadsheet_id: str, worksheet_name: Optional[str] = None) -> Union[Worksheet, Spreadsheet]:
+    def _wait_for_worksheet(self, spreadsheet_id: str, worksheet_name: str):
+        """Wait for the worksheet to come into existence"""
+        spreadsheet = self.gc.open_by_key(spreadsheet_id)
+        while worksheet_name not in [ws.title for ws in spreadsheet.worksheets()]:
+            time.sleep(1)
+
+    def gsheet(
+        self, spreadsheet_id: str, worksheet_name: Optional[str] = None, create_ws: bool = False
+    ) -> Union[Worksheet, Spreadsheet]:
         """Retrieve a Google sheet by its id and the name
 
         Open a Google sheet in your browser and check the URL to retrieve the id, e.g.:
@@ -105,8 +114,14 @@ class GSheetClient:
         if worksheet_name is None:
             return spreadsheet
         else:
-            worksheet = spreadsheet.worksheet(worksheet_name)
-            return worksheet
+            if worksheet_name in [ws.title for ws in spreadsheet.worksheets()]:
+                return spreadsheet.worksheet(worksheet_name)
+            elif create_ws:
+                worksheet = spreadsheet.add_worksheet(title=worksheet_name, rows=100, cols=20)
+                self._wait_for_worksheet(spreadsheet_id, worksheet_name)
+                return worksheet
+            else:
+                return spreadsheet.worksheet(worksheet_name)  # raises exception
 
     def _exception_feedback(self, error: APIError):
         if error.response.json()['error']['status'] == 'PERMISSION_DENIED':
@@ -120,7 +135,12 @@ class GSheetClient:
             raise error
 
     def save_df_as_gsheet(
-        self, df: pd.DataFrame, spreadsheet_id: str, worksheet_name: str, **kwargs: Union[str, bool, int]
+        self,
+        df: pd.DataFrame,
+        spreadsheet_id: str,
+        worksheet_name: str,
+        create_ws: bool = False,
+        **kwargs: Union[str, bool, int],
     ):
         """Save the given dataframe as worksheet in a spreadsheet
 
@@ -130,9 +150,10 @@ class GSheetClient:
             df: dataframe to save
             spreadsheet_id: id of the Google spreadsheet
             worksheet_name: name of the worksheet within the spreadsheet
+            create_ws: create the worksheet if non-existent
             **kwargs: extra keyword arguments passed to `set_with_dataframe`
         """
-        worksheet = self.gsheet(spreadsheet_id, worksheet_name)
+        worksheet = self.gsheet(spreadsheet_id, worksheet_name, create_ws=create_ws)
         # make sure it's really only the dataframe, not some residue
         self.clear_gsheet(spreadsheet_id, worksheet_name)
         try:
@@ -142,7 +163,7 @@ class GSheetClient:
 
     def clear_gsheet(self, spreadsheet_id: str, worksheet_name: str):
         """Clear the worksheet including values, formatting, filtering, etc."""
-        worksheet = self.gsheet(spreadsheet_id, worksheet_name)
+        worksheet = self.gsheet(spreadsheet_id, worksheet_name, create_ws=False)
         default_fmt = get_default_format(worksheet.spreadsheet)
         range = worksheet_range(worksheet)
         try:
