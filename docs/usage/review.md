@@ -95,7 +95,7 @@ deadline. For each proposal and remaining review, the algorithm assigns the prop
 * to a person having a preference for the track with the least amount of current work,
 * if no person has a preference for the track of the proposal, assign to someone with not much work.
 
-Be aware that some of your reviewers might have also make proposal submissions. Thus, it might happen by chance that someone gets 
+Be aware that some of your reviewers might have also make proposal submissions. Thus, it might happen by chance that someone gets
 assigned his/her own proposal using this approach but luckily Pretalx takes care of that--if the same Pretalx account was used.
 
 This quite simple algorithm can be found in the notebook [10_reviewer-assignment_v1]. It uses Pytanis to pull the submission/proposals
