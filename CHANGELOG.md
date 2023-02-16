@@ -2,6 +2,8 @@
 
 ## Version 0.3 (2023-03-)
 
+- Allow creating a worksheet from `GSheetClient`
+
 ## Version 0.2 (2023-02-11)
 
 - have a progress bar for long-running commands when possible

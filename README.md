@@ -80,12 +80,16 @@ This section is only relevant if you want to contribute to Pytanis itself. Your 
 After having cloned this repository:
 
 1. install [hatch] globally, e.g. `pipx install hatch`,
+
 2. create the default environment with `hatch env create` (you might have to restart your shell),
 3. activate the default environment with `hatch shell`,
 4. \[only once\] run `pre-commit install` to install [pre-commit],
 
-and then you are already set up to start hacking. Use `hatch run test:cov` or `hatch run test:no-cov` to run
-the unitest with or without coverage reports, respectively.
+and then you are already set up to start hacking. Use `hatch run` to do everything you would normally do in a virtual
+environment, e.g. `hatch run juptyer lab` to start [JupyterLab] in the default environment, `hatch run test:cov` for unit tests
+and coverage (like [tox]) or `hatch run docs:servce` to build & serve the documentation. Check out the `[tool.hatch.envs]` sections
+in [pyproject.toml](pyproject.toml) to learn about other commands. If you really must enter a virtual environment, use
+`hatch shell` to enter the default environment.
 
 ## Documentation
 
@@ -122,3 +126,5 @@ To start this project off a lot of inspiration and code was taken from [Alexande
 [PyConDE]: https://pycon.de/
 [EuroPython]: https://europython.eu/
 [LiveChat Developer Console]: https://developers.livechat.com/console/apps
+[JupyterLab]: https://jupyter.org/
+[tox]: https://tox.wiki/
