@@ -203,6 +203,7 @@ record = "cov --vcr-record=all {args}" # re-record all vcr cassettes
 python = ["38", "39", "310"]
 
 [tool.hatch.envs.lint]
+python = "3.10"
 skip-install = true
 dependencies = [
     "flake8>=4.0.1",
