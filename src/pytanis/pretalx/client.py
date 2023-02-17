@@ -15,7 +15,7 @@ from structlog import get_logger
 from tqdm.auto import tqdm
 
 from ..config import Config, get_cfg
-from ..utils import rm_keys, throttle
+from ..utils import query_params_to_dict, rm_keys, throttle
 from .types import Answer, Event, Me, Question, Review, Room, Speaker, Submission, Tag, Talk
 
 _logger = get_logger()
@@ -43,16 +43,16 @@ class PretalxClient:
 
     def set_throttling(self, calls: int, seconds: int):
         """Throttle the number of calls per seconds to the Pretalx API"""
-        _logger.debug("throttling", calls=calls, seconds=seconds)
+        _logger.info("throttling", calls=calls, seconds=seconds)
         self._get_throttled = throttle(calls, seconds)(self._get)
 
     def _get(self, endpoint: str, params: Optional[Dict[str, str]] = None) -> Response:
         """Retrieve data via GET request"""
         auth = HeaderApiKey(self._config.Pretalx.api_token, header_name='Authorization')
-        url = URL("https://pretalx.com/").join(endpoint)
-        _logger.debug(f"GET: {url.copy_merge_params(params)}")
+        url = URL("https://pretalx.com/").join(endpoint).copy_merge_params(params)
+        _logger.info(f"GET: {url}")
         # we set the timeout to 60 seconds as the Pretalx API is quite slow
-        return httpx.get(url, auth=auth, params=params, timeout=60.0)
+        return httpx.get(url, auth=auth, timeout=60.0)
 
     def _get_one(self, endpoint: str, params: Optional[Dict[str, str]] = None) -> JSON:
         """Retrieve a single resource result"""
@@ -65,7 +65,7 @@ class PretalxClient:
         yield from resp["results"]
         while (next_page := resp['next']) is not None:
             endpoint = URL(next_page).path
-            resp = cast(JSONObj, self._get_one(endpoint, dict(URL(next_page).params)))
+            resp = cast(JSONObj, self._get_one(endpoint, query_params_to_dict(URL(next_page).params)))
             _log_resp(resp)
             yield from resp["results"]
 

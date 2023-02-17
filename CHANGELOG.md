@@ -1,8 +1,11 @@
 # Changelog
 
-## Version 0.3 (2023-03-)
+## Version 0.3 (2023-02-17)
 
 - Allow creating a worksheet from `GSheetClient`
+- Make `get_cfg` importable from `pytanis`
+- Fix bug in `PretalxClient` that returned wrong number of results if a list was passed as `params` in conjunction with
+  pagination.
 
 ## Version 0.2 (2023-02-11)
 
