@@ -150,6 +150,7 @@ dependencies = [
     "pre-commit",
     "seaborn",
     "matplotlib",
+    "pulp",
 ]
 
 [tool.hatch.envs.docs]
