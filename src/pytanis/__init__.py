@@ -2,6 +2,7 @@ from importlib.metadata import PackageNotFoundError, version
 
 import structlog.stdlib
 
+from .config import get_cfg
 from .google import GSheetClient
 from .helpdesk import HelpDeskClient
 from .pretalx import PretalxClient
@@ -13,7 +14,7 @@ except PackageNotFoundError:  # pragma: no cover
 finally:
     del version, PackageNotFoundError
 
-__all__ = ["__version__", "GSheetClient", "PretalxClient", "HelpDeskClient"]
+__all__ = ["__version__", "GSheetClient", "PretalxClient", "HelpDeskClient", "get_cfg"]
 
 # transform structlog into a logging-friendly package
 # use `logging.basicConfig(level=logging.INFO, stream=sys.stdout)` as usual
