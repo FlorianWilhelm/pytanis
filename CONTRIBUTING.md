@@ -131,6 +131,7 @@ This often provides additional considerations and avoids unnecessary work.
 5. Please check that your changes don't break any unit tests with
    `hatch run test:cov` or `hatch run test:no-cov` to run the unitest with
    or without coverage reports, respectively.
+6. For code hygiene, execute `hatch run lint:all` in order to run [flake8], [isort], [black], [mypy], etc.
 
 ### Submit your contribution
 

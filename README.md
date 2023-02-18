@@ -85,9 +85,10 @@ After having cloned this repository:
 
 and then you are already set up to start hacking. Use `hatch run` to do everything you would normally do in a virtual
 environment, e.g. `hatch run juptyer lab` to start [JupyterLab] in the default environment, `hatch run test:cov` for unit tests
-and coverage (like [tox]) or `hatch run docs:servce` to build & serve the documentation. Check out the `[tool.hatch.envs]` sections
-in [pyproject.toml](pyproject.toml) to learn about other commands. If you really must enter a virtual environment, use
-`hatch shell` to enter the default environment.
+and coverage (like [tox]) or `hatch run docs:servce` to build & serve the documentation. For code hygiene, execute `hatch run lint:all`
+in order to run [flake8], [isort], [black], [mypy], etc.
+Check out the `[tool.hatch.envs]` sections  in [pyproject.toml](pyproject.toml) to learn about other commands.
+If you really must enter a virtual environment, use `hatch shell` to enter the default environment.
 
 ## Documentation
 
@@ -126,3 +127,7 @@ To start this project off a lot of inspiration and code was taken from [Alexande
 [LiveChat Developer Console]: https://developers.livechat.com/console/apps
 [JupyterLab]: https://jupyter.org/
 [tox]: https://tox.wiki/
+[black]: https://black.readthedocs.io/
+[flake8]: https://flake8.pycqa.org/
+[mypy]: https://mypy-lang.org/
+[isort]: https://pycqa.github.io/isort/
