@@ -1,7 +1,6 @@
 <!--- Add here generic links that can be used in every md doc -->
 [MIT]: https://spdx.org/licenses/MIT.html
 [git]: https://git-scm.com/
-[black]: https://pypi.org/project/black/
 [pre-commit]: https://pre-commit.com/
 [PyPI]: https://pypi.org/
 [repository]: https://github.com/FlorianWilhelm/pytanis
@@ -29,3 +28,7 @@
 [EuroPython]: https://europython.eu/
 [Pandas]: https://pandas.pydata.org/
 [LiveChat Developer Console]: https://developers.livechat.com/console/apps
+[black]: https://black.readthedocs.io/
+[flake8]: https://flake8.pycqa.org/
+[mypy]: https://mypy-lang.org/
+[isort]: https://pycqa.github.io/isort/
