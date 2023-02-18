@@ -8,14 +8,14 @@ ToDo:
 from typing import Any, Dict, Iterator, List, Optional, Tuple, Type, TypeVar, Union, cast
 
 import httpx
-from httpx import URL, Response
+from httpx import URL, QueryParams, Response
 from httpx_auth import HeaderApiKey
 from pydantic import BaseModel
 from structlog import get_logger
 from tqdm.auto import tqdm
 
 from ..config import Config, get_cfg
-from ..utils import query_params_to_dict, rm_keys, throttle
+from ..utils import rm_keys, throttle
 from .types import Answer, Event, Me, Question, Review, Room, Speaker, Submission, Tag, Talk
 
 _logger = get_logger()
@@ -28,7 +28,7 @@ JSONLst = List[JSONObj]
 """Type of a JSON list of JSON objects"""
 JSON = Union[JSONObj, JSONLst]
 """Type of the JSON response as returned by the Pretalx API"""
-QueryParamType = Dict[Any, Union[Any, List[Any]]]
+QueryParamType = Union[Dict[Any, Union[Any, List[Any]]], QueryParams]
 """Type for the optional parameters to the Pretalx API"""
 
 
@@ -67,7 +67,7 @@ class PretalxClient:
         yield from resp["results"]
         while (next_page := resp['next']) is not None:
             endpoint = URL(next_page).path
-            resp = cast(JSONObj, self._get_one(endpoint, query_params_to_dict(URL(next_page).params)))
+            resp = cast(JSONObj, self._get_one(endpoint, URL(next_page).params))
             _log_resp(resp)
             yield from resp["results"]
 

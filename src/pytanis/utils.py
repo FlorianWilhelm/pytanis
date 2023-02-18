@@ -1,13 +1,10 @@
 """Additional utilities"""
 import functools
 import time
-from itertools import groupby
 from math import fabs
-from operator import itemgetter
 from typing import Any, Callable, Dict, List, TypeVar, Union
 
 import pandas as pd
-from httpx import QueryParams
 from structlog import get_logger
 
 RT = TypeVar('RT')  # return type
@@ -97,9 +94,3 @@ def implode(df: pd.DataFrame, cols: Union[str, List[str]]) -> pd.DataFrame:
     df.reset_index(inplace=True)
     df = df.loc[:, orig_cols]
     return df
-
-
-def query_params_to_dict(params: QueryParams) -> Dict[str, Union[str, List[str]]]:
-    """Inverse function of QueryParams({"p1": "v1", "p2": ["v2", "v3"]})"""
-    res = dict((k, [v[1] for v in group]) for k, group in groupby(params.multi_items(), itemgetter(0)))
-    return {k: v if len(v) > 1 else v[0] for k, v in res.items()}
