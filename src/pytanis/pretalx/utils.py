@@ -50,8 +50,8 @@ def subs_as_df(subs: Iterable[Submission], with_questions: bool = False, questio
             Col.duration: sub.duration,
             Col.submission_type: sub.submission_type.en,
             Col.submission_type_id: sub.submission_type_id,
-            Col.state: sub.state,
-            Col.pending_state: sub.pending_state,
+            Col.state: sub.state.value,
+            Col.pending_state: None if sub.pending_state is None else sub.pending_state.value,
             Col.created: sub.created,
         }
         if with_questions and sub.answers is not None:

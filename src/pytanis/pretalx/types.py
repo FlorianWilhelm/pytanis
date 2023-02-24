@@ -8,6 +8,7 @@ ToDo:
     * Find out why `extra=Extra.allow` causes mypy to fail. Seems like a bug in pydantic.
 """
 from datetime import date, datetime
+from enum import Enum
 from typing import List, Optional
 
 from pydantic import BaseModel, Extra, Field
@@ -99,6 +100,16 @@ class Resource(BaseModel):
     description: str
 
 
+class State(Enum):
+    submitted = "submitted"
+    accepted = "accepted"
+    rejected = "rejected"  # is "Not accepted" in WebUI
+    confirmed = "confirmed"
+    withdrawn = "withdrawn"
+    canceled = "canceled"
+    deleted = "deleted"
+
+
 class Submission(BaseModel):
     code: str
     speakers: List[SubmissionSpeaker]
@@ -108,8 +119,8 @@ class Submission(BaseModel):
     submission_type_id: int
     track: Optional[MultiLingualStr]
     track_id: Optional[int]
-    state: str
-    pending_state: Optional[str]  # needs organizer permissions
+    state: State
+    pending_state: Optional[State]  # needs organizer permissions
     abstract: str
     description: str
     duration: Optional[int]
@@ -162,13 +173,19 @@ class Room(BaseModel):
     availabilities: Optional[List[RoomAvailability]]  # needs organizer permissions
 
 
+class QuestionRequirement(Enum):
+    optional = "optional"
+    required = "required"
+    after_deadline = "after deadline"
+
+
 class Question(BaseModel):
     id: int
     variant: str
     target: str
     question: MultiLingualStr
     help_text: MultiLingualStr
-    question_required: str  # from [optional, required, after_deadline] ToDo: handle as enum?
+    question_required: QuestionRequirement
     deadline: Optional[datetime]
     required: bool
     read_only: Optional[bool]

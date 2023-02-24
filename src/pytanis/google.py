@@ -163,8 +163,8 @@ class GSheetClient:
         worksheet = self.gsheet(spreadsheet_id, worksheet_name, create_ws=create_ws)
         # make sure it's really only the dataframe, not some residue
         self.clear_gsheet(spreadsheet_id, worksheet_name)
-        params = dict(resize=True)
-        params.update(kwargs)
+        # ToDo: Starting from Python 3.9 on just use the | operator
+        params = {**dict(resize=True), **dict(**kwargs)}  # set sane defaults
         try:
             set_with_dataframe(worksheet, df, **params)
         except APIError as error:

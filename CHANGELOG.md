@@ -3,6 +3,7 @@
 ## Version 0.4 (2023-03-X)
 
 - More functionality regarding the proposal selection process like `mark_rows`
+- Pretalx submissions stated are now proper Enums.
 
 ## Version 0.3 (2023-02-17)
 
