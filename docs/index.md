@@ -16,7 +16,7 @@ title usually had responsibility for presiding over councils of some kind, which
 
 - [x] simple configuration management with a config folder in your home directory, just like many other tools do
 - [x] easily access [Google Sheets], potentially filled by some [Google Forms], and download it as DataFrame
-- [x] easy to use [Pretalx] client that return proper Python objects thanks to the power of [pydantic]
+- [x] easy to use [Pretalx] client that returns proper Python objects thanks to the power of [pydantic]
 - [x] simple [HelpDesk] client for batch mails, e.g. to your reviewers
 - [x] awesome [documentation] with best practices for the program committee of any community conference
 - [ ] tools to assign proposals to reviewers based on constraints like preferences

@@ -41,7 +41,6 @@ dependencies = [
     "gspread-dataframe",
     "gspread-formatting",
     "matplotlib",
-
 ]
 dynamic = ["version"]
 
@@ -96,7 +95,7 @@ skip-string-normalization = true
 target-version = ["py38"]
 
 [tool.isort]
-profile= "black"
+profile = "black"
 default_section = "THIRDPARTY"
 force_grid_wrap = 0
 include_trailing_comma = true
@@ -145,7 +144,9 @@ exclude_lines = [
 # Environment Setup #
 #####################
 
+# Default
 [tool.hatch.envs.default]
+python = "3.10"
 dependencies = [
     "hatch",
     "hatch-vcs", # to make `hatch version` available
@@ -162,7 +163,13 @@ dependencies = [
     "pillow", # for the creation of social cards
     "seaborn", # for decent plotting
 ]
+[tool.hatch.envs.default.scripts]
+cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=src/pytanis --cov=tests {args}"
+no-cov = "cov --no-cov {args}"
+ci = "cov --vcr-record=none --cov-report lcov {args}"
+record = "cov --vcr-record=all {args}" # re-record all vcr cassettes
 
+# Documentation
 [tool.hatch.envs.docs]
 dependencies = [
     "mkdocs~=1.4.0",
@@ -203,17 +210,9 @@ build-check = [
     "validate",
 ]
 
-[tool.hatch.envs.default.scripts]
-cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=src/pytanis --cov=tests {args}"
-no-cov = "cov --no-cov {args}"
-ci = "cov --vcr-record=none --cov-report lcov {args}"
-record = "cov --vcr-record=all {args}" # re-record all vcr cassettes
-
-[[tool.hatch.envs.test.matrix]]
-python = ["38", "39", "310"]
-
+# Linting, typechecks & black
 [tool.hatch.envs.lint]
-python = "3.10"
+python = "310"
 skip-install = true
 dependencies = [
     "flake8>=4.0.1",
@@ -223,7 +222,6 @@ dependencies = [
     "isort>=5.10.1",
     "mypy>=0.942",
 ]
-
 [tool.hatch.envs.lint.scripts]
 typing = "mypy --install-types --non-interactive src/pytanis tests"
 style = [
@@ -240,3 +238,7 @@ all = [
     "style",
     "typing",
 ]
+
+# Test matrix for unit-testing like tox
+[[tool.hatch.envs.test.matrix]]
+python = ["38", "39", "310"]
