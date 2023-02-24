@@ -40,13 +40,18 @@ dependencies = [
     "gspread",
     "gspread-dataframe",
     "gspread-formatting",
+    "matplotlib",
 
 ]
 dynamic = ["version"]
 
 [project.optional-dependencies]
 all = [
-    "ipywidgets", # nicer progress bar in Jupyter lab/notebook
+    "ipywidgets", # for nicer progress bar in Jupyter lab/notebook
+    "pyomo[optional]", # for optimizing the schedule
+    "highspy", # for MIP/LP/QP solver in pyomo
+    "pillow", # for the creation of social cards
+    "seaborn", # for decent plotting
 ]
 
 [project.urls]
@@ -151,9 +156,11 @@ dependencies = [
     "pytest-vcr",
     "jupyterlab",
     "pre-commit",
-    "seaborn",
-    "matplotlib",
-    "pulp",
+    "ipywidgets", # for nicer progress bar in Jupyter lab/notebook
+    "pyomo[optional]", # for optimizing the schedule
+    "highspy", # for MIP/LP/QP solver in pyomo
+    "pillow", # for the creation of social cards
+    "seaborn", # for decent plotting
 ]
 
 [tool.hatch.envs.docs]

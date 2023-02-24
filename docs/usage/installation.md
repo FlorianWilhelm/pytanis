@@ -6,7 +6,7 @@ pip install pytanis
 ```
 or to install all recommended additional dependencies:
 ```commandline
-pip install pytanis[all]
+pip install 'pytanis[all]'
 ```
 Then create a configuration file and directory in your user's home directory. For Linux/MacOS/Unix use
 `~/.pytanis/config.toml` and for Windows `$HOME\.pytanis\config.toml`, where `$HOME` is e.g. `C:\Users\yourusername\`.

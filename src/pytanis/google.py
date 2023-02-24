@@ -9,7 +9,7 @@ Additional Documentation:
 import string
 import time
 from enum import Enum
-from typing import List, Optional, Union
+from typing import List, Optional, Tuple, Union
 
 import gspread
 import numpy as np
@@ -19,14 +19,21 @@ from gspread.spreadsheet import Spreadsheet
 from gspread.worksheet import Worksheet
 from gspread_dataframe import get_as_dataframe, set_with_dataframe
 from gspread_formatting import (
+    Color,
     format_cell_range,
+    format_cell_ranges,
     get_conditional_format_rules,
     get_default_format,
     set_data_validation_for_cell_range,
 )
+from gspread_formatting.models import cellFormat
+from matplotlib.colors import to_rgb
 from structlog import get_logger
 
 from .config import Config, get_cfg
+
+# Color type of matplotlib: https://matplotlib.org/stable/tutorials/colors/colors.html
+ColorType = Union[str, Tuple[float, float, float], Tuple[float, float, float, float]]
 
 __all__ = ["GSheetClient", "gsheet_rows_for_fmt", "PermissionDeniedException"]
 
@@ -156,8 +163,10 @@ class GSheetClient:
         worksheet = self.gsheet(spreadsheet_id, worksheet_name, create_ws=create_ws)
         # make sure it's really only the dataframe, not some residue
         self.clear_gsheet(spreadsheet_id, worksheet_name)
+        params = dict(resize=True)
+        params.update(kwargs)
         try:
-            set_with_dataframe(worksheet, df, **kwargs)
+            set_with_dataframe(worksheet, df, **params)
         except APIError as error:
             self._exception_feedback(error)
 
@@ -197,10 +206,10 @@ def gsheet_col(idx: int) -> str:
     return "".join(chars[::-1])
 
 
-def gsheet_rows_for_fmt(df: pd.DataFrame, mask: pd.Series) -> List[str]:
+def gsheet_rows_for_fmt(mask: pd.Series, n_cols: int) -> List[str]:
     """Get the Google Sheet row range specifications for formatting"""
     rows = pd.Series(np.argwhere(mask.to_numpy()).reshape(-1) + 2)  # +2 since 1-index and header
-    last_col = gsheet_col(len(df.columns) - 1)  # last index
+    last_col = gsheet_col(n_cols - 1)  # last index
     rows = rows.map(lambda x: f"A{x}:{last_col}{x}")
     return rows.to_list()
 
@@ -210,3 +219,15 @@ def worksheet_range(worksheet: Worksheet) -> str:
     last_row = worksheet.row_count
     last_col = gsheet_col(worksheet.col_count)
     return f"A1:{last_col}{last_row}"
+
+
+def mark_rows(worksheet, mask: pd.Series, color: ColorType):
+    """Mark rows specified by a mask (condition) with a given color
+
+    Color can be a tuple of RGB values or a Matplotlib string specification:
+    https://matplotlib.org/stable/gallery/color/named_colors.html#css-colors
+    """
+    rows = gsheet_rows_for_fmt(mask, worksheet.col_count)
+    fmt = cellFormat(backgroundColor=Color(*to_rgb(color)))
+    if rows:
+        format_cell_ranges(worksheet, [(rng, fmt) for rng in rows])
