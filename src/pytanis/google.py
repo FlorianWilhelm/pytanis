@@ -26,6 +26,7 @@ from gspread_formatting import (
     get_default_format,
     set_data_validation_for_cell_range,
 )
+from gspread_formatting.dataframe import format_with_dataframe
 from gspread_formatting.models import cellFormat
 from matplotlib.colors import to_rgb
 from structlog import get_logger
@@ -147,6 +148,7 @@ class GSheetClient:
         spreadsheet_id: str,
         worksheet_name: str,
         create_ws: bool = False,
+        default_fmt: bool = True,
         **kwargs: Union[str, bool, int],
     ):
         """Save the given dataframe as worksheet in a spreadsheet
@@ -158,6 +160,7 @@ class GSheetClient:
             spreadsheet_id: id of the Google spreadsheet
             worksheet_name: name of the worksheet within the spreadsheet
             create_ws: create the worksheet if non-existent
+            default_fmt: apply default formatter `BasicFormatter`
             **kwargs: extra keyword arguments passed to `set_with_dataframe`
         """
         worksheet = self.gsheet(spreadsheet_id, worksheet_name, create_ws=create_ws)
@@ -167,6 +170,8 @@ class GSheetClient:
         params = {**dict(resize=True), **dict(**kwargs)}  # set sane defaults
         try:
             set_with_dataframe(worksheet, df, **params)
+            if default_fmt:
+                format_with_dataframe(worksheet, df)
         except APIError as error:
             self._exception_feedback(error)
 

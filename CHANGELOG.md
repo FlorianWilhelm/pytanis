@@ -4,6 +4,7 @@
 
 - More functionality regarding the proposal selection process like `mark_rows`
 - Pretalx submissions stated are now proper Enums.
+- `GSheetClient.save_df_as_gsheet` also applies some default `BasicFormatter` for nicer headlines etc.
 
 ## Version 0.3 (2023-02-17)
 
