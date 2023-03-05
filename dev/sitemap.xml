@@ -96,6 +96,21 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://florianwilhelm.info/pytanis/dev/tasks/review/</loc>
+         <lastmod>2020-02-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://florianwilhelm.info/pytanis/dev/tasks/schedule/</loc>
+         <lastmod>2020-02-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://florianwilhelm.info/pytanis/dev/tasks/selection/</loc>
+         <lastmod>2020-02-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://florianwilhelm.info/pytanis/dev/usage/gsheet/</loc>
          <lastmod>2020-02-02</lastmod>
          <changefreq>daily</changefreq>
@@ -112,11 +127,6 @@
     </url>
     <url>
          <loc>https://florianwilhelm.info/pytanis/dev/usage/pretalx/</loc>
-         <lastmod>2020-02-02</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://florianwilhelm.info/pytanis/dev/usage/review/</loc>
          <lastmod>2020-02-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
