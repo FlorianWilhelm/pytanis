@@ -102,7 +102,7 @@ assert not errors
 Having `dry_run=True` allows you to test you code and just print the resulting e-mails on your console to check if everything
 is like expected. Later set `dry_run=False` to actually send the e-mails via [HelpDesk].
 
-The method `send` returns a list of successfully `responses` and a hopefully empty list of `errors`. The `responses` list
+The method `send` returns a list of successful `responses` and a hopefully empty list of `errors`. The `responses` list
 is a list of tuples where each tuple holds the [Recipient] as wells as the returned HelpDesk ticket. The `errors` list is
 a list of tuples with the [Recipient] and the corresponding exception object which occured when sending the mail to the recipient.
 

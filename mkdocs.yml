@@ -16,10 +16,13 @@ nav:
     - About: index.md
     - Usage:
         - 'Getting Started': usage/installation.md
-        - 'Proposal Review': usage/review.md
         - 'Pretalx Data': usage/pretalx.md
         - 'Google Sheets': usage/gsheet.md
         - 'Sending Mails': usage/mail.md
+    - Tasks:
+        - 'Proposal Review': tasks/review.md
+        - 'Talk Selection': tasks/selection.md
+        - 'Scheduling': tasks/schedule.md
     - Changelog: changelog.md
     - License: license.md
     - Authors: authors.md
