@@ -112,6 +112,11 @@ For more details, check out [Pytanis' mail references](../../reference/pytanis/h
 and also the notebook [20_mail_to_reviewers_v1].
 
 
+!!! tip
+    For contacting your (potential) speakers, [Pretalx] itself has pretty advanced templating and mailing features so
+    there is no need to use this functionality here. Just make sure that you refer always to HelpDesk in your mails,
+    so that you have a single point of managing mails and tickets.
+
 [Recipient]: ../../reference/pytanis/helpdesk/mail/#pytanis.helpdesk.mail.Recipient
 [Mail]: ../../reference/pytanis/helpdesk/mail/#pytanis.helpdesk.mail.Mail
 [20_mail_to_reviewers_v1]: https://github.com/FlorianWilhelm/pytanis/blob/main/notebooks/pyconde-pydata-berlin-2023/20_mail_to_reviewers_v1.ipynb
