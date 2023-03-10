@@ -41,7 +41,7 @@ Fortunately, [Pretalx] allows all that and Pytanis can pull that information to 
 Here is an example on how this might look like.
 
 <div align="center">
-<img src="https://raw.githubusercontent.com/FlorianWilhelm/pytanis/main/docs/assets/images/gsheet_proposal_selection.png" alt="Proposal selection in Google Sheet" width="500" role="img">
+<img src="https://raw.githubusercontent.com/FlorianWilhelm/pytanis/main/docs/assets/images/gsheet_proposal_selection.png" alt="Proposal selection in Google Sheet" width="700" role="img">
 </div>
 
 This example is also part of the notebook [30_selection_v1]. Also be aware that after you accepted a talk or tutorial the
