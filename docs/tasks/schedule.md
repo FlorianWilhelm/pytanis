@@ -29,7 +29,7 @@ For the objectives outlined above, it surely makes sense to choose the weights s
 In the notebook [50_scheduling_v1], you can find an example that uses [Mixed-Integer-Programming] (MIP) to generate a preliminary
 schedule that can be used as a starting point before creating the schedule in Pretalx. Although the constraints and objective
 from above may look quite simple, MIPs are not only hard, they are even [NP-hard] ;-) The example in the notebook uses
-[Pyomo] to formulate the problem and transform it into a standardized from so that the solver [HiGHS] can do its job.
+[Pyomo] to formulate the problem and transform it into a standardized form, so that the solver [HiGHS] can do its job.
 In the concrete example, even after 24h no perfect solution was found, but the good thing is that the gap between best found feasible
 solution and the maximum possible objective value, i.e. the gap, was relatively small.
 
