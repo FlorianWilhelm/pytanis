@@ -1,6 +1,10 @@
 """Some helper functions for HiGHS (https://highs.dev/)
 
 `pyomo` and `highspy` need to be installed, consider `pip install 'pytanis[all]'`.
+
+ToDo:
+    * Introduce a function `check_model_vars` that checks the names of variables and sets to be alphanumeric
+      before reading in a solution in `set_solution_from_file`.
 """
 import re
 from typing import Iterator, Tuple
