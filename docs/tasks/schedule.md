@@ -37,7 +37,7 @@ Again, to visualize a solution like this, you can push it easily with the help o
 is illustrated in the figure below.
 
 <div align="center">
-<img src="https://raw.githubusercontent.com/FlorianWilhelm/pytanis/main/docs/assets/images/gsheet_schedule.png" alt="Schedule view in Google Sheet" width="700" role="img">
+<img src="https://raw.githubusercontent.com/FlorianWilhelm/pytanis/main/docs/assets/images/gsheet_schedule.png" alt="Schedule view in Google Sheet" width="800" role="img">
 </div>
 
 !!! tip

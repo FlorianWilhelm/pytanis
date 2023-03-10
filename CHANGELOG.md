@@ -1,10 +1,12 @@
 # Changelog
 
-## Version 0.4 (2023-03-X)
+## Version 0.4 (2023-03-10)
 
 - More functionality regarding the proposal selection process like `mark_rows`
 - Pretalx submissions states are now proper Enums.
 - `GSheetClient.save_df_as_gsheet` also applies some default `BasicFormatter` for nicer headlines etc.
+- Added some MIP helpers (`highs`) to support the scheduling process
+- Extended the documentation quite a bit
 
 ## Version 0.3 (2023-02-17)
 
