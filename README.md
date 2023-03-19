@@ -2,8 +2,7 @@
 
 <img src="https://raw.githubusercontent.com/FlorianWilhelm/pytanis/main/docs/assets/images/logo.svg" alt="Pytanis logo" width="500" role="img">
 
-All the tooling you need for conferences using [Pretalx] to handle the call for papers and creating a program.
-
+Pytanis includes a [Pretalx] client and all the tooling you need for conferences using [Pretalx], from handling the initial call for papers to creating the final program.
 
 |         |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 |---------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -22,10 +21,10 @@ title usually had responsibility for presiding over councils of some kind, which
 ## Features
 
 - [x] simple configuration management with a config folder in your home directory, just like many other tools do
-- [x] easily access [Google Sheets], potentially filled by some [Google Forms], and download it as DataFrame
+- [x] easily access [Google Sheets], potentially filled by some [Google Forms], and download sheets as data frames
 - [x] easy to use [Pretalx] client that returns proper Python objects thanks to the power of [pydantic]
 - [x] simple [HelpDesk] client for batch mails, e.g. to your reviewers
-- [x] awesome [documentation] with best practices for the program committee of any community conference
+- [x] awesome [documentation] with best practices for the program committee of any community-based conference
 - [x] tools to assign proposals to reviewers based on constraints like preferences
 - [x] tools to support the final selection process of proposals
 - [x] tools to support the creation of the final program schedule
@@ -65,8 +64,8 @@ where you need to replace the dummy values in the sections `[Pretalx]` and `[Hel
 Move it to the `~/.pytanis` folder as `client_secret.json`. The file `token.json` will be automatically generated
 later. Note that `config.toml` references those two files relative to its own location.
 * **Pretalx**: The API token for the [Pretalx API] can be found in your user settings.
-* **HelpDesk**: Log into the [LiveChat Developer Console] then go to <kbd>Tools</kbd> » <kbd>Personal Access Tokens</kbd>.
-  Hit <kbd>Create new token +</kbd>, enter a the name `Pytanis`, select all scopes and confirm. In the following screen
+* **HelpDesk**: Login to the [LiveChat Developer Console] then go to <kbd>Tools</kbd> » <kbd>Personal Access Tokens</kbd>.
+  Choose <kbd>Create new token +</kbd>, enter a the name `Pytanis`, select all scopes and confirm. In the following screen
   copy the `Account ID`, `Entity ID` and `Token` and paste them into `config.toml`.
   In case there is any trouble with livechat, contact a helpdesk admin.
 
