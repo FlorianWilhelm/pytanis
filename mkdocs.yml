@@ -16,7 +16,7 @@ nav:
     - About: index.md
     - Usage:
         - 'Getting Started': usage/installation.md
-        - 'Pretalx Data': usage/pretalx.md
+        - 'Pretalx Client': usage/pretalx.md
         - 'Google Sheets': usage/gsheet.md
         - 'Sending Mails': usage/mail.md
     - Tasks:
