@@ -4,6 +4,7 @@
 
 The organisation of your conference programme starts with the Call for Participation/Proposals (CfP).
 Before you announce your CfP, obvious things to consider are:
+
 * what is the audience we are trying to address? Beginners, experts, ... also first-time speakers, diverse & underrepresented groups.
 * what information do wee need to know about our speakers? Name, country, biography, affiliation, job & position, social media, on-site availability, ...
 * what are the topics of interest for our conference? How are those tracks named? E.g. PyCon: Libraries, ...
@@ -14,14 +15,14 @@ Before you announce your CfP, obvious things to consider are:
 
 An example CfP can be found on the [Call for Proposals of the PyConDE / PyData 2023 Berlin](https://2023.pycon.de/blog/call-for-proposals/).
 The actual CfP submission is handled easily by [Pretalx] as you can just fill out everything in the web UI.
-As these tasks are all purely organisational/conceptional, there is no need to use [Pytanis] for any of this.
+As these tasks are all purely organisational/conceptional, there is no need to use Pytanis for any of this.
 
 ## Example: Milestones of PyConDE / PyData 2023 Berlin
 
 * **2022-12-11**: (Sunday) CfP opens
 * **2022-12-14**: Financial Aid Program opens
 * **2023-01-05**: (Thursday) -> Extension **2023-01-09** (Monday) CfP closes. \[Voting can be prepared beforehand via Pretalx.\]
-* **2023-01-06**: (Friday) Open the Review for external Reviewers (Preliminary, decide after January 2nd)
+* **2023-01-06**: (Friday) Open the Review for external Reviewers
 * **2023-01-11**: Q&A session 1 for external reviewers, 30min at 5pm
 * **2023-01-17**: Q&A session 2 for external reviewers, 30min at 5pm
 * **2022-01-16**: Financial Aid Program closes (2 weeks to select)
