@@ -29,7 +29,7 @@ nav:
     - Authors: authors.md
     - Contributing: contributing.md
     # defer to gen-files + literate-nav
-    - Reference: reference/
+    - Reference: reference/pytanis/
 
 # Configuration
 docs_dir: docs
