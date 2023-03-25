@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 0.4.1 (2023-03-25)
+
+- Additional documentation about the CfP and some minor fixes
+
 ## Version 0.4 (2023-03-10)
 
 - More functionality regarding the proposal selection process like `mark_rows`
