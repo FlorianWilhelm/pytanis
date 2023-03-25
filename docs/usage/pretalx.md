@@ -30,5 +30,4 @@ Check the [Pretalx API] for a list of options.
 
 Find out more about the client's capabilities, e.g. throttling, by looking at Pytanis' reference of the [pretalx client module].
 
-[Pretalx API]: https://docs.pretalx.org/api/resources/index.html
 [pretalx client module]: ../../reference/pytanis/helpdesk/client/#pytanis.helpdesk.client
