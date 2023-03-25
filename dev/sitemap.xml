@@ -26,7 +26,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>None</loc>
+         <loc>https://florianwilhelm.info/pytanis/dev/reference/SUMMARY/</loc>
          <lastmod>2020-02-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -97,6 +97,11 @@
     </url>
     <url>
          <loc>https://florianwilhelm.info/pytanis/dev/reference/pytanis/pretalx/utils/</loc>
+         <lastmod>2020-02-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://florianwilhelm.info/pytanis/dev/tasks/cfp/</loc>
          <lastmod>2020-02-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
