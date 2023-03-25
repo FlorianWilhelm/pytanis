@@ -7,7 +7,7 @@ Before you announce your CfP, obvious things to consider are:
 
 * what is the audience we are trying to address? Beginners, experts, ... also first-time speakers, diverse & underrepresented groups.
 * what information do wee need to know about our speakers? Name, country, biography, affiliation, job & position, social media, on-site availability, ...
-* what are the topics of interest for our conference? How are those tracks named? E.g. PyCon: Libraries, ...
+* what are the topics of interest for our conference? How are those tracks named? E.g. PyCon: Libraries, PyData: Machine Learning & Stats, ...
 * what is the presentation format, i.e. session types? 30min, 45min talks (including 5min Q&A), 90min tutorials...
 * should a financial aid program be offered? Check out the [Financial Aid Programme of PyconDE / PyData 2023 Berlin](https://2023.pycon.de/financial-aid/) for an example.
 * what are the rough milestones/deadlines of the whole process? [See below for an example](#example-milestones-of-pyconde-pydata-2023-berlin).
@@ -38,5 +38,5 @@ As these tasks are all purely organisational/conceptional, there is no need to u
 * **2023-04-17**: (Monday) conference starts, we have a lift-off 🚀
 
 !!! warning
-    Obviously, you should never announce an CfP extension before the deadline of the original CfP is over 😜. It also
-    makes sense to keep some deadlines above internal to avoid getting tons of e-mails if you missed the deadline 🙈.
+    Obviously, you should never announce a CfP extension before the deadline of the original CfP is over 😜.
+    It is also useful to keep some of the above deadlines internally to avoid receiving a lot of emails when you have missed the deadline 🙈.
