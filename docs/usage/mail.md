@@ -17,7 +17,7 @@ print([agent.ID for agent in helpdesk.list_agents() if "AGENTS EMAIL" in agent.e
 print([team.ID for team in helpdesk.list_teams() if "TEAM NAME" in team.name])
 ```
 to find the right IDs with respect to the e-mail address `AGENTS EMAIL` and the corresponding `TEAM NAME`. We assume
-know that you stored those two values in `agent_id` and `team_id`, respectively.
+now that you stored those two values in `agent_id` and `team_id`, respectively.
 
 ### Defining the Recipients
 
