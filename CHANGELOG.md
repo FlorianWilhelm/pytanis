@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 0.5
+## Version 0.5 (2023-04-10)
 
 - Change the start/end time of a slot to a datetime
 
