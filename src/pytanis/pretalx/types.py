@@ -88,9 +88,8 @@ class Speaker(SubmissionSpeaker):
 
 
 class Slot(BaseModel):
-    # ToDo: Check the datatypes here again, not mentioned in the API
-    start: str
-    end: str
+    start: datetime
+    end: datetime
     room: MultiLingualStr
     room_id: int
 

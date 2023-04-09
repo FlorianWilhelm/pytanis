@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 0.5
+
+- Change the start/end time of a slot to a datetime
+
 ## Version 0.4.1 (2023-03-25)
 
 - Additional documentation about the CfP and some minor fixes
