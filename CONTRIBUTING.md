@@ -5,11 +5,11 @@ Welcome to the contributor guide of Pytanis.
 This document focuses on getting any potential contributor familiarized with
 the development processes, but [other kinds of contributions] are also appreciated.
 
-If you are new to using [git] or have never collaborated in a project previously,
+If you are new to using [git] or have never collaborated on a project previously,
 please have a look at [contribution-guide.org]. Other resources are also
 listed in the excellent [guide created by Freecodecamp][^contrib1].
 
-Please notice, all users and contributors are expected to be **open,
+Please note: all users and contributors are expected to be **open,
 considerate, reasonable, and respectful**. When in doubt,
 [Python Software Foundation's Code of Conduct] is a good reference in terms of
 behavior guidelines.
@@ -17,12 +17,12 @@ behavior guidelines.
 ## Issue Reports
 
 If you experience bugs or general issues with Pytanis, please have a look
-on the [issue tracker].
-If you don't see anything useful there, please feel free to fire an issue report.
+at the [issue tracker].
+If you don't see anything useful there, please feel free to file an issue report.
 
 !!! tip
     Please don't forget to include the closed issues in your search.
-    Sometimes a solution was already reported, and the problem is considered
+    Sometimes a solution will have been reported already and the problem is considered
     **solved**.
 
 New issue reports should include information about your programming environment
@@ -33,7 +33,7 @@ you help us to identify the root cause of the issue.
 
 ## Documentation improvements
 
-You can help to the documentation of Pytanis by making them more readable and coherent, or
+You can contribute to the documentation of Pytanis by making them more readable and coherent, or
 by adding missing information and correcting mistakes.
 
 The documentation uses [mkdocs] as its main documentation compiler.
@@ -41,7 +41,7 @@ This means that the docs are kept in the same repository as the project code, an
 that any documentation update is done in the same way was a code contribution.
 
 !!! tip
-      Please notice that the [GitHub web interface] provides a quick way of
+      Please note that the [GitHub web interface] provides a quick way of
       propose changes in `Pytanis`' files. While this mechanism can
       be tricky for normal code contributions, it works perfectly fine for
       contributing to the docs, and can be quite handy.
@@ -49,7 +49,7 @@ that any documentation update is done in the same way was a code contribution.
       If you are interested in trying this method out, please navigate to
       the `docs` folder in the source [repository], find which file you
       would like to propose changes and click in the little pencil icon at the
-      top, to open [GitHub's code editor]. Once you finish editing the file,
+      top to open [GitHub's code editor]. Once you finish editing the file,
       please write a message in the form at the bottom of the page describing
       which changes have you made and what are the motivations behind them and
       submit your proposal.
@@ -149,7 +149,7 @@ This often provides additional considerations and avoids unnecessary work.
    from the continuous integration (CI) system or any required fixes.
 
 
-[^contrib1]: Even though, these resources focus on open source projects and
+[^contrib1]: Even though these resources focus on open source projects and
     communities, the general ideas behind collaborating with other developers
     to collectively create software are general and can be applied to all sorts
     of environments, including private companies and proprietary code bases.
