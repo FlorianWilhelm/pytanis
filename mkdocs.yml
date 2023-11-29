@@ -23,7 +23,7 @@ nav:
         - 'Call for Participation': tasks/cfp.md
         - 'Proposal Review': tasks/review.md
         - 'Talk Selection': tasks/selection.md
-        - 'Scheduling': tasks/schedule_web.md
+        - 'Scheduling': tasks/schedule.md
     - Changelog: changelog.md
     - License: license.md
     - Authors: authors.md
