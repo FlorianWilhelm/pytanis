@@ -1,8 +1,10 @@
 """Additional utilities"""
+
 import functools
 import time
+from collections.abc import Callable
 from math import fabs
-from typing import Any, Callable, Dict, List, TypeVar, Union
+from typing import Any, TypeVar
 
 import pandas as pd
 from structlog import get_logger
@@ -11,9 +13,9 @@ RT = TypeVar('RT')  # return type
 
 
 def rm_keys(
-    keys: Union[Any, List[Any]],
-    dct: Dict[Any, Any],
-) -> Dict[Any, Any]:
+    keys: Any | list[Any],
+    dct: dict[Any, Any],
+) -> dict[Any, Any]:
     """Return a copy with keys removed from dictionary"""
     if not isinstance(keys, list):
         keys = [keys]
@@ -35,13 +37,13 @@ def pretty_timedelta(seconds: int) -> str:
     hours, seconds = divmod(seconds, 3600)
     minutes, seconds = divmod(seconds, 60)
     if days > 0:
-        return '{}{}d{}h{}m{}s'.format(sign, days, hours, minutes, seconds)
+        return f'{sign}{days}d{hours}h{minutes}m{seconds}s'
     elif hours > 0:
-        return '{}{}h{}m{}s'.format(sign, hours, minutes, seconds)
+        return f'{sign}{hours}h{minutes}m{seconds}s'
     elif minutes > 0:
-        return '{}{}m{}s'.format(sign, minutes, seconds)
+        return f'{sign}{minutes}m{seconds}s'
     else:
-        return '{}{}s'.format(sign, seconds)
+        return f'{sign}{seconds}s'
 
 
 def throttle(calls: int, seconds: int = 1) -> Callable[[Callable[..., RT]], Callable[..., RT]]:
@@ -54,12 +56,16 @@ def throttle(calls: int, seconds: int = 1) -> Callable[[Callable[..., RT]], Call
     Returns:
         wrapped function
     """
-    assert isinstance(calls, int), 'number of calls must be integer'
-    assert isinstance(seconds, int), 'number of seconds must be integer'
+    if not isinstance(calls, int):
+        msg = 'number of calls must be integer'
+        raise ValueError(msg)
+    if not isinstance(seconds, int):
+        msg = 'number of seconds must be integer'
+        raise ValueError(msg)
 
     def decorator(func: Callable[..., RT]) -> Callable[..., RT]:
         # keeps track of the last calls
-        last_calls: List[float] = list()
+        last_calls: list[float] = []
 
         @functools.wraps(func)
         def wrapper(*args, **kwargs) -> RT:
@@ -73,7 +79,7 @@ def throttle(calls: int, seconds: int = 1) -> Callable[[Callable[..., RT]], Call
                 idx = len(last_calls) - calls
                 delta = fabs(1 - curr_time + last_calls[idx])
                 logger = get_logger()
-                logger.debug("stalling call", func=func.__name__, secs=delta)
+                logger.debug('stalling call', func=func.__name__, secs=delta)
                 time.sleep(delta)
             resp = func(*args, **kwargs)
             last_calls.append(time.time())
@@ -84,7 +90,7 @@ def throttle(calls: int, seconds: int = 1) -> Callable[[Callable[..., RT]], Call
     return decorator
 
 
-def implode(df: pd.DataFrame, cols: Union[str, List[str]]) -> pd.DataFrame:
+def implode(df: pd.DataFrame, cols: str | list[str]) -> pd.DataFrame:
     """The inverse of Pandas' explode"""
     if not isinstance(cols, list):
         cols = [cols]

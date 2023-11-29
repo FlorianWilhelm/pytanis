@@ -6,41 +6,43 @@ ToDo:
     * Introduce a function `check_model_vars` that checks the names of variables and sets to be alphanumeric
       before reading in a solution in `set_solution_from_file`.
 """
+
 import re
-from typing import Iterator, Tuple
+from collections.abc import Iterator
 
 from pyomo.contrib.appsi.solvers import Highs
 from pyomo.core.base.PyomoModel import ConcreteModel
 
 
-def read_sol_file(file_name: str) -> Iterator[Tuple[str, float]]:
+def read_sol_file(file_name: str) -> Iterator[tuple[str, float]]:
     """Read a solution file from HiGHS solver with default output style
 
     Attention: We assume here that your variable names are alphanumeric!
                No underscores, no dashes, etc.!
     """
-    line_re = re.compile(r"(\w+)(?:\((\w+)\))?(_binary_indicator_var)? ([.\w-]+)")
+    line_re = re.compile(r'(\w+)(?:\((\w+)\))?(_binary_indicator_var)? ([.\w-]+)')
 
-    with open(file_name) as fh:
+    with open(file_name, encoding='utf8') as fh:
         while True:
             line = fh.readline()
-            if line.startswith("# Columns"):
+            if line.startswith('# Columns'):
                 break
         for line in fh.readlines():
-            if line.startswith("#"):
+            if line.startswith('#'):
                 break
             if (match_obj := line_re.match(line.strip())) is None:
-                raise RuntimeError(f"Could not interpret line: {line}")
+                msg = f'Could not interpret line: {line}'
+                raise RuntimeError(msg)
             else:
                 var_name, idx, binary, val = match_obj.groups()
             val = float(val)
-            binary = binary.replace('_', '.', 1) if binary else ""
+            binary = binary.replace('_', '.', 1) if binary else ''
 
             if idx is None:
-                yield f"{var_name}{binary}", val
+                yield f'{var_name}{binary}', val
             else:
                 idx = idx.replace('_', ',')
-                yield f"{var_name}[{idx}]{binary}", val
+                yield f'{var_name}[{idx}]{binary}', val
 
 
 def set_solution_from_file(model: ConcreteModel, file_name: str):
@@ -58,7 +60,7 @@ def set_solution_from_file(model: ConcreteModel, file_name: str):
     opt.load_vars()
 
     # read the actual mapping of the variable names to the values
-    file_sol = {name: val for name, val in read_sol_file(file_name)}
+    file_sol = dict(read_sol_file(file_name))
 
     # overwrite the values of the variables again using the symbolic names from the file
     for v, ref_info in opt._referenced_variables.items():

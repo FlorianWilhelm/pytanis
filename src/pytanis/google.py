@@ -6,10 +6,10 @@ Additional Documentation:
     * [GSpread-Dataframe](https://gspread-dataframe.readthedocs.io/)
     * [GSpread-Formatting](https://gspread-formatting.readthedocs.io/)
 """
+
 import string
 import time
 from enum import Enum
-from typing import List, Optional, Tuple, Union
 
 import gspread
 import numpy as np
@@ -31,38 +31,40 @@ from gspread_formatting.models import cellFormat
 from matplotlib.colors import to_rgb
 from structlog import get_logger
 
-from .config import Config, get_cfg
+from pytanis.config import Config, get_cfg
 
 # Color type of matplotlib: https://matplotlib.org/stable/tutorials/colors/colors.html
-ColorType = Union[str, Tuple[float, float, float], Tuple[float, float, float, float]]
+ColorType = str | tuple[float, float, float] | tuple[float, float, float, float]
 
-__all__ = ["GSheetClient", "gsheet_rows_for_fmt", "PermissionDeniedException"]
+__all__ = ['GSheetClient', 'gsheet_rows_for_fmt', 'PermissionDeniedError']
 
 _logger = get_logger()
 
 
 class Scope(Enum):
     # Allows read-only access to the user's sheets and their properties
-    GSHEET_RO = "https://www.googleapis.com/auth/spreadsheets.readonly"
+    GSHEET_RO = 'https://www.googleapis.com/auth/spreadsheets.readonly'
     # Allows read/write access to the user's sheets and their properties
-    GSHEET_RW = "https://www.googleapis.com/auth/spreadsheets"
+    GSHEET_RW = 'https://www.googleapis.com/auth/spreadsheets'
     # Allows read-only access to the user's file metadata and file content
-    GDRIVE_RO = "https://www.googleapis.com/auth/drive.readonly"
+    GDRIVE_RO = 'https://www.googleapis.com/auth/drive.readonly'
     # Per-file access to files created or opened by the app
-    GDRIVE_FILE = "https://www.googleapis.com/auth/drive.file"
+    GDRIVE_FILE = 'https://www.googleapis.com/auth/drive.file'
     # Full, permissive scope to access all of a user's files. Request this scope only when it is strictly necessary
-    GDRIVE_RW = "https://www.googleapis.com/auth/drive"
+    GDRIVE_RW = 'https://www.googleapis.com/auth/drive'
 
 
-def gspread_client(scopes: List[Scope], config: Config) -> gspread.client.Client:
+def gspread_client(scopes: list[Scope], config: Config) -> gspread.client.Client:
     """Creates the GSheet client using our configuration
 
     Read [GSpread](https://docs.gspread.org/) for usage details
     """
     if (secret_path := config.Google.client_secret_json) is None:
-        raise RuntimeError("You have to set Google.client_secret_json in your config.toml!")
+        msg = 'You have to set Google.client_secret_json in your config.toml!'
+        raise RuntimeError(msg)
     if (token_path := config.Google.token_json) is None:
-        raise RuntimeError("You have to set Google.token_json in your config.toml!")
+        msg = 'You have to set Google.token_json in your config.toml!'
+        raise RuntimeError(msg)
 
     gc = gspread.oauth(
         scopes=[scope.value for scope in scopes],
@@ -72,8 +74,8 @@ def gspread_client(scopes: List[Scope], config: Config) -> gspread.client.Client
     return gc
 
 
-class PermissionDeniedException(Exception):
-    """Exception for APIError with status PERMISSION_DENIED
+class PermissionDeniedError(Exception):
+    """Error for APIError with status PERMISSION_DENIED
 
     Most likely thrown in cases when the scope is not `GSHEET_RW` or the token needs to be updated accordingly.
     """
@@ -85,7 +87,7 @@ class GSheetClient:
     By default, only the least permissive scope `GSHEET_RO` in case of `read_only = True` is used.
     """
 
-    def __init__(self, config: Optional[Config] = None, read_only: bool = True):
+    def __init__(self, config: Config | None = None, *, read_only: bool = True):
         self._read_only = read_only
         if read_only:
             self._scopes = [Scope.GSHEET_RO]
@@ -108,8 +110,8 @@ class GSheetClient:
             time.sleep(1)
 
     def gsheet(
-        self, spreadsheet_id: str, worksheet_name: Optional[str] = None, create_ws: bool = False
-    ) -> Union[Worksheet, Spreadsheet]:
+        self, spreadsheet_id: str, worksheet_name: str | None = None, *, create_ws: bool = False
+    ) -> Worksheet | Spreadsheet:
         """Retrieve a Google sheet by its id and the name
 
         Open a Google sheet in your browser and check the URL to retrieve the id, e.g.:
@@ -121,24 +123,23 @@ class GSheetClient:
         spreadsheet = self.gc.open_by_key(spreadsheet_id)
         if worksheet_name is None:
             return spreadsheet
+        elif worksheet_name in [ws.title for ws in spreadsheet.worksheets()]:
+            return spreadsheet.worksheet(worksheet_name)
+        elif create_ws:
+            worksheet = spreadsheet.add_worksheet(title=worksheet_name, rows=100, cols=20)
+            self._wait_for_worksheet(spreadsheet_id, worksheet_name)
+            return worksheet
         else:
-            if worksheet_name in [ws.title for ws in spreadsheet.worksheets()]:
-                return spreadsheet.worksheet(worksheet_name)
-            elif create_ws:
-                worksheet = spreadsheet.add_worksheet(title=worksheet_name, rows=100, cols=20)
-                self._wait_for_worksheet(spreadsheet_id, worksheet_name)
-                return worksheet
-            else:
-                return spreadsheet.worksheet(worksheet_name)  # raises exception
+            return spreadsheet.worksheet(worksheet_name)  # raises exception
 
     def _exception_feedback(self, error: APIError):
         if error.response.json()['error']['status'] == 'PERMISSION_DENIED':
             if self._read_only:
-                msg = "For saving `read_only=False` is needed when initializing this client!"
-                raise PermissionDeniedException(msg) from error
+                msg = 'For saving `read_only=False` is needed when initializing this client!'
+                raise PermissionDeniedError(msg) from error
             else:
-                msg = "Attempt to recreate your current token by calling the method `recreate_token()` first!"
-                raise PermissionDeniedException(msg) from error
+                msg = 'Attempt to recreate your current token by calling the method `recreate_token()` first!'
+                raise PermissionDeniedError(msg) from error
         else:
             raise error
 
@@ -147,9 +148,10 @@ class GSheetClient:
         df: pd.DataFrame,
         spreadsheet_id: str,
         worksheet_name: str,
+        *,
         create_ws: bool = False,
         default_fmt: bool = True,
-        **kwargs: Union[str, bool, int],
+        **kwargs: str | (bool | int),
     ):
         """Save the given dataframe as worksheet in a spreadsheet
 
@@ -166,8 +168,7 @@ class GSheetClient:
         worksheet = self.gsheet(spreadsheet_id, worksheet_name, create_ws=create_ws)
         # make sure it's really only the dataframe, not some residue
         self.clear_gsheet(spreadsheet_id, worksheet_name)
-        # ToDo: Starting from Python 3.9 on just use the | operator
-        params = {**dict(resize=True), **dict(**kwargs)}  # set sane defaults
+        params = {'resize': True} | dict(**kwargs)  # set sane defaults
         try:
             set_with_dataframe(worksheet, df, **params)
             if default_fmt:
@@ -179,19 +180,19 @@ class GSheetClient:
         """Clear the worksheet including values, formatting, filtering, etc."""
         worksheet = self.gsheet(spreadsheet_id, worksheet_name, create_ws=False)
         default_fmt = get_default_format(worksheet.spreadsheet)
-        range = worksheet_range(worksheet)
+        wrange = worksheet_range(worksheet)
         try:
             worksheet.clear()
             worksheet.clear_basic_filter()
-            format_cell_range(worksheet, range, default_fmt)
+            format_cell_range(worksheet, wrange, default_fmt)
             rules = get_conditional_format_rules(worksheet)
             rules.clear()
             rules.save()
-            set_data_validation_for_cell_range(worksheet, range, None)
+            set_data_validation_for_cell_range(worksheet, wrange, None)
         except APIError as error:
             self._exception_feedback(error)
 
-    def gsheet_as_df(self, spreadsheet_id: str, worksheet_name: str, **kwargs: Union[str, bool, int]) -> pd.DataFrame:
+    def gsheet_as_df(self, spreadsheet_id: str, worksheet_name: str, **kwargs: str | (bool | int)) -> pd.DataFrame:
         """Returns a worksheet as dataframe"""
         worksheet = self.gsheet(spreadsheet_id, worksheet_name)
         df = get_as_dataframe(worksheet, **kwargs)
@@ -208,14 +209,14 @@ def gsheet_col(idx: int) -> str:
     while idx:
         chars.append(string.ascii_uppercase[(idx % 26) - 1])
         idx //= 27
-    return "".join(chars[::-1])
+    return ''.join(chars[::-1])
 
 
-def gsheet_rows_for_fmt(mask: pd.Series, n_cols: int) -> List[str]:
+def gsheet_rows_for_fmt(mask: pd.Series, n_cols: int) -> list[str]:
     """Get the Google Sheet row range specifications for formatting"""
     rows = pd.Series(np.argwhere(mask.to_numpy()).reshape(-1) + 2)  # +2 since 1-index and header
     last_col = gsheet_col(n_cols - 1)  # last index
-    rows = rows.map(lambda x: f"A{x}:{last_col}{x}")
+    rows = rows.map(lambda x: f'A{x}:{last_col}{x}')
     return rows.to_list()
 
 
@@ -223,7 +224,7 @@ def worksheet_range(worksheet: Worksheet) -> str:
     """Returns a range encompassing the whole worksheet"""
     last_row = worksheet.row_count
     last_col = gsheet_col(worksheet.col_count)
-    return f"A1:{last_col}{last_row}"
+    return f'A1:{last_col}{last_row}'
 
 
 def mark_rows(worksheet, mask: pd.Series, color: ColorType):

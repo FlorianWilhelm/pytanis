@@ -2,19 +2,19 @@ from importlib.metadata import PackageNotFoundError, version
 
 import structlog.stdlib
 
-from .config import get_cfg
-from .google import GSheetClient
-from .helpdesk import HelpDeskClient
-from .pretalx import PretalxClient
+from pytanis.config import get_cfg
+from pytanis.google import GSheetClient
+from pytanis.helpdesk import HelpDeskClient
+from pytanis.pretalx import PretalxClient
 
 try:
-    __version__ = version("pytanis")
+    __version__ = version('pytanis')
 except PackageNotFoundError:  # pragma: no cover
-    __version__ = "unknown"
+    __version__ = 'unknown'
 finally:
     del version, PackageNotFoundError
 
-__all__ = ["__version__", "GSheetClient", "PretalxClient", "HelpDeskClient", "get_cfg"]
+__all__ = ['__version__', 'GSheetClient', 'PretalxClient', 'HelpDeskClient', 'get_cfg']
 
 # transform structlog into a logging-friendly package
 # use `logging.basicConfig(level=logging.INFO, stream=sys.stdout)` as usual
@@ -30,7 +30,7 @@ structlog.configure(
         # Perform %-style formatting.
         structlog.stdlib.PositionalArgumentsFormatter(),
         # Add a timestamp in ISO 8601 format.
-        structlog.processors.TimeStamper(fmt="iso"),
+        structlog.processors.TimeStamper(fmt='iso'),
         # If the "stack_info" key in the event dict is true, remove it and
         # render the current stack trace in the "stack" key.
         structlog.processors.StackInfoRenderer(),

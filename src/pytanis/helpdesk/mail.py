@@ -5,19 +5,20 @@ ToDo:
     * Find out why `extra=Extra.allow` causes mypy to fail. Seems like a bug in pydantic.
     * Sending mails is quite slow, so using `tqdm` to show feedback to the current progress would be nice
 """
-from typing import Callable, List, Optional, Tuple
 
-from pydantic import BaseModel, Extra, validator
+from collections.abc import Callable
+
+from pydantic import BaseModel, validator
 from structlog import get_logger
 from tqdm.auto import tqdm
 
-from .client import HelpDeskClient
-from .types import Assignment, Id, Message, NewTicket, Requester, Ticket
+from pytanis.helpdesk.client import HelpDeskClient
+from pytanis.helpdesk.types import Assignment, Id, Message, NewTicket, Requester, Ticket
 
 _logger = get_logger()
 
 
-class MetaData(BaseModel, extra=Extra.allow):  # type: ignore
+class MetaData(BaseModel, extra='allow'):  # type: ignore
     """Additional, arbitrary metadata provided by the user like for template filling"""
 
 
@@ -29,14 +30,16 @@ class Recipient(BaseModel):
 
     name: str
     email: str
-    address_as: Optional[str]  # could be the first name
-    data: Optional[MetaData]
+    address_as: str | None = None  # could be the first name
+    data: MetaData | None = None
 
-    @validator("address_as")
+    # TODO[pydantic]: We couldn't refactor the `validator`, please replace it by `field_validator` manually.
+    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-validators for more information.
+    @validator('address_as')
     @classmethod
     def fill_with_name(cls, v, values):
         if v is None:
-            v = values["name"]
+            v = values['name']
         return v
 
 
@@ -64,15 +67,15 @@ class Mail(BaseModel):
     team_id: str
     agent_id: str
     text: str
-    status: str = "solved"  # ToDo: Reconsider this!
-    recipients: List[Recipient]
-    data: Optional[MetaData]
+    status: str = 'solved'  # ToDo: Reconsider this!
+    recipients: list[Recipient]
+    data: MetaData | None = None
 
 
 class MailClient:
     """Mail client for mass mails over HelpDesk"""
 
-    def __init__(self, helpdesk_client: Optional[HelpDeskClient] = None):
+    def __init__(self, helpdesk_client: HelpDeskClient | None = None):
         if helpdesk_client is None:
             helpdesk_client = HelpDeskClient()
         self._helpdesk_client = helpdesk_client
@@ -102,19 +105,19 @@ class MailClient:
 
         ToDo: Make this function nice, maybe use the `rich` library even
         """
-        print("#" * 40)
-        print(f"Recipient: {ticket.requester.name} <{ticket.requester.email}>")
-        print(f"Subject: {ticket.subject}")
-        print(f"{ticket.message.text}")
+        print('#' * 40)  # noqa: T201
+        print(f'Recipient: {ticket.requester.name} <{ticket.requester.email}>')  # noqa: T201
+        print(f'Subject: {ticket.subject}')  # noqa: T201
+        print(f'{ticket.message.text}')  # noqa: T201
 
     def send(
-        self, mail: Mail, dry_run: bool = True
-    ) -> Tuple[List[Tuple[Recipient, Optional[Ticket]]], List[Tuple[Recipient, Exception]]]:
+        self, mail: Mail, *, dry_run: bool = True
+    ) -> tuple[list[tuple[Recipient, Ticket | None]], list[tuple[Recipient, Exception]]]:
         """Send a mail to all recipients using HelpDesk"""
         errors = []
         tickets = []
         for recipient in tqdm(mail.recipients):
-            recip_mail = mail.copy()
+            recip_mail = mail.model_copy()
             try:
                 recip_mail.subject = mail.subject.format(recipient=recipient, mail=mail)
                 # be aware here that the body might reference to subject line, so it must be filled already
@@ -125,7 +128,7 @@ class MailClient:
                     resp_ticket = None
                 else:
                     resp = self._helpdesk_client.create_ticket(ticket)
-                    resp_ticket = Ticket.parse_obj(resp)
+                    resp_ticket = Ticket.model_validate(resp)
             except Exception as e:
                 errors.append((recipient, e))
             else:

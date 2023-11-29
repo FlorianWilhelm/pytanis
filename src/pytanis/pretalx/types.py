@@ -7,24 +7,24 @@ Attention: Quite often the API docs and the actual results of the API differ!
 ToDo:
     * Find out why `extra=Extra.allow` causes mypy to fail. Seems like a bug in pydantic.
 """
+
 from datetime import date, datetime
 from enum import Enum
-from typing import List, Optional
 
-from pydantic import BaseModel, Extra, Field
+from pydantic import BaseModel, Field
 
 
 class Me(BaseModel):
     name: str
     email: str
-    local: Optional[str]
+    local: str | None = None
     timezone: str
 
 
-class MultiLingualStr(BaseModel, extra=Extra.allow):  # type: ignore
+class MultiLingualStr(BaseModel, extra='allow'):  # type: ignore
     # ToDo: Add here more available languages, not mentioned in the API
-    en: Optional[str]  # we assume though that english is always given to simplify things
-    de: Optional[str]
+    en: str | None = None  # we assume though that english is always given to simplify things
+    de: str | None = None
 
 
 class URLs(BaseModel):
@@ -39,52 +39,52 @@ class Event(BaseModel):
     slug: str
     is_public: bool
     date_from: date
-    date_to: Optional[date]
+    date_to: date | None = None
     timezone: str
     urls: URLs
 
 
 class SpeakerAvailability(BaseModel):
     # ToDo: Check the datatypes here again, not mentioned in the API
-    id: int
+    id: int  # noqa: A003
     start: str
     end: str
-    allDay: str = Field(..., alias="all_day")
+    allDay: str = Field(..., alias='all_day')  # noqa: N815
 
 
 class AnswerQuestionRef(BaseModel):
-    id: int
+    id: int  # noqa: A003
     question: MultiLingualStr
 
 
 class Option(BaseModel):
-    id: int
+    id: int  # noqa: A003
     answer: MultiLingualStr
 
 
 class Answer(BaseModel):
-    id: int
+    id: int  # noqa: A003
     answer: str
-    answer_file: Optional[str]
+    answer_file: str | None = None
     question: AnswerQuestionRef
-    submission: Optional[str]
-    review: Optional[int]
-    person: Optional[str]
-    options: List[Option]
+    submission: str | None = None
+    review: int | None = None
+    person: str | None = None
+    options: list[Option]
 
 
 class SubmissionSpeaker(BaseModel):
     code: str
     name: str
-    biography: Optional[str]
-    avatar: Optional[str]
-    email: Optional[str]
+    biography: str | None = None
+    avatar: str | None = None
+    email: str | None = None
 
 
 class Speaker(SubmissionSpeaker):
-    submissions: List[str]  # submission codes
-    availabilities: Optional[List[SpeakerAvailability]]  # maybe needs organizer permissions?
-    answers: Optional[List[Answer]]  # maybe needs organizer permissions?
+    submissions: list[str]  # submission codes
+    availabilities: list[SpeakerAvailability] | None = None  # maybe needs organizer permissions?
+    answers: list[Answer] | None = None  # maybe needs organizer permissions?
 
 
 class Slot(BaseModel):
@@ -100,41 +100,41 @@ class Resource(BaseModel):
 
 
 class State(Enum):
-    submitted = "submitted"
-    accepted = "accepted"
-    rejected = "rejected"  # is "Not accepted" in WebUI
-    confirmed = "confirmed"
-    withdrawn = "withdrawn"
-    canceled = "canceled"
-    deleted = "deleted"
+    submitted = 'submitted'
+    accepted = 'accepted'
+    rejected = 'rejected'  # is "Not accepted" in WebUI
+    confirmed = 'confirmed'
+    withdrawn = 'withdrawn'
+    canceled = 'canceled'
+    deleted = 'deleted'
 
 
 class Submission(BaseModel):
     code: str
-    speakers: List[SubmissionSpeaker]
-    created: Optional[datetime]  # needs organizer permissions
+    speakers: list[SubmissionSpeaker]
+    created: datetime | None = None  # needs organizer permissions
     title: str
     submission_type: MultiLingualStr
     submission_type_id: int
-    track: Optional[MultiLingualStr]
-    track_id: Optional[int]
+    track: MultiLingualStr | None = None
+    track_id: int | None = None
     state: State
-    pending_state: Optional[State]  # needs organizer permissions
+    pending_state: State | None = None  # needs organizer permissions
     abstract: str
     description: str
-    duration: Optional[int]
+    duration: int | None = None
     do_not_record: bool
     is_featured: bool
     content_locale: str  # e.g. "de", "en"
-    slot: Optional[Slot]  # only available after schedule release
+    slot: Slot | None = None  # only available after schedule_web release
     slot_count: int
-    image: Optional[str]
-    answers: Optional[List[Answer]]  # needs organizer permissions and `questions` query parameter
-    notes: Optional[str]  # needs organizer permissions
-    internal_notes: Optional[str]  # needs organizer permissions
-    resources: List[Resource]
-    tags: Optional[List[str]]  # needs organizer permissions
-    tag_ids: Optional[List[int]]  # needs organizer permissions
+    image: str | None = None
+    answers: list[Answer] | None = None  # needs organizer permissions and `questions` query parameter
+    notes: str | None = None  # needs organizer permissions
+    internal_notes: str | None = None  # needs organizer permissions
+    resources: list[Resource]
+    tags: list[str] | None = None  # needs organizer permissions
+    tag_ids: list[int] | None = None  # needs organizer permissions
 
 
 class Talk(Submission):
@@ -147,14 +147,14 @@ class User(BaseModel):
 
 
 class Review(BaseModel):
-    id: int
+    id: int  # noqa: A003
     submission: str
     user: str
-    text: Optional[str]
-    score: Optional[float]  # converted from str if present
+    text: str | None = None
+    score: float | None = None  # converted from str if present
     created: datetime
     updated: datetime
-    answers: List[str]  # ToDo: Check this type
+    answers: list[str]  # ToDo: Check this type
 
 
 class RoomAvailability(BaseModel):
@@ -163,37 +163,37 @@ class RoomAvailability(BaseModel):
 
 
 class Room(BaseModel):
-    id: int
+    id: int  # noqa: A003
     name: MultiLingualStr
     description: MultiLingualStr
-    capacity: Optional[int]
-    position: Optional[int]
-    speaker_info: Optional[MultiLingualStr]
-    availabilities: Optional[List[RoomAvailability]]  # needs organizer permissions
+    capacity: int | None = None
+    position: int | None = None
+    speaker_info: MultiLingualStr | None = None
+    availabilities: list[RoomAvailability] | None = None  # needs organizer permissions
 
 
 class QuestionRequirement(Enum):
-    optional = "optional"
-    required = "required"
-    after_deadline = "after deadline"
+    optional = 'optional'
+    required = 'required'
+    after_deadline = 'after deadline'
 
 
 class Question(BaseModel):
-    id: int
+    id: int  # noqa: A003
     variant: str
     target: str
     question: MultiLingualStr
     help_text: MultiLingualStr
     question_required: QuestionRequirement
-    deadline: Optional[datetime]
+    deadline: datetime | None = None
     required: bool
-    read_only: Optional[bool]
-    freeze_after: Optional[datetime]
-    options: List[Option]
-    default_answer: Optional[str]
+    read_only: bool | None = None
+    freeze_after: datetime | None = None
+    options: list[Option]
+    default_answer: str | None = None
     contains_personal_data: bool
-    min_length: Optional[int]
-    max_length: Optional[int]
+    min_length: int | None = None
+    max_length: int | None = None
     is_public: bool
     is_visible_to_reviewers: bool
 

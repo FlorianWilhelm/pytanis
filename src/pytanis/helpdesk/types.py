@@ -6,24 +6,23 @@ ToDo:
     * Implement the types below correctly instead of using `Extra.Allow`
     * Find out why `extra=Extra.allow` causes mypy to fail. Seems like a bug in pydantic.
 """
-from typing import List, Optional
 
-from pydantic import BaseModel, Extra
+from pydantic import BaseModel
 
 
 class Id(BaseModel):
     ID: str
 
 
-class Agent(BaseModel, extra=Extra.allow):  # type: ignore
+class Agent(BaseModel, extra='allow'):  # type: ignore
     pass
 
 
-class Team(BaseModel, extra=Extra.allow):  # type: ignore
+class Team(BaseModel, extra='allow'):  # type: ignore
     pass
 
 
-class Message(BaseModel, extra=Extra.allow):  # type: ignore
+class Message(BaseModel, extra='allow'):  # type: ignore
     text: str
 
 
@@ -32,21 +31,21 @@ class Requester(BaseModel):
     name: str
 
 
-class Assignment(BaseModel, extra=Extra.allow):  # type: ignore
+class Assignment(BaseModel, extra='allow'):  # type: ignore
     team: Id
     agent: Id
 
 
-class NewTicket(BaseModel, extra=Extra.allow):  # type: ignore
+class NewTicket(BaseModel, extra='allow'):  # type: ignore
     """Object that needs to be sent when creating a NEW ticket"""
 
     message: Message
     requester: Requester
-    status: Optional[str]  # ToDo: Rather use an Enum instead
-    subject: Optional[str]
-    teamIDs: Optional[List[str]]
-    assignment: Optional[Assignment]
+    status: str | None = None  # ToDo: Rather use an Enum instead
+    subject: str | None = None
+    teamIDs: list[str] | None = None  # noqa: N815
+    assignment: Assignment | None = None
 
 
-class Ticket(BaseModel, extra=Extra.allow):  # type: ignore
+class Ticket(BaseModel, extra='allow'):  # type: ignore
     """Actual ticket as returned by the API"""

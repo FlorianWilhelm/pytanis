@@ -5,7 +5,9 @@ Documentation: https://docs.pretalx.org/api/resources/index.html
 ToDo:
     * add additional parameters explicitly like querying according to the API
 """
-from typing import Any, Dict, Iterator, List, Optional, Tuple, Type, TypeVar, Union, cast
+
+from collections.abc import Iterator
+from typing import Any, TypeAlias, TypeVar, cast
 
 import httpx
 from httpx import URL, QueryParams, Response
@@ -14,28 +16,28 @@ from pydantic import BaseModel
 from structlog import get_logger
 from tqdm.auto import tqdm
 
-from ..config import Config, get_cfg
-from ..utils import rm_keys, throttle
-from .types import Answer, Event, Me, Question, Review, Room, Speaker, Submission, Tag, Talk
+from pytanis.config import Config, get_cfg
+from pytanis.pretalx.types import Answer, Event, Me, Question, Review, Room, Speaker, Submission, Tag, Talk
+from pytanis.utils import rm_keys, throttle
 
 _logger = get_logger()
 
 
 T = TypeVar('T', bound=BaseModel)
-JSONObj = Dict[str, Any]
+JSONObj: TypeAlias = dict[str, Any]
 """Type of a JSON object (without recursion)"""
-JSONLst = List[JSONObj]
+JSONLst: TypeAlias = list[JSONObj]
 """Type of a JSON list of JSON objects"""
-JSON = Union[JSONObj, JSONLst]
+JSON: TypeAlias = JSONObj | JSONLst
 """Type of the JSON response as returned by the Pretalx API"""
-QueryParamType = Union[Dict[Any, Union[Any, List[Any]]], QueryParams]
+QueryParamType: TypeAlias = dict[Any, Any | list[Any]] | QueryParams
 """Type for the optional parameters to the Pretalx API"""
 
 
 class PretalxClient:
     """Client for the Pretalx API"""
 
-    def __init__(self, config: Optional[Config] = None, blocking: bool = False):
+    def __init__(self, config: Config | None = None, *, blocking: bool = False):
         if config is None:
             config = get_cfg()
         self._config = config
@@ -45,18 +47,18 @@ class PretalxClient:
 
     def set_throttling(self, calls: int, seconds: int):
         """Throttle the number of calls per seconds to the Pretalx API"""
-        _logger.info("throttling", calls=calls, seconds=seconds)
+        _logger.info('throttling', calls=calls, seconds=seconds)
         self._get_throttled = throttle(calls, seconds)(self._get)
 
-    def _get(self, endpoint: str, params: Optional[QueryParamType] = None) -> Response:
+    def _get(self, endpoint: str, params: QueryParamType | None = None) -> Response:
         """Retrieve data via GET request"""
         auth = HeaderApiKey(self._config.Pretalx.api_token, header_name='Authorization')
-        url = URL("https://pretalx.com/").join(endpoint).copy_merge_params(params)
-        _logger.info(f"GET: {url}")
+        url = URL('https://pretalx.com/').join(endpoint).copy_merge_params(params)
+        _logger.info(f'GET: {url}')
         # we set the timeout to 60 seconds as the Pretalx API is quite slow
         return httpx.get(url, auth=auth, timeout=60.0)
 
-    def _get_one(self, endpoint: str, params: Optional[QueryParamType] = None) -> JSON:
+    def _get_one(self, endpoint: str, params: QueryParamType | None = None) -> JSON:
         """Retrieve a single resource result"""
         resp = self._get_throttled(endpoint, params)
         resp.raise_for_status()
@@ -64,141 +66,139 @@ class PretalxClient:
 
     def _resolve_pagination(self, resp: JSONObj) -> Iterator[JSONObj]:
         """Resolves the pagination and returns an iterator over all results"""
-        yield from resp["results"]
+        yield from resp['results']
         while (next_page := resp['next']) is not None:
             endpoint = URL(next_page).path
             resp = cast(JSONObj, self._get_one(endpoint, URL(next_page).params))
             _log_resp(resp)
-            yield from resp["results"]
+            yield from resp['results']
 
-    def _get_many(self, endpoint: str, params: Optional[QueryParamType] = None) -> Tuple[int, Iterator[JSONObj]]:
+    def _get_many(self, endpoint: str, params: QueryParamType | None = None) -> tuple[int, Iterator[JSONObj]]:
         """Retrieves the result count as well as the results as iterator"""
         resp = self._get_one(endpoint, params)
         _log_resp(resp)
         if isinstance(resp, list):
             return len(resp), iter(resp)
         elif self.blocking:
-            _logger.debug("blocking resolution of pagination...")
-            return resp["count"], iter(list(tqdm(self._resolve_pagination(resp), total=resp["count"])))
+            _logger.debug('blocking resolution of pagination...')
+            return resp['count'], iter(list(tqdm(self._resolve_pagination(resp), total=resp['count'])))
         else:
-            _logger.debug("non-blocking resolution of pagination...")
-            return resp["count"], self._resolve_pagination(resp)
+            _logger.debug('non-blocking resolution of pagination...')
+            return resp['count'], self._resolve_pagination(resp)
 
     def _endpoint_lst(
         self,
-        type: Type[T],
+        type: type[T],  # noqa: A002
         event_slug: str,
         resource: str,
         *,
-        params: Optional[QueryParamType] = None,
-    ) -> Tuple[int, Iterator[T]]:
+        params: QueryParamType | None = None,
+    ) -> tuple[int, Iterator[T]]:
         """Queries an endpoint returning a list of resources"""
-        endpoint = f"/api/events/{event_slug}/{resource}/"
+        endpoint = f'/api/events/{event_slug}/{resource}/'
         count, results = self._get_many(endpoint, params)
-        t_results = iter(_logger.debug("result", resp=r) or type.parse_obj(r) for r in results)
+        t_results = iter(_logger.debug('result', resp=r) or type.parse_obj(r) for r in results)
         return count, t_results
 
     def _endpoint_id(
         self,
-        type: Type[T],
+        type: type[T],  # noqa: A002
         event_slug: str,
         resource: str,
-        id: Union[int, str],
+        id: int | str,  # noqa: A002
         *,
-        params: Optional[QueryParamType] = None,
+        params: QueryParamType | None = None,
     ) -> T:
         """Query an endpoint returning a single resource"""
-        endpoint = f"/api/events/{event_slug}/{resource}/{id}/"
+        endpoint = f'/api/events/{event_slug}/{resource}/{id}/'
         result = self._get_one(endpoint, params)
-        _logger.debug("result", resp=result)
-        return type.parse_obj(result)
+        _logger.debug('result', resp=result)
+        return type.model_validate(result)
 
     def me(self) -> Me:
         """Returns what Pretalx knows about myself"""
-        result = self._get_one("/api/me")
-        return Me.parse_obj(result)
+        result = self._get_one('/api/me')
+        return Me.model_validate(result)
 
-    def event(self, event_slug: str, *, params: Optional[QueryParamType] = None) -> Event:
+    def event(self, event_slug: str, *, params: QueryParamType | None = None) -> Event:
         """Returns detailed information about a specific event"""
-        endpoint = f"/api/events/{event_slug}/"
+        endpoint = f'/api/events/{event_slug}/'
         result = self._get_one(endpoint, params)
-        _logger.debug("result", resp=result)
-        return Event.parse_obj(result)
+        _logger.debug('result', resp=result)
+        return Event.model_validate(result)
 
-    def events(self, *, params: Optional[QueryParamType] = None) -> Tuple[int, Iterator[Event]]:
+    def events(self, *, params: QueryParamType | None = None) -> tuple[int, Iterator[Event]]:
         """Lists all events and their details"""
-        count, results = self._get_many("/api/events/", params)
-        events = iter(_logger.debug("result", resp=r) or Event.parse_obj(r) for r in results)
+        count, results = self._get_many('/api/events/', params)
+        events = iter(_logger.debug('result', resp=r) or Event.model_validate(r) for r in results)
         return count, events
 
-    def submission(self, event_slug: str, code: str, *, params: Optional[QueryParamType] = None) -> Submission:
+    def submission(self, event_slug: str, code: str, *, params: QueryParamType | None = None) -> Submission:
         """Returns a specific submission"""
-        return self._endpoint_id(Submission, event_slug, "submissions", code, params=params)
+        return self._endpoint_id(Submission, event_slug, 'submissions', code, params=params)
 
-    def submissions(
-        self, event_slug: str, *, params: Optional[QueryParamType] = None
-    ) -> Tuple[int, Iterator[Submission]]:
+    def submissions(self, event_slug: str, *, params: QueryParamType | None = None) -> tuple[int, Iterator[Submission]]:
         """Lists all submissions and their details"""
-        return self._endpoint_lst(Submission, event_slug, "submissions", params=params)
+        return self._endpoint_lst(Submission, event_slug, 'submissions', params=params)
 
-    def talk(self, event_slug: str, code: str, *, params: Optional[QueryParamType] = None) -> Talk:
+    def talk(self, event_slug: str, code: str, *, params: QueryParamType | None = None) -> Talk:
         """Returns a specific talk"""
-        return self._endpoint_id(Talk, event_slug, "talks", code, params=params)
+        return self._endpoint_id(Talk, event_slug, 'talks', code, params=params)
 
-    def talks(self, event_slug: str, *, params: Optional[QueryParamType] = None) -> Tuple[int, Iterator[Talk]]:
+    def talks(self, event_slug: str, *, params: QueryParamType | None = None) -> tuple[int, Iterator[Talk]]:
         """Lists all talks and their details"""
-        return self._endpoint_lst(Talk, event_slug, "talks", params=params)
+        return self._endpoint_lst(Talk, event_slug, 'talks', params=params)
 
-    def speaker(self, event_slug: str, code: str, *, params: Optional[QueryParamType] = None) -> Speaker:
+    def speaker(self, event_slug: str, code: str, *, params: QueryParamType | None = None) -> Speaker:
         """Returns a specific speaker"""
-        return self._endpoint_id(Speaker, event_slug, "speakers", code, params=params)
+        return self._endpoint_id(Speaker, event_slug, 'speakers', code, params=params)
 
-    def speakers(self, event_slug: str, *, params: Optional[QueryParamType] = None) -> Tuple[int, Iterator[Speaker]]:
+    def speakers(self, event_slug: str, *, params: QueryParamType | None = None) -> tuple[int, Iterator[Speaker]]:
         """Lists all speakers and their details"""
-        return self._endpoint_lst(Speaker, event_slug, "speakers", params=params)
+        return self._endpoint_lst(Speaker, event_slug, 'speakers', params=params)
 
-    def review(self, event_slug: str, id: int, *, params: Optional[QueryParamType] = None) -> Review:
+    def review(self, event_slug: str, id: int, *, params: QueryParamType | None = None) -> Review:  # noqa: A002
         """Returns a specific review"""
-        return self._endpoint_id(Review, event_slug, "reviews", id, params=params)
+        return self._endpoint_id(Review, event_slug, 'reviews', id, params=params)
 
-    def reviews(self, event_slug: str, *, params: Optional[QueryParamType] = None) -> Tuple[int, Iterator[Review]]:
+    def reviews(self, event_slug: str, *, params: QueryParamType | None = None) -> tuple[int, Iterator[Review]]:
         """Lists all reviews and their details"""
-        return self._endpoint_lst(Review, event_slug, "reviews", params=params)
+        return self._endpoint_lst(Review, event_slug, 'reviews', params=params)
 
-    def room(self, event_slug: str, id: int, *, params: Optional[QueryParamType] = None) -> Room:
+    def room(self, event_slug: str, id: int, *, params: QueryParamType | None = None) -> Room:  # noqa: A002
         """Returns a specific room"""
-        return self._endpoint_id(Room, event_slug, "rooms", id, params=params)
+        return self._endpoint_id(Room, event_slug, 'rooms', id, params=params)
 
-    def rooms(self, event_slug: str, *, params: Optional[QueryParamType] = None) -> Tuple[int, Iterator[Room]]:
+    def rooms(self, event_slug: str, *, params: QueryParamType | None = None) -> tuple[int, Iterator[Room]]:
         """Lists all rooms and their details"""
-        return self._endpoint_lst(Room, event_slug, "rooms", params=params)
+        return self._endpoint_lst(Room, event_slug, 'rooms', params=params)
 
-    def question(self, event_slug: str, id: int, *, params: Optional[QueryParamType] = None) -> Question:
+    def question(self, event_slug: str, id: int, *, params: QueryParamType | None = None) -> Question:  # noqa: A002
         """Returns a specific question"""
-        return self._endpoint_id(Question, event_slug, "questions", id, params=params)
+        return self._endpoint_id(Question, event_slug, 'questions', id, params=params)
 
-    def questions(self, event_slug: str, *, params: Optional[QueryParamType] = None) -> Tuple[int, Iterator[Question]]:
+    def questions(self, event_slug: str, *, params: QueryParamType | None = None) -> tuple[int, Iterator[Question]]:
         """Lists all questions and their details"""
-        return self._endpoint_lst(Question, event_slug, "questions", params=params)
+        return self._endpoint_lst(Question, event_slug, 'questions', params=params)
 
-    def answer(self, event_slug: str, id: int, *, params: Optional[QueryParamType] = None) -> Answer:
+    def answer(self, event_slug: str, id: int, *, params: QueryParamType | None = None) -> Answer:  # noqa: A002
         """Returns a specific answer"""
-        return self._endpoint_id(Answer, event_slug, "answers", id, params=params)
+        return self._endpoint_id(Answer, event_slug, 'answers', id, params=params)
 
-    def answers(self, event_slug: str, *, params: Optional[QueryParamType] = None) -> Tuple[int, Iterator[Answer]]:
+    def answers(self, event_slug: str, *, params: QueryParamType | None = None) -> tuple[int, Iterator[Answer]]:
         """Lists all answers and their details"""
-        return self._endpoint_lst(Answer, event_slug, "answers", params=params)
+        return self._endpoint_lst(Answer, event_slug, 'answers', params=params)
 
-    def tag(self, event_slug: str, tag: str, *, params: Optional[QueryParamType] = None) -> Tag:
+    def tag(self, event_slug: str, tag: str, *, params: QueryParamType | None = None) -> Tag:
         """Returns a specific tag"""
-        return self._endpoint_id(Tag, event_slug, "tags", tag, params=params)
+        return self._endpoint_id(Tag, event_slug, 'tags', tag, params=params)
 
-    def tags(self, event_slug: str, *, params: Optional[QueryParamType] = None) -> Tuple[int, Iterator[Tag]]:
+    def tags(self, event_slug: str, *, params: QueryParamType | None = None) -> tuple[int, Iterator[Tag]]:
         """Lists all tags and their details"""
-        return self._endpoint_lst(Tag, event_slug, "tags", params=params)
+        return self._endpoint_lst(Tag, event_slug, 'tags', params=params)
 
 
-def _log_resp(json_resp: Union[List[Any], Dict[Any, Any]]):
+def _log_resp(json_resp: list[Any] | dict[Any, Any]):
     """Log everything except of the actual 'results'"""
-    if isinstance(json_resp, Dict):
+    if isinstance(json_resp, dict):
         _logger.debug(f"response: {rm_keys('results', json_resp)}")

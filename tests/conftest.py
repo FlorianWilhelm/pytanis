@@ -17,8 +17,8 @@ def tmp_config(tmp_path):
     cfg_path = tmp_path / Path(PYTANIS_CFG_PATH)
     cfg_path.parent.mkdir(parents=True, exist_ok=True)
 
-    copy(__location__ / Path("cfgs/config.toml"), cfg_path)
-    copy(__location__ / Path("cfgs/client_secret.json"), cfg_path.parent)
+    copy(__location__ / Path('cfgs/config.toml'), cfg_path)
+    copy(__location__ / Path('cfgs/client_secret.json'), cfg_path.parent)
 
     old_env = os.environ.get(PYTANIS_ENV)
     os.environ[PYTANIS_ENV] = str(cfg_path)

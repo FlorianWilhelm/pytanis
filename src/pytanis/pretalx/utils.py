@@ -1,40 +1,43 @@
 """Utilities related to Pretalx"""
-from typing import Iterable
+
+from collections.abc import Iterable
 
 import pandas as pd
 
-from .types import Review, Speaker, Submission
+from pytanis.pretalx.types import Review, Speaker, Submission
 
 
 class Col:
     """Convention of Pretalx column names for the functions below."""
 
-    submission = "Submission"
-    submission_type = "Submission type"
-    submission_type_id = "Submission type id"
-    title = "Title"
-    duration = "Duration"
-    public = "Public"
-    track = "Track"
-    comment = "Comment"
-    created = "Created"
-    state = "State"
-    pending_state = "Pending state"
+    submission = 'Submission'
+    submission_type = 'Submission type'
+    submission_type_id = 'Submission type id'
+    title = 'Title'
+    duration = 'Duration'
+    public = 'Public'
+    track = 'Track'
+    comment = 'Comment'
+    created = 'Created'
+    state = 'State'
+    pending_state = 'Pending state'
 
-    speaker_name = "Speaker name"
-    speaker_code = "Speaker code"
-    pretalx_user = "Pretalx user"
-    biography = "Biography"
-    affiliation = "Affiliation"
-    email = "Email"
-    availability = "Availability"
-    availability_comment = "Availability Comment"
+    speaker_name = 'Speaker name'
+    speaker_code = 'Speaker code'
+    pretalx_user = 'Pretalx user'
+    biography = 'Biography'
+    affiliation = 'Affiliation'
+    email = 'Email'
+    availability = 'Availability'
+    availability_comment = 'Availability Comment'
 
-    nreviews = "#Reviews"
-    review_score = "Review Score"
+    nreviews = '#Reviews'
+    review_score = 'Review Score'
 
 
-def subs_as_df(subs: Iterable[Submission], with_questions: bool = False, question_prefix: str = "Q: ") -> pd.DataFrame:
+def subs_as_df(
+    subs: Iterable[Submission], *, with_questions: bool = False, question_prefix: str = 'Q: '
+) -> pd.DataFrame:
     """Convert submissions into a dataframe
 
     Make sure to have `params={"questions": "all"}` for the PretalxAPI if `with_questions` is True.
@@ -56,13 +59,13 @@ def subs_as_df(subs: Iterable[Submission], with_questions: bool = False, questio
         }
         if with_questions and sub.answers is not None:
             for answer in sub.answers:
-                row[f"{question_prefix}{answer.question.question.en}"] = answer.answer
+                row[f'{question_prefix}{answer.question.question.en}'] = answer.answer
         rows.append(row)
     return pd.DataFrame(rows)
 
 
 def speakers_as_df(
-    speakers: Iterable[Speaker], with_questions: bool = False, question_prefix: str = "Q: "
+    speakers: Iterable[Speaker], *, with_questions: bool = False, question_prefix: str = 'Q: '
 ) -> pd.DataFrame:
     """Convert speakers into a dataframe
 
@@ -82,7 +85,7 @@ def speakers_as_df(
                 # The API returns also questions that are 'per proposal/submission', we get these using the
                 # submission endpoint and don't want them here due to ambiguity if several submission were made.
                 if answer.person is not None:
-                    row[f"{question_prefix}{answer.question.question.en}"] = answer.answer
+                    row[f'{question_prefix}{answer.question.question.en}'] = answer.answer
         rows.append(row)
     return pd.DataFrame(rows)
 
@@ -93,6 +96,6 @@ def reviews_as_df(reviews: Iterable[Review]) -> pd.DataFrame:
     # make first letter of column upper-case in accordance with our convention
     df.rename(columns={col: col.title() for col in df.columns}, inplace=True)
     # user is the speaker name to use for joining
-    df.rename(columns={"User": Col.pretalx_user, "Score": Col.review_score}, inplace=True)
+    df.rename(columns={'User': Col.pretalx_user, 'Score': Col.review_score}, inplace=True)
 
     return df

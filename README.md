@@ -30,20 +30,24 @@ title usually had responsibility for presiding over councils of some kind, which
 - [x] tools to support the final selection process of proposals
 - [x] tools to support the creation of the final program schedule
 
-
 ## Getting started
 
 To install Pytanis simple run:
+
 ```commandline
 pip install pytanis
 ```
+
 or to install all recommended additional dependencies:
+
 ```commandline
 pip install 'pytanis[all]'
 ```
+
 Then create a configuration file and directory in your user's home directory. For Linux/MacOS/Unix use
 `~/.pytanis/config.toml` and for Windows `$HOME\.pytanis\config.toml`, where `$HOME` is e.g. `C:\Users\yourusername\`.
 Use your favourite editor to open `config.toml` within the `.pytanis` directory and add the following content:
+
 ```toml
 [Pretalx]
 api_token = "932ndsf9uk32nf9sdkn3454532nj32jn"
@@ -57,15 +61,16 @@ account = "934jcjkdf-39df-9df-93kf-934jfhuuij39fd"
 entity_id = "email@host.com"
 token = "dal:Sx4id934C3Y-X934jldjdfjk"
 ```
+
 where you need to replace the dummy values in the sections `[Pretalx]` and `[HelpDesk]` accordingly.
 
-
 ### Retrieving the Credentials and Tokens
-* **Google**: Follow the [Python Quickstart for the Google API] to generate and download the file `client_secret.json`.
+
+- **Google**: Follow the [Python Quickstart for the Google API] to generate and download the file `client_secret.json`.
 Move it to the `~/.pytanis` folder as `client_secret.json`. The file `token.json` will be automatically generated
 later. Note that `config.toml` references those two files relative to its own location.
-* **Pretalx**: The API token can be found in the [Pretalx user settings].
-* **HelpDesk**: Login to the [LiveChat Developer Console] then go to <kbd>Tools</kbd> » <kbd>Personal Access Tokens</kbd>.
+- **Pretalx**: The API token can be found in the [Pretalx user settings].
+- **HelpDesk**: Login to the [LiveChat Developer Console] then go to <kbd>Tools</kbd> » <kbd>Personal Access Tokens</kbd>.
   Choose <kbd>Create new token +</kbd>, enter a the name `Pytanis`, select all scopes and confirm. In the following screen
   copy the `Account ID`, `Entity ID` and `Token` and paste them into `config.toml`.
   In case there is any trouble with livechat, contact a helpdesk admin.
@@ -77,13 +82,14 @@ This section is only relevant if you want to contribute to Pytanis itself. Your 
 After having cloned this repository:
 
 1. install [hatch] globally, e.g. `pipx install hatch`,
-2. create the default environment with `hatch env create` (you might have to restart your shell),
-3. \[only once\] run `pre-commit install` to install [pre-commit],
+2. install [pre-commit] globally, e.g. `pipx install pre-commit`,
+3. \[only once\] run `hatch config set dirs.env.virtual .direnv`  and `hatch config set dirs.env.pip-compile .direnv`
+   to let [VS Code] find your virtual environments.
 
 and then you are already set up to start hacking. Use `hatch run` to do everything you would normally do in a virtual
-environment, e.g. `hatch run juptyer lab` to start [JupyterLab] in the default environment, `hatch run test:cov` for unit tests
+environment, e.g. `hatch run test:juptyer lab` to start [JupyterLab] in the default environment, `hatch run test:cov` for unit tests
 and coverage (like [tox]) or `hatch run docs:serve` to build & serve the documentation. For code hygiene, execute `hatch run lint:all`
-in order to run [flake8], [isort], [black], [mypy], etc.
+in order to run [ruff] and [mypy] or `hatch run lint:fix` to automatically fix formatting issues.
 Check out the `[tool.hatch.envs]` sections  in [pyproject.toml](pyproject.toml) to learn about other commands.
 If you really must enter a virtual environment, use `hatch shell` to enter the default environment.
 
@@ -124,7 +130,5 @@ To start this project off a lot of inspiration and code was taken from [Alexande
 [LiveChat Developer Console]: https://developers.livechat.com/console/apps
 [JupyterLab]: https://jupyter.org/
 [tox]: https://tox.wiki/
-[black]: https://black.readthedocs.io/
-[flake8]: https://flake8.pycqa.org/
 [mypy]: https://mypy-lang.org/
-[isort]: https://pycqa.github.io/isort/
+[ruff]: https://github.com/astral-sh/ruff
