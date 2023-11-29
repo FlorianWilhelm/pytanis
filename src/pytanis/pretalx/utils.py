@@ -92,7 +92,7 @@ def speakers_as_df(
 
 def reviews_as_df(reviews: Iterable[Review]) -> pd.DataFrame:
     """Convert the reviews to a dataframe"""
-    df = pd.DataFrame([review.dict() for review in reviews])
+    df = pd.DataFrame([review.model_dump() for review in reviews])
     # make first letter of column upper-case in accordance with our convention
     df.rename(columns={col: col.title() for col in df.columns}, inplace=True)
     # user is the speaker name to use for joining

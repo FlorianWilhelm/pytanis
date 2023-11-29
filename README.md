@@ -132,3 +132,4 @@ To start this project off a lot of inspiration and code was taken from [Alexande
 [tox]: https://tox.wiki/
 [mypy]: https://mypy-lang.org/
 [ruff]: https://github.com/astral-sh/ruff
+[VS Code]: https://code.visualstudio.com/
