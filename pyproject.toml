@@ -47,7 +47,7 @@ dynamic = ["version"]
 [project.optional-dependencies]
 all = [
     "ipywidgets", # for nicer progress bar in Jupyter lab/notebook
-    "pyomo[optional]", # for optimizing the schedule_web
+    "pyomo[optional]", # for optimizing the schedule
     "highspy", # for MIP/LP/QP solver in pyomo
     "pillow", # for the creation of social cards
     "seaborn", # for decent plotting
@@ -249,6 +249,7 @@ dependencies = [ # ToDo: Modify according to your needs!
 cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=src/pytanis --cov=tests {args}"
 no-cov = "cov --no-cov {args}"
 debug =  "cov --no-cov -s --pdb --pdbcls=IPython.core.debugger:Pdb {args}"
+ci = "cov --cov-report lcov {args}"
 
 # Docs environment
 [tool.hatch.envs.docs]
