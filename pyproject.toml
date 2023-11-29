@@ -214,23 +214,10 @@ ban-relative-imports = "all"
 # Environment Setup #
 #####################
 
-[tool.hatch.env]
-requires = ["hatch-pip-compile~=1.2"]
-
 # Default
 [tool.hatch.envs.default]
-# path = ".direnv/{env_name}"  # VSCode support
-python = "3.10"
 features = ["all"]
 post-install-commands = ["pre-commit install"]
-type = "pip-compile"
-pip-compile-constraint = "default"  # keep locks between default & others consistent
-lock-filename = "locks/{env_name}.lock"
-pip-compile-hashes = true
-[tool.hatch.envs.default.scripts]
-upgrade-all = "PIP_COMPILE_UPGRADE=1 hatch env run --env {env_name} -- python --version"
-upgrade-pkg = "PIP_COMPILE_UPGRADE='{args}' hatch env run --env {env_name} -- python --version"
-
 
 # Test environment for test and dev dependencies
 [tool.hatch.envs.test]

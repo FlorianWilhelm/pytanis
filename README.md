@@ -83,8 +83,7 @@ After having cloned this repository:
 
 1. install [hatch] globally, e.g. `pipx install hatch`,
 2. install [pre-commit] globally, e.g. `pipx install pre-commit`,
-3. \[only once\] run `hatch config set dirs.env.virtual .direnv`  and `hatch config set dirs.env.pip-compile .direnv`
-   to let [VS Code] find your virtual environments.
+3. \[only once\] run `hatch config set dirs.env.virtual .direnv`  to let [VS Code] find your virtual environments.
 
 and then you are already set up to start hacking. Use `hatch run` to do everything you would normally do in a virtual
 environment, e.g. `hatch run test:juptyer lab` to start [JupyterLab] in the default environment, `hatch run test:cov` for unit tests
