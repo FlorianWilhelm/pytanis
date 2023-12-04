@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 0.6 (2023-04-10)
+
+- Migrate to Pydantic v2
+- Require mininum Python version of 3.10
+
 ## Version 0.5 (2023-04-10)
 
 - Change the start/end time of a slot to a datetime
