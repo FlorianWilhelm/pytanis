@@ -12,9 +12,6 @@ Pytanis includes a [Pretalx] client and all the tooling you need for conferences
 | Package | [![PyPI - Version](https://img.shields.io/pypi/v/pytanis.svg?logo=pypi&label=PyPI&logoColor=gold)](https://pypi.org/project/pytanis/) [![PyPI - Downloads](https://img.shields.io/pypi/dm/pytanis.svg?color=blue&label=Downloads&logo=pypi&logoColor=gold)](https://pepy.tech/project/pytanis) [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pytanis.svg?logo=python&label=Python&logoColor=gold)](https://pypi.org/project/pytanis/)                                                                                                                                                                                                                                                                                                                                                                                        |
 | Details | [![Project generated with PyScaffold](https://img.shields.io/badge/-PyScaffold-005CA0?logo=pyscaffold)](https://pyscaffold.org/) [![Hatch project](https://img.shields.io/badge/%F0%9F%A5%9A-Hatch-4051b5.svg)](https://github.com/pypa/hatch) [![code style - black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) [![types - Mypy](https://img.shields.io/badge/types-Mypy-blue.svg)](https://github.com/python/mypy) [![imports - isort](https://img.shields.io/badge/imports-isort-ef8336.svg)](https://github.com/pycqa/isort) [![License - MIT](https://img.shields.io/badge/license-MIT-9400d3.svg)](https://spdx.org/licenses/) [![GitHub Sponsors](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=ff69b4)](https://github.com/sponsors/FlorianWilhelm) |
 
-
-
-
 **Trivia**: The name *Pytanis* is a reference to [Prytanis] using the typical *py* prefix of [Python] tools. [Prytanis]
 was the name given  to the leading members of the government of a city (polis) in ancient Greece. Offices that used this
 title usually had responsibility for presiding over councils of some kind, which met in the [Prytaneion]. Romani ite domum!
@@ -73,7 +70,14 @@ later. Note that `config.toml` references those two files relative to its own lo
 - **HelpDesk**: Login to the [LiveChat Developer Console] then go to <kbd>Tools</kbd> » <kbd>Personal Access Tokens</kbd>.
   Choose <kbd>Create new token +</kbd>, enter a the name `Pytanis`, select all scopes and confirm. In the following screen
   copy the `Account ID`, `Entity ID` and `Token` and paste them into `config.toml`.
-  In case there is any trouble with livechat, contact a helpdesk admin.
+  In case there is any trouble with livechat, contact a helpdesk admin. Also note that the `Account ID` from your token is
+  the `Agent ID` needed when you create a ticket. The `Team ID` you get from [HelpDesk] then <kbd>Agents</kbd> »
+  <kbd>Name of your argent</kbd> and the final part of the URL shown now.
+
+  **When setting up your agent the first time**,
+  you also need to go to [LiveChat] then log in with your Helpdesk team credentials and click <kbd>Request</kbd> to get an invitation.
+  An admin of [LiveChat] needs to confirm this and add you as role `admin`. Then, check [HelpDesk] to receive the invitation
+  and accept.
 
 ## Development
 
@@ -126,9 +130,10 @@ To start this project off a lot of inspiration and code was taken from [Alexande
 [GitHub Pages]: https://docs.github.com/en/pages
 [PyConDE]: https://pycon.de/
 [EuroPython]: https://europython.eu/
-[LiveChat Developer Console]: https://developers.livechat.com/console/apps
+[LiveChat Developer Console]: https://platform.text.com/console/
 [JupyterLab]: https://jupyter.org/
 [tox]: https://tox.wiki/
 [mypy]: https://mypy-lang.org/
 [ruff]: https://github.com/astral-sh/ruff
 [VS Code]: https://code.visualstudio.com/
+[LiveChat]: https://www.livechat.com/
