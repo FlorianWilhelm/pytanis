@@ -102,12 +102,9 @@ The [documentation] is made with [Material for MkDocs] and is hosted by [GitHub 
 documentation, especially in the context of using Pytanis for community conferences like [PyConDE], [EuroPython], etc.
 is highly appreciated.
 
-## License
+## License & Credits
 
 Pytanis is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.
-
-## Credits
-
 To start this project off a lot of inspiration and code was taken from [Alexander Hendorf] and [Matthias Hofmann].
 
 [Pytanis]: https://florianwilhelm.info/pytanis/
