@@ -72,7 +72,7 @@ later. Note that `config.toml` references those two files relative to its own lo
   copy the `Account ID`, `Entity ID` and `Token` and paste them into `config.toml`.
   In case there is any trouble with livechat, contact a helpdesk admin. Also note that the `Account ID` from your token is
   the `Agent ID` needed when you create a ticket. The `Team ID` you get from [HelpDesk] then <kbd>Agents</kbd> »
-  <kbd>Name of your argent</kbd> and the final part of the URL shown now.
+  <kbd>Name of your agent</kbd> and the final part of the URL shown now.
 
   **When setting up your agent the first time**,
   you also need to go to [LiveChat] then log in with your Helpdesk team credentials and click <kbd>Request</kbd> to get an invitation.
