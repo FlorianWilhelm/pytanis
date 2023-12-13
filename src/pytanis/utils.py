@@ -1,9 +1,9 @@
 """Additional utilities"""
 
 import functools
+import threading
 import time
 from collections.abc import Callable
-from math import fabs
 from typing import Any, TypeVar
 
 import pandas as pd
@@ -66,24 +66,25 @@ def throttle(calls: int, seconds: int = 1) -> Callable[[Callable[..., RT]], Call
     def decorator(func: Callable[..., RT]) -> Callable[..., RT]:
         # keeps track of the last calls
         last_calls: list[float] = []
+        lock = threading.Lock()
 
         @functools.wraps(func)
         def wrapper(*args, **kwargs) -> RT:
-            curr_time = time.time()
-            if last_calls:
-                # remove calls from last_calls list older than interval in seconds
-                idx_old_calls = [i for i, t in enumerate(last_calls) if t < curr_time - seconds]
-                if idx_old_calls:
-                    del last_calls[: idx_old_calls[-1]]
-            if len(last_calls) >= calls:
-                idx = len(last_calls) - calls
-                delta = fabs(1 - curr_time + last_calls[idx])
-                logger = get_logger()
-                logger.debug('stalling call', func=func.__name__, secs=delta)
-                time.sleep(delta)
-            resp = func(*args, **kwargs)
-            last_calls.append(time.time())
-            return resp
+            nonlocal last_calls
+            with lock:
+                curr_time = time.time()
+                # Remove old calls
+                last_calls = [call for call in last_calls if call > curr_time - seconds]
+
+                if len(last_calls) >= calls:
+                    sleep_time = last_calls[0] + seconds - curr_time
+                    logger = get_logger()
+                    logger.debug('stalling call', func=func.__name__, secs=sleep_time)
+                    time.sleep(sleep_time)
+
+                resp = func(*args, **kwargs)
+                last_calls.append(time.time())
+                return resp
 
         return wrapper
 

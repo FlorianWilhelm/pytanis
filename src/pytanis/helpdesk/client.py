@@ -39,7 +39,7 @@ class HelpDeskClient:
 
         self._get_throttled = self._get
         self._post_throttled = self._post
-        self.set_throttling(2, 1)  # we are nice by default
+        self.set_throttling(1, 1)  # we are nice by default
 
     def set_throttling(self, calls: int, seconds: int):
         """Throttle the number of calls per seconds to the Pretalx API"""

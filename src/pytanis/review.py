@@ -29,6 +29,7 @@ class Col(PretalxCol):
     address_as = 'Address as'
     track_prefs = 'Track Preferences'
     committee_contact = 'Committee Contact'
+    committee_member = 'Committee Member'
     all_proposals = 'All Proposals'
 
     pretalx_activated = 'Pretalx activated'

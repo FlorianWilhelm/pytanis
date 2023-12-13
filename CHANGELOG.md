@@ -1,6 +1,10 @@
 # Changelog
 
-## Version 0.6 (2023-04-10)
+## Version 0.6.1 (2023-12-10)
+
+- Fixed a deadlock problem in `utils.throttle`
+
+## Version 0.6 (2023-12-04)
 
 - Migrate to Pydantic v2
 - Require mininum Python version of 3.10
