@@ -34,3 +34,4 @@
 [mypy]: https://mypy-lang.org/
 [isort]: https://pycqa.github.io/isort/
 [pretalx-public-voting]: https://github.com/pretalx/pretalx-public-voting
+[Pytanis]: https://github.com/FlorianWilhelm/pytanis
