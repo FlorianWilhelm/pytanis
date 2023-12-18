@@ -18,8 +18,8 @@ repos:
     args: ['--fix=auto']  # replace 'auto' with 'lf' to enforce Linux/Mac line endings or 'crlf' for Windows
 
 # Ruff replaces black, flake8, autoflake and isort
-- repo: https://github.com/charliermarsh/ruff-pre-commit
-  rev: 'v0.1.7'  # make sure this is always consistent with hatch configs
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: 'v0.1.8'  # make sure this is always consistent with hatch configs
   hooks:
     - id: ruff
     - id: ruff-format
