@@ -43,7 +43,7 @@ class PretalxClient:
         self._config = config
         self._get_throttled = self._get
         self.blocking = blocking
-        self.set_throttling(1, 2)  # we are nice by default
+        self.set_throttling(calls=2, seconds=1)  # we are nice by default and Pretalx doesn't allow many calls at once.
 
     def set_throttling(self, calls: int, seconds: int):
         """Throttle the number of calls per seconds to the Pretalx API"""

@@ -6,6 +6,7 @@ ToDo:
     * Sending mails is quite slow, so using `tqdm` to show feedback to the current progress would be nice
 """
 
+import time
 from collections.abc import Callable
 
 from pydantic import BaseModel, validator
@@ -74,6 +75,8 @@ class Mail(BaseModel):
 
 class MailClient:
     """Mail client for mass mails over HelpDesk"""
+    n_batch: int = 20  # n messages are a batch
+    wait_time: int = 30  # wait time after eacht batch before next
 
     def __init__(self, helpdesk_client: HelpDeskClient | None = None):
         if helpdesk_client is None:
@@ -116,7 +119,7 @@ class MailClient:
         """Send a mail to all recipients using HelpDesk"""
         errors = []
         tickets = []
-        for recipient in tqdm(mail.recipients):
+        for idx, recipient in enumerate(tqdm(mail.recipients)):
             recip_mail = mail.model_copy()
             try:
                 recip_mail.subject = mail.subject.format(recipient=recipient, mail=mail)
@@ -133,4 +136,7 @@ class MailClient:
                 errors.append((recipient, e))
             else:
                 tickets.append((recipient, resp_ticket))
+            if (idx + 1) % self.n_batch == 0:
+                time.sleep(self.wait_time)
+
         return tickets, errors
