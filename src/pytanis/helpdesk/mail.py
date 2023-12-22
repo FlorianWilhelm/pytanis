@@ -75,6 +75,7 @@ class Mail(BaseModel):
 
 class MailClient:
     """Mail client for mass mails over HelpDesk"""
+
     n_batch: int = 20  # n messages are a batch
     wait_time: int = 30  # wait time after eacht batch before next
 
