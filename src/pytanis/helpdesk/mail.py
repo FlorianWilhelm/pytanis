@@ -76,7 +76,7 @@ class Mail(BaseModel):
 class MailClient:
     """Mail client for mass mails over HelpDesk"""
 
-    n_batch: int = 20  # n messages are a batch
+    batch_size: int = 20  # n messages are a batch
     wait_time: int = 30  # wait time after eacht batch before next
 
     def __init__(self, helpdesk_client: HelpDeskClient | None = None):
@@ -120,7 +120,7 @@ class MailClient:
         """Send a mail to all recipients using HelpDesk"""
         errors = []
         tickets = []
-        for idx, recipient in enumerate(tqdm(mail.recipients)):
+        for idx, recipient in enumerate(tqdm(mail.recipients), start=1):
             recip_mail = mail.model_copy()
             try:
                 recip_mail.subject = mail.subject.format(recipient=recipient, mail=mail)
@@ -137,7 +137,7 @@ class MailClient:
                 errors.append((recipient, e))
             else:
                 tickets.append((recipient, resp_ticket))
-            if (idx + 1) % self.n_batch == 0:
+            if idx % self.batch_size == 0:
                 time.sleep(self.wait_time)
 
         return tickets, errors
