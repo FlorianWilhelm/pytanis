@@ -4,7 +4,8 @@ import os
 from pathlib import Path
 
 import tomli
-from pydantic import BaseModel, FilePath, validator
+from pydantic import BaseModel, FilePath, field_validator
+from pydantic_core.core_schema import FieldValidationInfo
 
 PYTANIS_ENV: str = 'PYTANIS_CONFIG'
 """Name of the environment variable to look up the path for the config"""
@@ -42,14 +43,12 @@ class Config(BaseModel):
     Google: Google
     HelpDesk: HelpDesk
 
-    # TODO[pydantic]: We couldn't refactor the `validator`, please replace it by `field_validator` manually.
-    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-validators for more information.
-    @validator('Google')
+    @field_validator('Google')
     @classmethod
-    def convert_json_path(cls, v, values):
+    def convert_json_path(cls, v: Google, info: FieldValidationInfo) -> Google:
         def make_rel_path_abs(entry):
             if entry is not None and not entry.is_absolute():
-                entry = values['cfg_path'].parent / entry
+                entry = info.data['cfg_path'].parent / entry
             return entry
 
         v.client_secret_json = make_rel_path_abs(v.client_secret_json)
