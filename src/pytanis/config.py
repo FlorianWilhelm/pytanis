@@ -71,4 +71,4 @@ def get_cfg() -> Config:
         cfg_dict = tomli.load(fh)
     # add config path to later resolve relative paths of config values
     cfg_dict['cfg_path'] = cfg_path
-    return Config.parse_obj(cfg_dict)
+    return Config.model_validate(cfg_dict)
