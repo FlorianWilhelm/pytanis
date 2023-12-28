@@ -90,7 +90,7 @@ After having cloned this repository:
 3. \[only once\] run `hatch config set dirs.env.virtual .direnv`  to let [VS Code] find your virtual environments.
 
 and then you are already set up to start hacking. Use `hatch run` to do everything you would normally do in a virtual
-environment, e.g. `hatch run test:juptyer lab` to start [JupyterLab] in the default environment, `hatch run test:cov` for unit tests
+environment, e.g. `hatch run juptyer lab` to start [JupyterLab] in the default environment, `hatch run cov` for unit tests
 and coverage (like [tox]) or `hatch run docs:serve` to build & serve the documentation. For code hygiene, execute `hatch run lint:all`
 in order to run [ruff] and [mypy] or `hatch run lint:fix` to automatically fix formatting issues.
 Check out the `[tool.hatch.envs]` sections  in [pyproject.toml](pyproject.toml) to learn about other commands.
@@ -104,7 +104,7 @@ is highly appreciated.
 
 ## License & Credits
 
-Pytanis is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.
+[Pytanis] is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.
 To start this project off a lot of inspiration and code was taken from [Alexander Hendorf] and [Matthias Hofmann].
 
 [Pytanis]: https://florianwilhelm.info/pytanis/

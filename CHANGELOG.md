@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 0.7
+
+- Switched for reproducability to [hatch-pip-compile](https://github.com/juftin/hatch-pip-compile)
+- A few fixes to make mypy happy
+- Some more pydantic v2 deprecations migrated to new API
+
 ## Version 0.6.1 (2023-12-10)
 
 - Fixed a deadlock problem in `utils.throttle`

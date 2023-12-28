@@ -30,9 +30,9 @@ classifiers = [
     "Topic :: Utilities",
 ]
 dependencies = [
-    "pandas",
+    "pandas>=2",
     "tomli",
-    "pydantic",
+    "pydantic>=2.5",
     "httpx",
     "httpx-auth",
     "structlog",
@@ -214,14 +214,16 @@ ban-relative-imports = "all"
 # Environment Setup #
 #####################
 
+[tool.hatch.env]
+requires = ["hatch-pip-compile"]
+
 # Default
 [tool.hatch.envs.default]
+type = "pip-compile"
+pip-compile-hashes = false
 features = ["all"]
 post-install-commands = ["pre-commit install"]
-
-# Test environment for test and dev dependencies
-[tool.hatch.envs.test]
-dependencies = [ # ToDo: Modify according to your needs!
+dependencies = [
     "coverage[toml]>=6.2",
     "pytest",
     "pytest-cov",
@@ -232,7 +234,7 @@ dependencies = [ # ToDo: Modify according to your needs!
     "jupyterlab",
     "ipython",
 ]
-[tool.hatch.envs.test.scripts]
+[tool.hatch.envs.scripts]
 cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=src/pytanis --cov=tests {args}"
 no-cov = "cov --no-cov {args}"
 debug =  "cov --no-cov -s --pdb --pdbcls=IPython.core.debugger:Pdb {args}"
@@ -240,6 +242,8 @@ ci = "cov --cov-report lcov {args}"
 
 # Docs environment
 [tool.hatch.envs.docs]
+type = "pip-compile"
+pip-compile-constraint = "default"
 dependencies = [
     "mkdocs~=1.5",
     "mkdocs-material~=9.4",
@@ -279,7 +283,8 @@ build-check = [
 
 # Lint environment
 [tool.hatch.envs.lint]
-skip-install = true
+type = "pip-compile"
+pip-compile-constraint = "default"
 dependencies = [
     "mypy~=1.7",
     "ruff~=0.1.6",
@@ -303,8 +308,3 @@ all = [
     "style",
     "typing",
 ]
-
-# Test matrix for various Python versions replacing the functionality of tox
-[[tool.hatch.envs.py-test.matrix]]
-template = ["test"]
-python = ["310", "311", "312"]
