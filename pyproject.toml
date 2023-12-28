@@ -234,7 +234,7 @@ dependencies = [
     "jupyterlab",
     "ipython",
 ]
-[tool.hatch.envs.scripts]
+[tool.hatch.envs.default.scripts]
 cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=src/pytanis --cov=tests {args}"
 no-cov = "cov --no-cov {args}"
 debug =  "cov --no-cov -s --pdb --pdbcls=IPython.core.debugger:Pdb {args}"
