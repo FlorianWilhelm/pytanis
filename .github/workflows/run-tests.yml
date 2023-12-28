@@ -43,7 +43,7 @@ jobs:
       run: hatch run lint:all
 
     - name: Run tests and track code coverage
-      run: hatch run test:ci
+      run: hatch run ci
 
     - name: Coveralls Parallel
       uses: coverallsapp/github-action@master
