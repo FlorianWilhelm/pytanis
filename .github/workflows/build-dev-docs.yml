@@ -37,6 +37,9 @@ jobs:
     - name: Install Hatch & pre-commit
       run: pip install --upgrade --pre hatch hatch-vcs pre-commit
 
+    - name: Initialise default environment
+      run: hatch run python --version
+
     - name: Configure Git for GitHub Actions bot
       run: |
         git config --local user.name 'github-actions[bot]'

@@ -23,8 +23,6 @@
 # - seaborn
 #
 
---extra-index-url https://pxxfT18jZFLGiGMsKh9s@pypi.fury.io/babbel/
-
 annotated-types==0.6.0
     # via
     #   -c requirements.txt

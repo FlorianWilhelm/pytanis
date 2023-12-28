@@ -38,6 +38,9 @@ jobs:
     - name: Install Hatch & pre-commit
       run: pip install --upgrade --pre hatch pre-commit
 
+    - name: Initialise default environment
+      run: hatch run python --version
+
     - name: Linting
       if: matrix.python-version == '3.10' && runner.os == 'Linux'
       run: hatch run lint:all
