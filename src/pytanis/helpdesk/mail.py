@@ -137,7 +137,7 @@ class MailClient:
                 errors.append((recipient, e))
             else:
                 tickets.append((recipient, resp_ticket))
-            if idx % self.batch_size == 0:
+            if idx % self.batch_size == 0 and not dry_run:
                 time.sleep(self.wait_time)
 
         return tickets, errors

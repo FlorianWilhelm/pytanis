@@ -46,7 +46,7 @@ class Col(PretalxCol):
 
 
 def read_assignment_as_df(file_path: Path) -> pd.DataFrame:
-    """Reads an assignment and returns a dataframe"""
+    """Reads an assignment and returns a dataframe."""
     with open(file_path, encoding='utf8') as fh:
         curr_assign = json.load(fh)
     df = pd.DataFrame({k: [v] for k, v in curr_assign.items()})
@@ -55,7 +55,10 @@ def read_assignment_as_df(file_path: Path) -> pd.DataFrame:
 
 
 def save_assignments_as_json(df: pd.DataFrame, file_path: Path | str):
-    """Save the dataframe as proposal assignment JSON file"""
+    """Save the dataframe as proposal assignment JSON file.
+
+    We expect `df` to have the columns `Col.email` and `Col.curr_assignments`.
+    """
     file_path = Path(file_path)
     df = df.loc[:, [Col.email, Col.curr_assignments]]
     json_dct = json.loads(df.set_index(Col.email).to_json())[Col.curr_assignments]
