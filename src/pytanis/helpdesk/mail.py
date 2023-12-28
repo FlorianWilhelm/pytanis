@@ -76,8 +76,8 @@ class Mail(BaseModel):
 class MailClient:
     """Mail client for mass mails over HelpDesk"""
 
-    batch_size: int = 20  # n messages are a batch
-    wait_time: int = 30  # wait time after eacht batch before next
+    batch_size: int = 10  # n messages are a batch
+    wait_time: int = 20  # wait time after eacht batch before next
 
     def __init__(self, helpdesk_client: HelpDeskClient | None = None):
         if helpdesk_client is None:
@@ -137,7 +137,7 @@ class MailClient:
                 errors.append((recipient, e))
             else:
                 tickets.append((recipient, resp_ticket))
-            if idx % self.batch_size == 0 and not dry_run:
+            if (idx % self.batch_size == 0) and not dry_run:
                 time.sleep(self.wait_time)
 
         return tickets, errors
