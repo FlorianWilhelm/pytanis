@@ -19,7 +19,7 @@ from pytanis.helpdesk.types import Assignment, Id, Message, NewTicket, Requester
 _logger = get_logger()
 
 
-class MetaData(BaseModel, extra='allow'):  # type: ignore
+class MetaData(BaseModel, extra='allow'):
     """Additional, arbitrary metadata provided by the user like for template filling"""
 
 

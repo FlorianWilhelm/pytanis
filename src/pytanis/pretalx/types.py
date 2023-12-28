@@ -21,7 +21,7 @@ class Me(BaseModel):
     timezone: str
 
 
-class MultiLingualStr(BaseModel, extra='allow'):  # type: ignore
+class MultiLingualStr(BaseModel, extra='allow'):
     # ToDo: Add here more available languages, not mentioned in the API
     en: str | None = None  # we assume though that english is always given to simplify things
     de: str | None = None

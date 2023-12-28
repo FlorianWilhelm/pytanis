@@ -13,14 +13,14 @@ PYTANIS_CFG_PATH: str = '.pytanis/config.toml'
 """Path within $HOME to the configuration file of Pytanis"""
 
 
-class Google(BaseModel):
+class GoogleCfg(BaseModel):
     """Configuration related to the Google API"""
 
     client_secret_json: Path | None = None
     token_json: Path | None = None
 
 
-class HelpDesk(BaseModel):
+class HelpDeskCfg(BaseModel):
     """Configuration related to the HelpDesk API"""
 
     account: str | None = None
@@ -28,7 +28,7 @@ class HelpDesk(BaseModel):
     token: str | None = None
 
 
-class Pretalx(BaseModel):
+class PretalxCfg(BaseModel):
     """Configuration related to the Pretalx API"""
 
     api_token: str | None = None
@@ -39,13 +39,13 @@ class Config(BaseModel):
 
     cfg_path: FilePath
 
-    Pretalx: Pretalx
-    Google: Google
-    HelpDesk: HelpDesk
+    Pretalx: PretalxCfg
+    Google: GoogleCfg
+    HelpDesk: HelpDeskCfg
 
     @field_validator('Google')
     @classmethod
-    def convert_json_path(cls, v: Google, info: FieldValidationInfo) -> Google:
+    def convert_json_path(cls, v: GoogleCfg, info: FieldValidationInfo) -> GoogleCfg:
         def make_rel_path_abs(entry):
             if entry is not None and not entry.is_absolute():
                 entry = info.data['cfg_path'].parent / entry

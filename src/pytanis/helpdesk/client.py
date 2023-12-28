@@ -6,10 +6,10 @@ ToDo:
     * Transfer more functionality from https://github.com/PYCONDE/py_helpdesk_com
 """
 
-from typing import Any, TypeAlias
+from typing import Any, TypeAlias, cast
 
 import httpx
-from httpx import URL, Response
+from httpx import URL, QueryParams, Response
 from httpx_auth import Basic
 from structlog import get_logger
 
@@ -47,27 +47,45 @@ class HelpDeskClient:
         self._get_throttled = throttle(calls, seconds)(self._get)
         self._post_throttled = throttle(calls, seconds)(self._post)
 
-    def _get(self, endpoint: str, params: dict[str, str] | None = None) -> Response:
+    def _get(self, endpoint: str, params: QueryParams | None = None) -> Response:
         """Retrieve data via raw GET request"""
+        if params is None:
+            params = cast(QueryParams, {})
+        if self._config.HelpDesk.token is None:
+            msg = 'API token for Helpdesk is empty'
+            raise RuntimeError(msg)
+        if self._config.HelpDesk.account is None:
+            msg = 'Account for Helpdesk is empty'
+            raise RuntimeError(msg)
+
         auth = Basic(self._config.HelpDesk.account, self._config.HelpDesk.token)
         url = URL('https://api.helpdesk.com/v1/').join(endpoint)
         _logger.debug(f'GET: {url.copy_merge_params(params)}')
         return httpx.get(url, auth=auth, params=params, headers=self._headers)
 
-    def get(self, endpoint: str, params: dict[str, str] | None = None) -> JSON:
+    def get(self, endpoint: str, params: QueryParams | None = None) -> JSON:
         """Retrieve data via throttled GET request and return the JSON"""
         resp = self._get_throttled(endpoint, params)
         resp.raise_for_status()
         return resp.json()
 
-    def _post(self, endpoint: str, data: dict[str, Any], params: dict[str, str] | None = None) -> Response:
+    def _post(self, endpoint: str, data: dict[str, Any], params: QueryParams | None = None) -> Response:
         """Sent data via raw POST request"""
+        if params is None:
+            params = cast(QueryParams, {})
+        if self._config.HelpDesk.token is None:
+            msg = 'API token for Helpdesk is empty'
+            raise RuntimeError(msg)
+        if self._config.HelpDesk.account is None:
+            msg = 'Account for Helpdesk is empty'
+            raise RuntimeError(msg)
+
         auth = Basic(self._config.HelpDesk.account, self._config.HelpDesk.token)
         url = URL('https://api.helpdesk.com/v1/').join(endpoint)
         _logger.debug(f'POST: {url.copy_merge_params(params)}')
         return httpx.post(url, auth=auth, params=params, json=data, headers=self._headers)
 
-    def post(self, endpoint: str, data: dict[str, Any], params: dict[str, str] | None = None) -> JSON:
+    def post(self, endpoint: str, data: dict[str, Any], params: QueryParams | None = None) -> JSON:
         resp = self._post_throttled(endpoint, data, params)
         resp.raise_for_status()
         return resp.json()

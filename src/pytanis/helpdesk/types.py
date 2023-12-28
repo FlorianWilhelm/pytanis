@@ -14,15 +14,15 @@ class Id(BaseModel):
     ID: str
 
 
-class Agent(BaseModel, extra='allow'):  # type: ignore
+class Agent(BaseModel, extra='allow'):
     pass
 
 
-class Team(BaseModel, extra='allow'):  # type: ignore
+class Team(BaseModel, extra='allow'):
     pass
 
 
-class Message(BaseModel, extra='allow'):  # type: ignore
+class Message(BaseModel, extra='allow'):
     text: str
 
 
@@ -31,12 +31,12 @@ class Requester(BaseModel):
     name: str
 
 
-class Assignment(BaseModel, extra='allow'):  # type: ignore
+class Assignment(BaseModel, extra='allow'):
     team: Id
     agent: Id
 
 
-class NewTicket(BaseModel, extra='allow'):  # type: ignore
+class NewTicket(BaseModel, extra='allow'):
     """Object that needs to be sent when creating a NEW ticket"""
 
     message: Message
@@ -47,5 +47,5 @@ class NewTicket(BaseModel, extra='allow'):  # type: ignore
     assignment: Assignment | None = None
 
 
-class Ticket(BaseModel, extra='allow'):  # type: ignore
+class Ticket(BaseModel, extra='allow'):
     """Actual ticket as returned by the API"""
