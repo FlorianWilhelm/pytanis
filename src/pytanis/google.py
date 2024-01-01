@@ -98,7 +98,7 @@ class GSheetsClient:
     By default, only the least permissive scope `GSHEET_RO` in case of `read_only = True` is used.
     """
 
-    def __init__(self, config: gspread_client | None = None, *, read_only: bool = True):
+    def __init__(self, config: Config | None = None, *, read_only: bool = True):
         self._read_only = read_only
         if read_only:
             self._scopes = [Scope.GSHEET_RO]
