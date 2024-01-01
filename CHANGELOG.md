@@ -6,6 +6,7 @@
 - A few fixes to make mypy happy
 - Some more pydantic v2 deprecations migrated to new API
 - Renamed `GSheetClient` to `GSheetsClient`
+- Added Gspread service user authentication
 
 ## Version 0.6.1 (2023-12-10)
 
