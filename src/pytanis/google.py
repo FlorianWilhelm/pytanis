@@ -63,7 +63,7 @@ def gspread_client(scopes: list[Scope], config: Config) -> gspread.client.Client
         msg = 'You have to set Google.client_secret_json in your config.toml!'
         raise RuntimeError(msg)
 
-    gc: gspread = None
+    gc: gspread.client.Client = None
     if config.Google.service_user_authentication:
         gc = gspread.service_account(
             scopes=[scope.value for scope in scopes],
@@ -108,7 +108,6 @@ class GSheetsClient:
         if config is None:
             config = get_cfg()
         self._config = config
-        print('test')
         self.gc = gspread_client(self._scopes, config)  # gspread client for more functionality
 
     def recreate_token(self):
