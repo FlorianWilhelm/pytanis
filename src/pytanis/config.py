@@ -18,6 +18,7 @@ class GoogleCfg(BaseModel):
 
     client_secret_json: Path | None = None
     token_json: Path | None = None
+    service_user_authentication: bool = False
 
 
 class HelpDeskCfg(BaseModel):

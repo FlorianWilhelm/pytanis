@@ -62,15 +62,27 @@ def gspread_client(scopes: list[Scope], config: Config) -> gspread.client.Client
     if (secret_path := config.Google.client_secret_json) is None:
         msg = 'You have to set Google.client_secret_json in your config.toml!'
         raise RuntimeError(msg)
-    if (token_path := config.Google.token_json) is None:
-        msg = 'You have to set Google.token_json in your config.toml!'
-        raise RuntimeError(msg)
 
-    gc = gspread.oauth(
-        scopes=[scope.value for scope in scopes],
-        credentials_filename=secret_path,
-        authorized_user_filename=token_path,
-    )
+    gc: gspread = None
+    if config.Google.service_user_authentication:
+        gc = gspread.service_account(
+            scopes=[scope.value for scope in scopes],
+            filename=str(secret_path)
+        )
+    else:
+        if (token_path := config.Google.token_json) is None:
+            msg = 'You have to set Google.token_json in your config.toml!'
+            raise RuntimeError(msg)
+
+        gc = gspread.oauth(
+            scopes=[scope.value for scope in scopes],
+            credentials_filename=str(secret_path),
+            authorized_user_filename=str(token_path),
+        )
+
+    if gc is None:
+        raise RuntimeError('Not able to perfrom GSpread Authentication.')
+    
     return gc
 
 
@@ -87,7 +99,7 @@ class GSheetsClient:
     By default, only the least permissive scope `GSHEET_RO` in case of `read_only = True` is used.
     """
 
-    def __init__(self, config: Config | None = None, *, read_only: bool = True):
+    def __init__(self, config: gspread_client | None = None, *, read_only: bool = True):
         self._read_only = read_only
         if read_only:
             self._scopes = [Scope.GSHEET_RO]
@@ -96,6 +108,7 @@ class GSheetsClient:
         if config is None:
             config = get_cfg()
         self._config = config
+        print('test')
         self.gc = gspread_client(self._scopes, config)  # gspread client for more functionality
 
     def recreate_token(self):
