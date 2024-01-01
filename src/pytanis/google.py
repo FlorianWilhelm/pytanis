@@ -67,10 +67,7 @@ def gspread_client(scopes: list[Scope], config: Config) -> gspread.client.Client
         service_user_authentication = False
 
     if service_user_authentication:
-        gc = gspread.service_account(
-            scopes=[scope.value for scope in scopes],
-            filename=str(secret_path)
-        )
+        gc = gspread.service_account(scopes=[scope.value for scope in scopes], filename=str(secret_path))
     else:
         if (token_path := config.Google.token_json) is None:
             msg = 'You have to set Google.token_json in your config.toml!'
