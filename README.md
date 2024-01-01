@@ -52,6 +52,7 @@ api_token = "932ndsf9uk32nf9sdkn3454532nj32jn"
 [Google]
 client_secret_json = "client_secret.json"
 token_json = "token.json"
+service_user_authentication = false
 
 [HelpDesk]
 account = "934jcjkdf-39df-9df-93kf-934jfhuuij39fd"
@@ -59,13 +60,16 @@ entity_id = "email@host.com"
 token = "dal:Sx4id934C3Y-X934jldjdfjk"
 ```
 
-where you need to replace the dummy values in the sections `[Pretalx]` and `[HelpDesk]` accordingly.
+where you need to replace the dummy values in the sections `[Pretalx]` and `[HelpDesk]` accordingly. Note that `service_user_authentication` is not required to be set if authentication via a service user is not necessary (see [GSpread using Service Account] for more details).
 
 ### Retrieving the Credentials and Tokens
 
-- **Google**: Follow the [Python Quickstart for the Google API] to generate and download the file `client_secret.json`.
+- **Google**: 
+  - For end users: Follow the [Python Quickstart for the Google API] to generate and download the file `client_secret.json`.
 Move it to the `~/.pytanis` folder as `client_secret.json`. The file `token.json` will be automatically generated
-later. Note that `config.toml` references those two files relative to its own location.
+later. Note that `config.toml` references those two files relative to its own location. 
+  - For any automation project: Follow [GSpread using Service Account] to generate and download the file `client_secret.json`.
+Move it to the `~/.pytanis` folder as `client_secret.json`. Also make sure to set `service_user_authentication = true` in your `~/.pytanis/config.toml`.
 - **Pretalx**: The API token can be found in the [Pretalx user settings].
 - **HelpDesk**: Login to the [LiveChat Developer Console] then go to <kbd>Tools</kbd> » <kbd>Personal Access Tokens</kbd>.
   Choose <kbd>Create new token +</kbd>, enter a the name `Pytanis`, select all scopes and confirm. In the following screen
@@ -115,6 +119,7 @@ To start this project off a lot of inspiration and code was taken from [Alexande
 [Prytanis]: https://en.wikipedia.org/wiki/Prytaneis
 [Prytaneion]: https://en.wikipedia.org/wiki/Prytaneion
 [Python Quickstart for the Google API]: https://developers.google.com/sheets/api/quickstart/python
+[GSpread using Service Account]: https://docs.gspread.org/en/v5.12.4/oauth2.html#for-bots-using-service-account
 [Pretalx user settings]: https://pretalx.com/orga/me
 [documentation]: https://florianwilhelm.info/pytanis/
 [Alexander Hendorf]: https://github.com/alanderex
