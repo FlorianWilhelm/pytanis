@@ -64,10 +64,10 @@ where you need to replace the dummy values in the sections `[Pretalx]` and `[Hel
 
 ### Retrieving the Credentials and Tokens
 
-- **Google**: 
+- **Google**:
   - For end users: Follow the [Python Quickstart for the Google API] to generate and download the file `client_secret.json`.
 Move it to the `~/.pytanis` folder as `client_secret.json`. The file `token.json` will be automatically generated
-later. Note that `config.toml` references those two files relative to its own location. 
+later. Note that `config.toml` references those two files relative to its own location.
   - For any automation project: Follow [GSpread using Service Account] to generate and download the file `client_secret.json`.
 Move it to the `~/.pytanis` folder as `client_secret.json`. Also make sure to set `service_user_authentication = true` in your `~/.pytanis/config.toml`.
 - **Pretalx**: The API token can be found in the [Pretalx user settings].
