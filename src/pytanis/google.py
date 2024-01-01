@@ -62,7 +62,7 @@ def gspread_client(scopes: list[Scope], config: Config) -> gspread.client.Client
     if (secret_path := config.Google.client_secret_json) is None:
         msg = 'You have to set Google.client_secret_json in your config.toml!'
         raise RuntimeError(msg)
-    
+
     if (service_user_authentication := config.Google.service_user_authentication) is None:
         service_user_authentication = False
 
