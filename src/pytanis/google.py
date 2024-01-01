@@ -36,7 +36,7 @@ from pytanis.config import Config, get_cfg
 # Color type of matplotlib: https://matplotlib.org/stable/tutorials/colors/colors.html
 ColorType = str | tuple[float, float, float] | tuple[float, float, float, float]
 
-__all__ = ['GSheetClient', 'gsheet_rows_for_fmt', 'PermissionDeniedError']
+__all__ = ['GSheetsClient', 'gsheet_rows_for_fmt', 'PermissionDeniedError']
 
 _logger = get_logger()
 
@@ -68,8 +68,8 @@ def gspread_client(scopes: list[Scope], config: Config) -> gspread.client.Client
 
     gc = gspread.oauth(
         scopes=[scope.value for scope in scopes],
-        credentials_filename=str(secret_path),
-        authorized_user_filename=str(token_path),
+        credentials_filename=secret_path,
+        authorized_user_filename=token_path,
     )
     return gc
 
@@ -81,7 +81,7 @@ class PermissionDeniedError(Exception):
     """
 
 
-class GSheetClient:
+class GSheetsClient:
     """Google API to easily handle GSheets and other files on GDrive
 
     By default, only the least permissive scope `GSHEET_RO` in case of `read_only = True` is used.

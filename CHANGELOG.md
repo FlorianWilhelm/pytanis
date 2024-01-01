@@ -5,6 +5,7 @@
 - Switched for reproducability to [hatch-pip-compile](https://github.com/juftin/hatch-pip-compile)
 - A few fixes to make mypy happy
 - Some more pydantic v2 deprecations migrated to new API
+- Renamed `GSheetClient` to `GSheetsClient`
 
 ## Version 0.6.1 (2023-12-10)
 

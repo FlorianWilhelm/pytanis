@@ -11,7 +11,7 @@ ToDo:
 from datetime import date, datetime
 from enum import Enum
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class Me(BaseModel):
@@ -21,8 +21,10 @@ class Me(BaseModel):
     timezone: str
 
 
-class MultiLingualStr(BaseModel, extra='allow'):
+class MultiLingualStr(BaseModel):
     # ToDo: Add here more available languages, not mentioned in the API
+    model_config = ConfigDict(extra='allow')
+
     en: str | None = None  # we assume though that english is always given to simplify things
     de: str | None = None
 

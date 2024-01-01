@@ -7,22 +7,24 @@ ToDo:
     * Find out why `extra=Extra.allow` causes mypy to fail. Seems like a bug in pydantic.
 """
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class Id(BaseModel):
     ID: str
 
 
-class Agent(BaseModel, extra='allow'):
-    pass
+class Agent(BaseModel):
+    model_config = ConfigDict(extra='allow')
 
 
-class Team(BaseModel, extra='allow'):
-    pass
+class Team(BaseModel):
+    model_config = ConfigDict(extra='allow')
 
 
-class Message(BaseModel, extra='allow'):
+class Message(BaseModel):
+    model_config = ConfigDict(extra='allow')
+
     text: str
 
 
@@ -31,13 +33,17 @@ class Requester(BaseModel):
     name: str
 
 
-class Assignment(BaseModel, extra='allow'):
+class Assignment(BaseModel):
+    model_config = ConfigDict(extra='allow')
+
     team: Id
     agent: Id
 
 
-class NewTicket(BaseModel, extra='allow'):
+class NewTicket(BaseModel):
     """Object that needs to be sent when creating a NEW ticket"""
+
+    model_config = ConfigDict(extra='allow')
 
     message: Message
     requester: Requester
@@ -47,5 +53,7 @@ class NewTicket(BaseModel, extra='allow'):
     assignment: Assignment | None = None
 
 
-class Ticket(BaseModel, extra='allow'):
+class Ticket(BaseModel):
     """Actual ticket as returned by the API"""
+
+    model_config = ConfigDict(extra='allow')

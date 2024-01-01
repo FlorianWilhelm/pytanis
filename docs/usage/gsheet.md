@@ -3,10 +3,10 @@
 
 Pytanis' Google Sheet client is really made for simplicity. Retrieving a worksheet of a Google sheet is as simple as:
 ```python
-from pytanis import GSheetClient
+from pytanis import GSheetsClient
 
-gsheet_client = GSheetClient()
-gsheet_df = gsheet_client.gsheet_as_df(SPREADSHEET_ID, WORKSHEET_NAME)
+gsheets_client = GSheetsClient()
+gsheet_df = gsheets_client.gsheet_as_df(SPREADSHEET_ID, WORKSHEET_NAME)
 ```
 where `SPREADSHEET_ID` is the ID taken from the spreadsheet's url, e.g. the ID is `17juVXM7V3p7Fgfi-9WkwPlMAYJB-DuxRhYCi_hastbB`
 if your spreadsheet's url is `https://docs.google.com/spreadsheets/d/17juVXM7V3p7Fgfi-9WkwPlMAYJB-DuxRhYCi_hastbB/edit#gid=1289752230`,
@@ -17,12 +17,12 @@ If you run the above script the first time, you will get a link to a Google cons
 this in a Jupyter notebook. Read it carefully and accept the access to your Google Sheet. This step is only necessary and
 everytime you change the access scope. For instance, if you also want to have write-access to a worksheet, run:
 ```python
-gsheet_client = GSheetClient(read_only=False)
-gsheet_client.recreate_token()
+gsheets_client = GSheetsClient(read_only=False)
+gsheets_client.recreate_token()
 ```
 and you will see the consent screen again, asking this time for write-access. Having accepted, you can now use
 ```python
-gsheet_client.save_df_as_gsheet(subs_df, SPREADSHEET_ID, WORKSHEET_NAME)
+gsheets_client.save_df_as_gsheet(subs_df, SPREADSHEET_ID, WORKSHEET_NAME)
 ```
 to upload a dataframe as Google sheet, overriding what's currently in there.
 

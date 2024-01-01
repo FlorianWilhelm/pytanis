@@ -3,7 +3,7 @@ from importlib.metadata import PackageNotFoundError, version
 import structlog.stdlib
 
 from pytanis.config import get_cfg
-from pytanis.google import GSheetClient
+from pytanis.google import GSheetsClient
 from pytanis.helpdesk import HelpDeskClient
 from pytanis.pretalx import PretalxClient
 
@@ -14,7 +14,7 @@ except PackageNotFoundError:  # pragma: no cover
 finally:
     del version, PackageNotFoundError
 
-__all__ = ['__version__', 'GSheetClient', 'PretalxClient', 'HelpDeskClient', 'get_cfg']
+__all__ = ['__version__', 'GSheetsClient', 'PretalxClient', 'HelpDeskClient', 'get_cfg']
 
 # transform structlog into a logging-friendly package
 # use `logging.basicConfig(level=logging.INFO, stream=sys.stdout)` as usual

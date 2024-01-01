@@ -9,7 +9,7 @@ ToDo:
 import time
 from collections.abc import Callable
 
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, ConfigDict, validator
 from structlog import get_logger
 from tqdm.auto import tqdm
 
@@ -19,8 +19,10 @@ from pytanis.helpdesk.types import Assignment, Id, Message, NewTicket, Requester
 _logger = get_logger()
 
 
-class MetaData(BaseModel, extra='allow'):
+class MetaData(BaseModel):
     """Additional, arbitrary metadata provided by the user like for template filling"""
+
+    model_config = ConfigDict(extra='allow')
 
 
 class Recipient(BaseModel):

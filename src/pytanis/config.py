@@ -5,7 +5,7 @@ from pathlib import Path
 
 import tomli
 from pydantic import BaseModel, FilePath, field_validator
-from pydantic_core.core_schema import FieldValidationInfo
+from pydantic_core.core_schema import ValidationInfo
 
 PYTANIS_ENV: str = 'PYTANIS_CONFIG'
 """Name of the environment variable to look up the path for the config"""
@@ -45,7 +45,7 @@ class Config(BaseModel):
 
     @field_validator('Google')
     @classmethod
-    def convert_json_path(cls, v: GoogleCfg, info: FieldValidationInfo) -> GoogleCfg:
+    def convert_json_path(cls, v: GoogleCfg, info: ValidationInfo) -> GoogleCfg:
         def make_rel_path_abs(entry):
             if entry is not None and not entry.is_absolute():
                 entry = info.data['cfg_path'].parent / entry
