@@ -64,10 +64,8 @@ def gspread_client(scopes: list[Scope], config: Config) -> gspread.client.Client
         raise RuntimeError(msg)
     
     if (service_user_authentication := config.Google.service_user_authentication) is None:
-        msg = 'You have to set Google.service_user_authentication in your config.toml!'
-        raise RuntimeError(msg)
+        service_user_authentication = False
 
-    gc: gspread.client.Client = None
     if service_user_authentication:
         gc = gspread.service_account(
             scopes=[scope.value for scope in scopes],
@@ -84,9 +82,6 @@ def gspread_client(scopes: list[Scope], config: Config) -> gspread.client.Client
             authorized_user_filename=str(token_path),
         )
 
-    if gc is None:
-        raise RuntimeError('Not able to perfrom GSpread Authentication.')
-    
     return gc
 
 
