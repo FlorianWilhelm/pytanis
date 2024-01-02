@@ -7,14 +7,13 @@ Taken from: https://github.com/pypa/hatch/blob/master/scripts/set_release_versio
 
 import os
 
-from hatch.project.core import Project
-from hatch.utils.fs import Path
 from packaging.version import Version
+
+from pytanis import __version__
 
 
 def main():
-    project = Project(Path(__file__).resolve().parent.parent)
-    version = Version(project.metadata.version)
+    version = Version(__version__)
     with open(os.environ['GITHUB_ENV'], 'a', encoding='utf-8') as f:
         f.write(f'PYTANIS_VERSION={version.major}.{version.minor}\n')
 
