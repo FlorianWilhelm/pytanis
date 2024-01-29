@@ -36,7 +36,7 @@ from pytanis.config import Config, get_cfg
 # Color type of matplotlib: https://matplotlib.org/stable/tutorials/colors/colors.html
 ColorType = str | tuple[float, float, float] | tuple[float, float, float, float]
 
-__all__ = ['GSheetsClient', 'gsheet_rows_for_fmt', 'PermissionDeniedError']
+__all__ = ['GSheetsClient', 'PermissionDeniedError', 'gsheet_rows_for_fmt']
 
 _logger = get_logger()
 

@@ -14,7 +14,7 @@ except PackageNotFoundError:  # pragma: no cover
 finally:
     del version, PackageNotFoundError
 
-__all__ = ['__version__', 'GSheetsClient', 'PretalxClient', 'HelpDeskClient', 'get_cfg']
+__all__ = ['GSheetsClient', 'HelpDeskClient', 'PretalxClient', '__version__', 'get_cfg']
 
 # transform structlog into a logging-friendly package
 # use `logging.basicConfig(level=logging.INFO, stream=sys.stdout)` as usual

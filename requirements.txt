@@ -10,9 +10,9 @@
 # - hypothesis
 # - jupyterlab
 # - ipython
-# - gspread
 # - gspread-dataframe
 # - gspread-formatting
+# - gspread<6.0
 # - httpx
 # - httpx-auth
 # - matplotlib
@@ -27,6 +27,8 @@
 # - pyomo[optional]
 # - seaborn
 #
+
+--extra-index-url https://pxxfT18jZFLGiGMsKh9s@pypi.fury.io/babbel/
 
 annotated-types==0.6.0
     # via pydantic

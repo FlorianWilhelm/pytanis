@@ -17,8 +17,7 @@ def test_sending_dummy_mail(tmp_config):
     ]
     test_mail = Mail(
         subject='Pytanis API TEST: Ignore this message from {mail.data.me}',
-        text=dedent(
-            """
+        text=dedent("""
         Hello {recipient.address_as},
 
         this is an automated test message via our helpdesk using https://florianwilhelm.info/pytanis/!
@@ -30,8 +29,7 @@ def test_sending_dummy_mail(tmp_config):
         How is your work at {recipient.data.company}? We contact you because of a {mail.data.reason}!
 
         Cheers!
-        """
-        ),
+        """),
         team_id='3f68251e-17e9-436f-90c3-c03b06a72472',  # Program
         agent_id='2d8b5727-49c8-410d-bae8-0da13a65609d',  # Program
         status='solved',

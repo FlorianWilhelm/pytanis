@@ -48,24 +48,24 @@ class Event(BaseModel):
 
 class SpeakerAvailability(BaseModel):
     # ToDo: Check the datatypes here again, not mentioned in the API
-    id: int  # noqa: A003
+    id: int
     start: str
     end: str
     allDay: str = Field(..., alias='all_day')  # noqa: N815
 
 
 class AnswerQuestionRef(BaseModel):
-    id: int  # noqa: A003
+    id: int
     question: MultiLingualStr
 
 
 class Option(BaseModel):
-    id: int  # noqa: A003
+    id: int
     answer: MultiLingualStr
 
 
 class Answer(BaseModel):
-    id: int  # noqa: A003
+    id: int
     answer: str
     answer_file: str | None = None
     question: AnswerQuestionRef
@@ -149,7 +149,7 @@ class User(BaseModel):
 
 
 class Review(BaseModel):
-    id: int  # noqa: A003
+    id: int
     submission: str
     user: str
     text: str | None = None
@@ -165,7 +165,7 @@ class RoomAvailability(BaseModel):
 
 
 class Room(BaseModel):
-    id: int  # noqa: A003
+    id: int
     name: MultiLingualStr
     description: MultiLingualStr
     capacity: int | None = None
@@ -181,7 +181,7 @@ class QuestionRequirement(Enum):
 
 
 class Question(BaseModel):
-    id: int  # noqa: A003
+    id: int
     variant: str
     target: str
     question: MultiLingualStr
