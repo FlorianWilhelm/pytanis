@@ -37,7 +37,7 @@ dependencies = [
     "httpx-auth",
     "structlog",
     "tqdm",
-    "gspread",
+    "gspread<6.0",  # newer version breaks worksheet.spreadsheet
     "gspread-dataframe",
     "gspread-formatting",
     "matplotlib",
@@ -287,7 +287,7 @@ type = "pip-compile"
 pip-compile-constraint = "default"
 dependencies = [
     "mypy~=1.7",
-    "ruff~=0.1.6",
+    "ruff~=0.1.14",
 ]
 [tool.hatch.envs.lint.scripts]
 typing = [

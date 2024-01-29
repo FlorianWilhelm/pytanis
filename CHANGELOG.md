@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 0.7.1 (2024-01-29)
+
+- Pin gspread to <6.0 because API was broken
+
 ## Version 0.7 (2024-01-01)
 
 - Switched for reproducability to [hatch-pip-compile](https://github.com/juftin/hatch-pip-compile)
