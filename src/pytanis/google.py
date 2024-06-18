@@ -28,8 +28,8 @@ from gspread_formatting import (
 )
 from gspread_formatting.dataframe import format_with_dataframe
 from gspread_formatting.models import cellFormat
-from matplotlib.colors import to_rgb
 from structlog import get_logger
+from webcolors import name_to_rgb
 
 from pytanis.config import Config, get_cfg
 
@@ -118,7 +118,7 @@ class GSheetsClient:
             time.sleep(1)
 
     def gsheet(
-        self, spreadsheet_id: str, worksheet_name: str | None = None, *, create_ws: bool = False
+            self, spreadsheet_id: str, worksheet_name: str | None = None, *, create_ws: bool = False
     ) -> Worksheet | Spreadsheet:
         """Retrieve a Google sheet by its id and the name
 
@@ -152,14 +152,14 @@ class GSheetsClient:
             raise error
 
     def save_df_as_gsheet(
-        self,
-        df: pd.DataFrame,
-        spreadsheet_id: str,
-        worksheet_name: str,
-        *,
-        create_ws: bool = False,
-        default_fmt: bool = True,
-        **kwargs: str | (bool | int),
+            self,
+            df: pd.DataFrame,
+            spreadsheet_id: str,
+            worksheet_name: str,
+            *,
+            create_ws: bool = False,
+            default_fmt: bool = True,
+            **kwargs: str | (bool | int),
     ):
         """Save the given dataframe as worksheet in a spreadsheet
 
@@ -242,6 +242,7 @@ def mark_rows(worksheet, mask: pd.Series, color: ColorType):
     https://matplotlib.org/stable/gallery/color/named_colors.html#css-colors
     """
     rows = gsheet_rows_for_fmt(mask, worksheet.col_count)
-    fmt = cellFormat(backgroundColor=Color(*to_rgb(color)))
+    color_rgb = name_to_rgb(color)if isinstance(color, str) else color[:3]
+    fmt = cellFormat(backgroundColor=Color(*color_rgb))
     if rows:
         format_cell_ranges(worksheet, [(rng, fmt) for rng in rows])
