@@ -40,7 +40,7 @@ dependencies = [
     "gspread<6.0",  # newer version breaks worksheet.spreadsheet
     "gspread-dataframe",
     "gspread-formatting",
-    "matplotlib",
+    "webcolors",
 ]
 dynamic = ["version"]
 
