@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 0.7.2 (2024-06-18)
+
+- Matplotlib replaced with webcolors, thanks Alexander Hendorf
+- Updated ruff, pre-commit, mypy etc.
+
 ## Version 0.7.1 (2024-01-29)
 
 - Pin gspread to <6.0 because API was broken
