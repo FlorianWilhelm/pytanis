@@ -17,14 +17,14 @@ repos:
 
 # Ruff replaces black, flake8, autoflake and isort
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: 'v0.4.9'  # make sure this is always consistent with hatch configs
+  rev: 'v0.5.5'  # make sure this is always consistent with hatch configs
   hooks:
     - id: ruff
     - id: ruff-format
       args: [--check, --config, ./pyproject.toml]
 
 - repo: https://github.com/pre-commit/mirrors-mypy
-  rev: 'v1.10.0'  # make sure this is always consistent with hatch configs
+  rev: 'v1.11.0'  # make sure this is always consistent with hatch configs
   hooks:
     - id: mypy
       args: ["--install-types", "--non-interactive"]
