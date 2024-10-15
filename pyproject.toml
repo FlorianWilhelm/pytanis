@@ -54,10 +54,10 @@ all = [
 ]
 
 [project.urls]
-Documentation = "https://florianwilhelm.info/pytanis/"
-Sponsor = "https://github.com/sponsors/FlorianWilhelm"
-Tracker = "https://github.com/FlorianWilhelm/pytanis/issues"
-Source = "https://github.com/FlorianWilhelm/pytanis"
+Documentation = "https://pioneershub.github.io/pytanis/"
+Sponsor = "https://github.com/sponsors/PioneersHub"
+Tracker = "https://github.com/PioneersHub/pytanis/issues"
+Source = "https://github.com/PioneersHub/pytanis"
 
 ######################
 # Build & Versioning #
