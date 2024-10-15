@@ -2,12 +2,12 @@
 site_name: Pytanis
 site_description: Utilities for the program organization of conferences using Pretalx!
 site_author: Florian Wilhelm
-site_url: https://florianwilhelm.info/pytanis/
+site_url: https://pioneershub.github.io/pytanis/
 copyright: 'Copyright &copy; Florian Wilhelm 2023-present'
 
 # Repository
-repo_name: FlorianWilhelm/pytanis
-repo_url: https://github.com/FlorianWilhelm/pytanis
+repo_name: PioneersHub/pytanis
+repo_url: https://github.com/PioneersHub/pytanis
 edit_uri: blob/master/docs
 
 # Navigation
